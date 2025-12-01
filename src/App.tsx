@@ -13,9 +13,6 @@ function App() {
         <Route path="/calendar" element={<Clendar />} />
           <Route path="/login" element={<AuthLayout page={'login'} />} />
       </Routes>
-      <div>
-        <h4>hi</h4>
-      </div>
     </BrowserRouter>
   );
 }

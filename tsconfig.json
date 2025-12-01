@@ -21,6 +21,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src/**/*", // 이 부분이 src 폴더 내부의 모든 파일을 포함하는지 확인
+    "src/theme.d.ts" // 명시적으로 추가해 볼 수도 있음
   ]
 }

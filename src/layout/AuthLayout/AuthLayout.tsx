@@ -1,3 +1,4 @@
+import Logo from '../../components/logo/Logo';
 import Login from '../../pages/login/Login';
 import * as Styled from './AuthLayoutStyle';
 
@@ -22,9 +23,14 @@ interface LayoutProps {
 
 function AuthLayout({ page }: LayoutProps) {
   return (
-    <Styled.AuthContainer>
-      <Content page={page} />
-    </Styled.AuthContainer>
+    <Styled.FlexWrap>
+
+      <Styled.AuthContainer>
+        <Logo/>
+        <Content page={page} />
+      </Styled.AuthContainer>
+
+    </Styled.FlexWrap>
   );
 }
 

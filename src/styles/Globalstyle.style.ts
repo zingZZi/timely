@@ -1,10 +1,16 @@
 import { createGlobalStyle } from 'styled-components';
+import fonts from './font';
 
 const GlobalStyle = createGlobalStyle`
+  html{
+    font-size: 10px;
+  }
+  ${fonts} 
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: ${({ theme }) => theme.fonts.base};
   }
   body {
     background-color:#f0f0f0;
