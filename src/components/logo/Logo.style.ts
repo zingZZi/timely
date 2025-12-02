@@ -9,6 +9,6 @@ export const LogoText =styled.h1<LogoTextProps>`
     font-family: ${(props) => props.theme.fonts.logo};
     font-size: ${({ size }) =>
     size === "small" ? "1.2rem" :
-    size === "large" ? "3rem" :
+    size === "large" ? "3.6rem" :
     "2rem"};
 `;

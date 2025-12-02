@@ -1,8 +1,11 @@
 import { LogoText } from "./Logo.style";
 
-function Logo (){
+interface TextProps {
+  size?: "small" | "medium" | "large";
+}
+function Logo ({size}:TextProps){
     return(
-        <LogoText>Timely♧</LogoText>
+        <LogoText size={size}>Timely♧</LogoText>
     )
 }
 

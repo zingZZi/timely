@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-size:1.4rem;
     font-family: ${({ theme }) => theme.fonts.base};
   }
   body {

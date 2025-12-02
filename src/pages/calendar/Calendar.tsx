@@ -1,4 +1,4 @@
-function Clendar() {
+function Calendar() {
   return (
     <div>
       Clendar <button>클릭</button>
@@ -6,4 +6,4 @@ function Clendar() {
   );
 }
 
-export default Clendar;
+export default Calendar;
