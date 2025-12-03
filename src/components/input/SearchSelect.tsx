@@ -1,18 +1,22 @@
-import { useState } from "react";
+import LineBtn from "../button/LineBtn";
 
-function  SearchSelect(){
-    const [open,setOpen] = useState(false);
-    const [selectValue,setValue] =useState('값을 선택해주세요');
+interface SearchSelectProps {
+  text: string;
+  color?: "default" | "blue" | "red";
+  icon?: "arrow";
+  onClick?: () => void;
+}
 
-    function PopOpen(){
-        setOpen(true);
-    };
-    return(
-        <button type="button" onClick={PopOpen}>
-            <span>{selectValue}</span>
-            <i>화살표 버튼</i>
-        </button>
-    )
+function SearchSelect({ text, color = "default", icon = "arrow", onClick }: SearchSelectProps) {
+  return (
+    <LineBtn 
+      type="button" 
+      text={text}
+      color={color}
+      icon={icon}
+      onClick={onClick}
+    />
+  );
 }
 
 export default SearchSelect;

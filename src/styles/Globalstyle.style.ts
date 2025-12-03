@@ -22,6 +22,12 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+  button{
+    background-color: transparent;
+    border:none;
+    padding:0.8rem 1.6rem;
+    border-radius: 0.6rem;
+  }
 `;
 
 export default GlobalStyle;

@@ -13,7 +13,6 @@ const theme: DefaultTheme = {
     white500: '#B6B8BA',
     white600: '#959595',
     white700: '#767676',
-
     black: '#111827',
   },
 
