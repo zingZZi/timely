@@ -1,0 +1,26 @@
+import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
+
+const sharedBaseStyle = css`
+  width: ${(props) => (props.size === 'full-size' ? '100%' : 'auto')};
+  margin: 0;
+  padding: ${(props) => props.padding};
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: ${(props) => (props.fontWeight === 'bold' ? 500 : 400)};
+`
+
+export const BasicBtnStyle = css`
+  ${sharedBaseStyle}
+  background-color: ${({ theme }) => theme.colors.main};
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+
+export const BasicBtn = styled.button`
+  ${BasicBtnStyle}
+`;
+export const BasicLink = styled(Link)`
+  ${BasicBtnStyle}
+`;
