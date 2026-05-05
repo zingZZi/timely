@@ -111,9 +111,10 @@ function SignUp(){
                     placeholder="회사명을 선택해주세요"
                     datalists={companyLists}
                     value={form.company}
+                    labelKey="companyNm"
                     onChange={(item) => {
                       updateField({
-                        company: item.name,
+                        company: item.companyNm,
                         companyCode: item.code,
                         part: "", 
                         rank:"",

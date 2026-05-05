@@ -6,18 +6,18 @@ import FormField from "../FormField/FormField";
 import Input from "../Input/Input";
 
 
-function SearchSelect({popTitle,placeholder,value,onChange,datalists}) {
+function SearchSelect({popTitle,placeholder,value,onChange,datalists,labelKey}) {
     const { openPopup } = usePopup();
     return (
         <SelectShell placeholder={placeholder} value={value}
             onClick={() => openPopup({
                 title: popTitle,
-                content: <SearchSelectPop onSelect={onChange} datalists={datalists}/>
+                content: <SearchSelectPop onSelect={onChange} datalists={datalists} labelKey={labelKey}/>
             })}
         />
     );
 }
-function SearchSelectPop({onSelect,datalists}){
+function SearchSelectPop({onSelect,datalists,labelKey}){
     const { closePopup } = usePopup();
     const handleClick = (data)=>{
         onSelect(data);
@@ -27,7 +27,7 @@ function SearchSelectPop({onSelect,datalists}){
     //input 검색관련
     const [searchInput, setSearchInput] = useState('');
     const filteredData = datalists.filter((item) =>{
-       return item.companyNm.includes(searchInput)
+       return item[labelKey]?.includes(searchInput);
     }
     );
     return(
@@ -44,7 +44,7 @@ function SearchSelectPop({onSelect,datalists}){
                         return(
                             <S.SearchList key={data.id}>
                                 <S.SearchListBtn onClick={() => handleClick(data)}>
-                                    {data.companyNm}
+                                    {data[labelKey]}
                                 </S.SearchListBtn>
                             </S.SearchList>
                         )
