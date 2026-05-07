@@ -40,9 +40,9 @@ function SearchSelectPop({onSelect,datalists,labelKey}){
             
             <S.SearchLists>
                 {
-                    filteredData.map((data)=>{
+                    filteredData.map((data,i)=>{
                         return(
-                            <S.SearchList key={data.id}>
+                            <S.SearchList key={i}>
                                 <S.SearchListBtn onClick={() => handleClick(data)}>
                                     {data[labelKey]}
                                 </S.SearchListBtn>

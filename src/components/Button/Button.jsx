@@ -9,6 +9,9 @@ const sharedBaseStyle = css`
   display: inline-block;
   text-decoration: none;
   font-weight: ${(props) => (props.fontWeight === 'bold' ? 500 : 400)};
+
+  //disabled
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `
 
 export const BasicBtnStyle = css`

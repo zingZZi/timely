@@ -5,23 +5,30 @@ import FormField from "../../components/form/FormField/FormField";
 import Input from "../../components/form/Input/Input";
 import NativeSelect from "../../components/form/Select/NativeSelect";
 import SearchSelect from "../../components/form/Select/SearchSelect";
-import { companyList,departmentsByCompany,ranksByCompany} from "../../data/sampleData";
 import { ShieldCheck,Rocket,Headset } from 'lucide-react';
-import { findCompany } from '../../api/AuthApi';
+import { findCompany,findDepartments,findRanks } from '../../api/AuthApi';
 function SignUp(){
     const [companyLists,setCompanyLists] = useState([])
+    const [departments,setDepartments] = useState([])
+    const [rank,setRank] = useState([])
+    const [pwValid,setPwValid] = useState(true);
     const [samePass,setSamepass] = useState(true);
+    const [phoneValid, setPhoneValid] = useState(true);
+
     const [form, setForm] = useState({
-      companyCode:"",
+      companySn:"", //회사명_데이터
+      deptSn:"", //부서명_데이터
+      position:"",//직급_데이터
       company:"",
       email: "",
       pw:"",
       pwCheck:"",
       name: "",
-      part:"",
-      rank:"",
+      part:"", //부서명_텍스트
       phone:"",
     });
+
+
     const updateField = (key, value) => {
       if (typeof key === "object") {
         setForm((prev) => ({
@@ -35,14 +42,50 @@ function SignUp(){
         }));
       }
     };
+
+    //로그인폼 유효성 확인
+    const rules = {
+      companySn: { required: true },
+      deptSn: { required: true },
+      position: { required: true },
+      name: { required: true },
+      pw: { required: true },
+      pwCheck: { required: true },
+      phone: { required: true },
+      email: { required: true },
+    };
+    const isFormFilled = (form) => {
+      return Object.keys(rules).every((key) => {
+        return form[key] && form[key].toString().trim() !== "";
+      });
+    };
+    const isFilled = isFormFilled(form);
+    const validators = {
+      pw: (value) =>
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/.test(value),
+      phone: (value) =>
+        !value || /^\d+$/.test(value),
+      pwCheck: (value, form) =>
+        value === form.pw,
+    };
+    const validateForm = (form) => {
+      return {
+        pw: validators.pw(form.pw),
+        phone: validators.phone(form.phone),
+        pwCheck: validators.pwCheck(form.pwCheck, form),
+      };
+    };
+
     //데이터전달
-    const DataSubmit = ()=>{
-      //pw체크
-      if(!(form.pw === form.pwCheck)){
-        setSamepass(false)
-      }
-      console.log(form)
-    }
+    const DataSubmit = () => {
+      const result = validateForm(form);
+      setPwValid(result.pw);
+      setPhoneValid(result.phone);
+      setSamepass(result.pwCheck);
+      const isValid = Object.values(result).every(Boolean);
+      if (!isValid) return;
+      console.log(form);
+    };
 
     const { setAuthText } = useOutletContext();
     useEffect(()=>{
@@ -75,20 +118,56 @@ function SignUp(){
             </ul>
           </>
         );
+
+        //회사 전체 데이터 가져오기
         const getCompany = async () => {
           try{
             const response = await findCompany();
-            setCompanyLists(...[response.data])
+            setCompanyLists(response.data)
           }catch{
             console.log('error')
           }
         }
         getCompany();
+
+
     },[])
+
+    useEffect(() => {
+      if (!form.companySn) return;
+      //부서
+      const getDepartments = async () => {
+        const response = await findDepartments();
+        const departLists = response.data
+        const filteredDepartments = departLists.filter(
+          (item) => item.companySn === form.companySn
+        );
+        setDepartments(filteredDepartments);
+      };
+      //직급
+      const getRanks = async ()=>{
+        const response = await findRanks();
+        const RankLists = response.data;
+        const filteredRankLists = RankLists.filter(
+          (item) => item.companySn === form.companySn
+        );
+        setRank(filteredRankLists)
+      }
+
+      getDepartments();
+      getRanks();
+      //회사변경시 초기화 되야하는 데이터들
+      updateField({
+        deptSn:"",
+        position:"",
+        part: "", 
+      })
+      
+    }, [form.companySn]);
+
 
     return(
         <>
-
             <S.PageTitle>계정만들기</S.PageTitle>
             <S.AuthLink>이미 계정이 있으신가요? <S.StyledLink to="/auth/signin">로그인하기</S.StyledLink></S.AuthLink>
             <form action="">
@@ -115,9 +194,7 @@ function SignUp(){
                     onChange={(item) => {
                       updateField({
                         company: item.companyNm,
-                        companyCode: item.code,
-                        part: "", 
-                        rank:"",
+                        companySn: item.companySn,
                       });
                     }}/>
                 </FormField>
@@ -129,12 +206,13 @@ function SignUp(){
                 <FormField must="must" label="비밀번호" id="pw">
                     <Input value={form.pw} type="password"  placeholder="영문, 숫자, 특수문자 8자 이상"  onChange={(value) => updateField("pw", value)}/>
                 </FormField>
-
+                {pwValid ? null : <div>비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상이어야 합니다.</div>}
+                
                 <FormField must="must" label="비밀번호 확인" id="pwChck">
                     <Input value={form.pwCheck} type="password"  placeholder="비밀번호 재입력"  onChange={(value) => updateField("pwCheck", value)}/>
                 </FormField>
                 {
-                  samePass?null:<>비밀번호가 틀렸습니다</>
+                  samePass?null:<>비밀번호가 일치하지 않습니다.</>
                 }
 
                 <FormField must="must" label="이름" id="name">
@@ -146,26 +224,39 @@ function SignUp(){
                   <FormField must="must" label="부서명" id="part">
                     <SearchSelect popTitle="부서 검색"  placeholder="부서 선택"
                       value={form.part}
-                      datalists={departmentsByCompany[form.companyCode]||[]}
-                      onChange={(item) => updateField("part", item.name)}
+                      datalists={departments}
+                      labelKey="deptNm"
+                      onChange={(item) => updateField({
+                        part: item.deptNm,
+                        deptSn: item.deptSn
+                      })}
                     />
                   </FormField>
 
                   <FormField must="must" label="직급" id="rank">
                     <NativeSelect 
                       placeholder="직급 선택" 
-                      value={form.rank} 
-                      datalists={ranksByCompany[form.companyCode]||[]} 
-                      onSelect={(value) => updateField("rank", value)}
+                      datalists={rank} 
+                      value={form.position} 
+                      dataValue="positionCd"
+                      dataText="positionNm"
+                      onChange={(value) => {
+                        updateField("position", value);   // 코드값 저장 (예: '01')
+                      }}
                     />
                   </FormField>
 
                 </S.ColFormWrap>
 
                 <FormField must="must" label="전화번호" id="phone">
-                    <Input placeholder="01012345678" value={form.phone} onChange={(value) => updateField("phone", value)}/>
+                    <Input 
+                      placeholder="01012345678" 
+                      value={form.phone} 
+                      onChange={(value) => updateField("phone", value)}
+                    />
                 </FormField>
-                <S.SubmitBtn size="full-size" paddingtype="button" fontWeight="bold" onClick={()=>{DataSubmit()}}>회원가입하기</S.SubmitBtn>
+                {phoneValid ? null : <div>전화번호는 숫자만 입력 가능합니다.</div>}
+                <S.SubmitBtn disabled={!isFilled} type='button' size="full-size" paddingtype="button" fontWeight="bold" onClick={()=>{DataSubmit()}}>회원가입하기</S.SubmitBtn>
               </fieldset>
               
             </form>

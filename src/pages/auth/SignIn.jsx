@@ -6,8 +6,11 @@ import FormField from "../../components/form/FormField/FormField";
 import Input from "../../components/form/Input/Input";
 import CheckboxField from "../../components/form/CheckboxField/CheckboxField";
 import { Checkbox } from "../../components/form/Input/Input.style";
+import { useNavigate } from "react-router-dom";
+import { signIn } from "../../api/AuthApi";
 function SignIn(){
     const { setAuthText } = useOutletContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setAuthText(
@@ -42,8 +45,8 @@ function SignIn(){
 
     let [loginForm,setLoginForm] = useState({
         email:'',
-        pw:'',
-        loginState:false
+        password:'',
+        loginState:false,
     });
 
     const updateField = (key, value) => {
@@ -52,6 +55,29 @@ function SignIn(){
             [key]: value,
         }));
     };
+    const handelSubmit = async () => {
+        try{
+            //로그인시
+            const res = await signIn(loginForm.email, loginForm.password);
+            // 1. 토큰 저장 (보통 accessToken)
+            // localStorage.setItem('accessToken', res.data.accessToken);
+
+            // // 2. 로그인 상태 유지 체크했으면 추가 저장
+            // if (loginForm.loginState) {
+            //     localStorage.setItem('keepLogin', 'true');
+            // }
+
+            // 3. 메인 페이지 이동
+            navigate('/');
+
+        }catch(error){
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.error('로그인 실패', error);
+            alert('이메일 또는 비밀번호를 확인해주세요');
+        }
+    }
+
 
     return(
         <>
@@ -76,8 +102,8 @@ function SignIn(){
                     </FormField>
 
                     <FormField label="비밀번호" id="password" must="must">
-                        <Input type="password"  value={loginForm.pw} onChange={(value)=>{
-                             updateField('pw',value)
+                        <Input type="password"  value={loginForm.password} onChange={(value)=>{
+                             updateField('password',value)
                         }}/>
                     </FormField>
 
@@ -90,7 +116,10 @@ function SignIn(){
                         <S.FindPwLink to="">비밀번호찾기</S.FindPwLink>
                     </S.SinInOptions>
                    <S.SubmitBtn type="button" size="full-size" paddingtype="button" fontWeight="bold" onClick={()=>{
-                    console.log(loginForm)
+                    console.log(
+                        loginForm
+                    )
+                    handelSubmit()
                    }}>로그인</S.SubmitBtn>
                 </fieldset>
             </form>

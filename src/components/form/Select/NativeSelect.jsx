@@ -2,18 +2,28 @@ import { useEffect, useState } from 'react';
 import * as S from './Select.style';
 import SelectShell from "./SelectShell";
 
-function NativeSelect({placeholder,datalists,onSelect,value}){
+function NativeSelect({placeholder,datalists,onChange,value,dataValue,dataText}){
+    
+  const selectedText =
+    datalists?.find((item) => item[dataValue] === value)?.[dataText] || "";
     return(
         <S.Wrapper>
-            <SelectShell placeholder={placeholder} value={value}/>
+            <SelectShell placeholder={placeholder} value={selectedText}/>
             <S.HiddenSelect 
-                onChange={(e)=>{
-                    onSelect(e.target.value)
-                }}>
+                name={dataValue}
+                onChange={(e) => {
+                    onChange(e.target.value); // 코드값 전달
+                }}
+            >
                 {
                     datalists.map((data,e)=>{
                         return(
-                            <option key={e} value={data.label}>{data.label}</option>
+                            <option 
+                                key={e} 
+                                value={data[dataValue]} 
+                            >
+                                {data[dataText]}
+                            </option>
                         )
                     })
                 }
