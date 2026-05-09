@@ -46,7 +46,7 @@ export const DivideLine = styled.p`
     text-align: center;
     justify-content: center;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 0.8rem;
     &::before{
         content: "";
         position:absolute;
@@ -71,7 +71,7 @@ export let SinInOptions = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin:2rem 0;
+    margin:2rem 0 0;
 `
 
 export let SinUpText = styled.p`
@@ -129,6 +129,7 @@ export let FindPwLink =  styled(Link)`
 /*회원가입 */
 export let SubmitBtn = styled.button`
     ${BasicBtnStyle};
+    margin-top: 2rem;
     height: 5.6rem;
     border-radius: ${({ theme }) => theme.borderRadius.md};
     font-size: ${({ theme }) => theme.fontSizes.md};

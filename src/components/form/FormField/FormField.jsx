@@ -2,17 +2,30 @@
 import React from "react";
 import * as S from './FormField.style';
 
-function FormField({label,must=false,children,id}){
+function FormField({label,must=false,children,id,error=true,errorText}){
     return(
-        <S.FormFieldBox>
-            <S.Label htmlFor={id}>
-                {label}
-                {
-                    must?"*":null
-                }
-            </S.Label>
-            {React.cloneElement(children, {id})}
-        </S.FormFieldBox>
+        <>
+            <S.FormFieldBox>
+                <S.Label htmlFor={id}>
+                    {label}
+                    {
+                        must?"*":null
+                    }
+                </S.Label>
+                {React.cloneElement(children, {id})}
+            </S.FormFieldBox>
+            {
+                error
+                ?
+                    null
+                :
+                    <S.ErrorText>
+                        {errorText}
+                    </S.ErrorText>
+            }
+            
+        </>
+        
     )
 }
 

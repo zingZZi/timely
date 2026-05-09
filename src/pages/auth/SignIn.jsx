@@ -71,9 +71,7 @@ function SignIn(){
             navigate('/');
 
         }catch(error){
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.error('로그인 실패', error);
+            console.log(error.response.data); 
             alert('이메일 또는 비밀번호를 확인해주세요');
         }
     }

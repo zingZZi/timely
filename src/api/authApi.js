@@ -25,14 +25,14 @@ export const findRanks = () => {
   return api.get('/v1/positions');
 };
 
-export const signUp = (companySn,deptSn,position,name,email,pw,pwCheck,phone) => {
+export const signUp = ({companySn,deptSn,position,name,email,password,passwordConfirm,phone}) => {
   return api.post('/v1/auth/signup', {
     companySn,
     deptSn,
     position,
     name,
-    password:pw,
-    passwordConfirm:pwCheck,
+    password,
+    passwordConfirm,
     phoneNo:phone,
     email,
     avatarUrl:"",

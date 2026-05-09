@@ -6,14 +6,17 @@ import Input from "../../components/form/Input/Input";
 import NativeSelect from "../../components/form/Select/NativeSelect";
 import SearchSelect from "../../components/form/Select/SearchSelect";
 import { ShieldCheck,Rocket,Headset } from 'lucide-react';
-import { findCompany,findDepartments,findRanks } from '../../api/AuthApi';
+import { findCompany,findDepartments,findRanks, signUp } from '../../api/AuthApi';
+import { useNavigate } from "react-router-dom";
 function SignUp(){
+    const navigate = useNavigate();
     const [companyLists,setCompanyLists] = useState([])
     const [departments,setDepartments] = useState([])
     const [rank,setRank] = useState([])
     const [pwValid,setPwValid] = useState(true);
     const [samePass,setSamepass] = useState(true);
     const [phoneValid, setPhoneValid] = useState(true);
+    const [emailVaild,setEmailVaild] = useState(true);
 
     const [form, setForm] = useState({
       companySn:"", //회사명_데이터
@@ -21,8 +24,8 @@ function SignUp(){
       position:"",//직급_데이터
       company:"",
       email: "",
-      pw:"",
-      pwCheck:"",
+      password:"",
+      passwordConfirm:"",
       name: "",
       part:"", //부서명_텍스트
       phone:"",
@@ -49,8 +52,8 @@ function SignUp(){
       deptSn: { required: true },
       position: { required: true },
       name: { required: true },
-      pw: { required: true },
-      pwCheck: { required: true },
+      password: { required: true },
+      passwordConfirm: { required: true },
       phone: { required: true },
       email: { required: true },
     };
@@ -61,30 +64,47 @@ function SignUp(){
     };
     const isFilled = isFormFilled(form);
     const validators = {
-      pw: (value) =>
+      password: (value) =>
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/.test(value),
       phone: (value) =>
         !value || /^\d+$/.test(value),
-      pwCheck: (value, form) =>
-        value === form.pw,
+      passwordConfirm: (value, form) =>
+        value === form.password,
     };
     const validateForm = (form) => {
       return {
-        pw: validators.pw(form.pw),
+        password: validators.password(form.password),
         phone: validators.phone(form.phone),
-        pwCheck: validators.pwCheck(form.pwCheck, form),
+        passwordConfirm: validators.passwordConfirm(form.passwordConfirm, form),
       };
     };
 
     //데이터전달
-    const DataSubmit = () => {
+    const DataSubmit = async () => {
       const result = validateForm(form);
-      setPwValid(result.pw);
+      setPwValid(result.password);
       setPhoneValid(result.phone);
-      setSamepass(result.pwCheck);
+      setSamepass(result.passwordConfirm);
       const isValid = Object.values(result).every(Boolean);
       if (!isValid) return;
-      console.log(form);
+      try {
+        const response = await signUp({
+          companySn: form.companySn,
+          deptSn: form.deptSn,
+          position: form.position,
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          passwordConfirm: form.passwordConfirm,
+          phone: form.phone,
+        });
+        console.log(response.data);
+        navigate('/auth/signin')
+      } catch (error) {
+        if(error.response.data.status === 400){
+          setEmailVaild(false)
+        }
+      }
     };
 
     const { setAuthText } = useOutletContext();
@@ -170,7 +190,7 @@ function SignUp(){
         <>
             <S.PageTitle>계정만들기</S.PageTitle>
             <S.AuthLink>이미 계정이 있으신가요? <S.StyledLink to="/auth/signin">로그인하기</S.StyledLink></S.AuthLink>
-            <form action="">
+            <form onSubmit={DataSubmit}>
               <S.SocialLogin>
                 <legend className="text-ir">소셜 회원가입</legend>
                 <S.SocialBtn type="button">Google</S.SocialBtn>
@@ -199,21 +219,22 @@ function SignUp(){
                     }}/>
                 </FormField>
 
-                <FormField must="must" label="이메일" id="email">
-                    <Input value={form.email} placeholder="name@email.com" onChange={(value) => updateField("email", value)}/>
+                <FormField must="must" label="이메일" id="email" error={emailVaild} errorText="이미 사용 중인 이메일입니다.">
+                    <Input value={form.email} placeholder="name@email.com" onChange={(value) => {
+                      updateField("email", value);
+                      if(!emailVaild){
+                        setEmailVaild(true)
+                      }
+                    }}/>
                 </FormField>
 
-                <FormField must="must" label="비밀번호" id="pw">
-                    <Input value={form.pw} type="password"  placeholder="영문, 숫자, 특수문자 8자 이상"  onChange={(value) => updateField("pw", value)}/>
+                <FormField must="must" label="비밀번호" id="password"  error={pwValid} errorText="비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상이어야 합니다.">
+                    <Input value={form.password} type="password"  placeholder="영문, 숫자, 특수문자 8자 이상"  onChange={(value) => updateField("password", value)}/>
                 </FormField>
-                {pwValid ? null : <div>비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상이어야 합니다.</div>}
                 
-                <FormField must="must" label="비밀번호 확인" id="pwChck">
-                    <Input value={form.pwCheck} type="password"  placeholder="비밀번호 재입력"  onChange={(value) => updateField("pwCheck", value)}/>
+                <FormField must="must" label="비밀번호 확인" id="passwordConfirm" error={samePass} errorText="비밀번호가 일치하지 않습니다.">
+                    <Input value={form.passwordConfirm} type="password"  placeholder="비밀번호 재입력"  onChange={(value) => updateField("passwordConfirm", value)}/>
                 </FormField>
-                {
-                  samePass?null:<>비밀번호가 일치하지 않습니다.</>
-                }
 
                 <FormField must="must" label="이름" id="name">
                     <Input value={form.name}  placeholder="실명입력"  onChange={(value) => updateField("name", value)}/>
