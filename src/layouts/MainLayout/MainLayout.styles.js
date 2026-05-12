@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { theme } from "../../styles/theme";
 export const MainLayout = styled.div`
   display: flex;
   overflow: hidden;
@@ -7,7 +7,7 @@ export const MainLayout = styled.div`
 `;
 
 export const MainContainer = styled.div`
-  background-color: #f3d8d8;
+  background-color: ${({ theme }) => theme.colors.gray[100]};
   flex-grow: 1;
   display: flex;
   flex-direction: column;

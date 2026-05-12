@@ -1,4 +1,4 @@
-import * as S from "./Card.styles";
+import * as S from "./Card.style";
 
 function Card({ children, variant = "default" }) {
   return <S.Container variant={variant}>{children}</S.Container>;

@@ -1,16 +1,29 @@
 import { Link } from "react-router-dom";
-
+import StateCard from "../../components/Card/StateCard";
+import * as S from "./Home.style";
 function Home() {
   return (
     <main>
       <section>
         <h2>한눈에 보기</h2>
         <p>오늘 2개 작업 · 0% 완료, 마감 임박 작업 있습니다.</p>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+        <S.HomeTotalCard>
+          <li>
+            <StateCard
+              title="총프로젝트"
+              num="12"
+              icon="total"
+              footer="전체 진행 상황"
+              graph
+            />
+          </li>
+          <li>
+            <StateCard title="총프로젝트" footer="하단" />
+          </li>
+          <li>
+            <StateCard title="총프로젝트" num="12" icon="total" />
+          </li>
+        </S.HomeTotalCard>
       </section>
       <section>
         <div>
