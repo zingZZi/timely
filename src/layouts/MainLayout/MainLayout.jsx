@@ -15,7 +15,9 @@ function MainLayout() {
       <Aside asideOpen={asideOpen} asideHandle={asideClick} menus={menus} />
       <S.MainContainer>
         <Header menus={menus} />
-        <Outlet />
+        <S.Container>
+          <Outlet />
+        </S.Container>
       </S.MainContainer>
     </S.MainLayout>
   );

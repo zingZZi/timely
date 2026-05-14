@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import StateCard from "../../components/Card/StateCard";
 import * as S from "./Home.style";
+import PageHeader from "../../components/PageHeader/PageHeader";
 function Home() {
   return (
     <main>
       <section>
-        <h2>한눈에 보기</h2>
-        <p>오늘 2개 작업 · 0% 완료, 마감 임박 작업 있습니다.</p>
+        <PageHeader title="한눈에 보기" />
         <S.HomeTotalCard>
           <li>
             <StateCard
