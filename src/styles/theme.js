@@ -19,6 +19,9 @@ export const theme = {
       800: '#343a40',
       900: '#212529',
     },
+    cahrtDanger:'#f87171',
+    chartReviw:'#a78bfa',
+    chartDelay:'#f59e0b'
   },
   
   fonts: {
