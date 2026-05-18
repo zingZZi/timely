@@ -11,6 +11,7 @@ import Projects from './pages/projects/Projects'
 import Board from './pages/board/Board'
 import My from './pages/calendar/my/My'
 import Team from './pages/calendar/team/Team'
+import BoardDetail from './pages/boardDetail/boardDetail'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           </Route>
           <Route path='projects' element={<Projects/>}/>
           <Route path='board' element={<Board/>}/>
+          <Route path='board/detail/:id' element={<BoardDetail/>}/>
         </Route>
         <Route path='/auth' element={<AuthLayout/>}>
           <Route path='signin' element={<SignIn/>}/>

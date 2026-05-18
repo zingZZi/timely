@@ -59,17 +59,12 @@ function SignIn(){
         try{
             //로그인시
             const res = await signIn(loginForm.email, loginForm.password);
-            // 1. 토큰 저장 (보통 accessToken)
-            // localStorage.setItem('accessToken', res.data.accessToken);
-
-            // // 2. 로그인 상태 유지 체크했으면 추가 저장
-            // if (loginForm.loginState) {
-            //     localStorage.setItem('keepLogin', 'true');
-            // }
-
+            localStorage.setItem('accessToken', res.data.accessToken);
+            if (loginForm.loginState) {
+                localStorage.setItem('keepLogin', 'true');
+            }
             // 3. 메인 페이지 이동
             navigate('/');
-
         }catch(error){
             console.log(error.response.data); 
             alert('이메일 또는 비밀번호를 확인해주세요');

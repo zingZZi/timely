@@ -73,4 +73,7 @@ export const GlobalStyles = createGlobalStyle`
       cursor: pointer;
     }
   }
+  input:focus{
+    outline: none;
+  }
 `;
