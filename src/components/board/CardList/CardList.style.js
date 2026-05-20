@@ -20,6 +20,8 @@ export const Icon = styled.i`
   font-size: 1.2rem;
   line-height: 1.6rem;
   padding: 0.2rem 1rem;
+  border-radius: 3rem;
+  line-height: 1.6rem;
 `;
 
 export const Title = styled.h3`

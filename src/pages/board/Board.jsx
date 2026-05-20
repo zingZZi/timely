@@ -3,10 +3,20 @@ import * as S from "./Board.style";
 import CardList from "../../components/board/CardList/CardList";
 import { useEffect, useState } from "react";
 import { fetchPosts } from "../../api/boardApi";
+import { BOARDFILTERLIST } from "./filterlists";
 
 function Board() {
+  const filterList = BOARDFILTERLIST;
   const [boardList, setBoardList] = useState([]);
+  const [activeBtn, setActiveBtn] = useState(0);
+  const [selectCategory, setSelectCategory] = useState("");
 
+  function btnHandler(index, category) {
+    setActiveBtn(index);
+    setSelectCategory(category);
+  }
+
+  //초반 데이터 불러오기
   useEffect(() => {
     const getBoardData = async () => {
       try {
@@ -18,6 +28,13 @@ function Board() {
     };
     getBoardData();
   }, []);
+
+  //카테고리 설정시 데이터 재정렬
+  const filteredList =
+    selectCategory === ""
+      ? boardList
+      : boardList.filter((item) => item.category === selectCategory);
+
   return (
     <S.BoardWrap>
       <S.BoardSection>
@@ -27,17 +44,25 @@ function Board() {
         />
         <S.BoardFilter>
           <S.BtnFilters>
-            <S.FilterBtn className="active">전체</S.FilterBtn>
-            <S.FilterBtn>공지</S.FilterBtn>
-            <S.FilterBtn>아이디어</S.FilterBtn>
-            <S.FilterBtn>Q&A</S.FilterBtn>
-            <S.FilterBtn>회의록</S.FilterBtn>
+            {filterList.map((e, i) => {
+              return (
+                <S.FilterBtn
+                  key={i}
+                  className={activeBtn === i ? "active" : ""}
+                  onClick={() => {
+                    btnHandler(i, e.dataSet);
+                  }}
+                >
+                  {e.label}
+                </S.FilterBtn>
+              );
+            })}
           </S.BtnFilters>
           <S.Input type="text" placeholder="제목, 작성자, 내용 검색..." />
         </S.BoardFilter>
 
         <S.BoardLists>
-          {boardList.map((e, i) => {
+          {filteredList.map((e, i) => {
             return (
               <li key={i}>
                 <CardList data={e} />

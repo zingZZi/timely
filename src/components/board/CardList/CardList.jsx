@@ -1,16 +1,30 @@
 import { Link } from "react-router-dom";
 import * as S from "./CardList.style";
-import { CATEGORY_MAP, STATUS_MAP } from "../../constants/boardBadge";
+import { CATEGORYMAP, STATUSMAP } from "../../../constants/boardBadge";
 
 function CardList({ data }) {
-  const categoryInfo = CATEGORY_MAP[data.category];
-  const statusInfo = STATUS_MAP[data.status];
+  const categoryInfo = CATEGORYMAP[data.category];
+  const statusInfo = STATUSMAP[data.status];
   return (
     <S.BoardCard>
-      <Link to="">
+      <Link to={`detail/${data.boardPostSn}`}>
         <S.IconWrap>
-          <S.Icon>{data.category}</S.Icon>
-          <S.Icon>{data.status}</S.Icon>
+          <S.Icon
+            style={{
+              backgroundColor: categoryInfo.bgColor,
+              color: categoryInfo.color,
+            }}
+          >
+            {categoryInfo.label}
+          </S.Icon>
+          <S.Icon
+            style={{
+              backgroundColor: statusInfo.bgColor,
+              color: statusInfo.color,
+            }}
+          >
+            {statusInfo.label}
+          </S.Icon>
         </S.IconWrap>
         <S.Title>{data.title}</S.Title>
         <S.SubText>서브내용</S.SubText>

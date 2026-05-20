@@ -1,4 +1,4 @@
-export const CATEGORY_MAP = {
+export const CATEGORYMAP = {
   NOTICE: {
     label: "공지",
     bgColor: "rgb(254 226 226 )",
@@ -23,7 +23,7 @@ export const CATEGORY_MAP = {
   },
 };
 
-export const STATUS_MAP = {
+export const STATUSMAP = {
   DONE: {
     label: "완료",
     bgColor: "rgb(220 252 231)",
