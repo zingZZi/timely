@@ -1,28 +1,31 @@
-import { Link } from 'react-router-dom';
-import * as S from './CardList.style'
+import { Link } from "react-router-dom";
+import * as S from "./CardList.style";
+import { CATEGORY_MAP, STATUS_MAP } from "../../constants/boardBadge";
 
-function CardList(){
-    return(
-        <S.BoardCard>
-            <Link to="">
-                <S.IconWrap>
-                    <S.Icon>아이디어</S.Icon>
-                    <S.Icon>검토중</S.Icon>
-                </S.IconWrap>
-                <S.Title>제목</S.Title>
-                <S.SubText>서브내용</S.SubText>
-                <div>
-                    <div>
-                        <i></i>
-                        <span>이름</span>
-                        <span>2026.04.04</span>
-                    </div>
+function CardList({ data }) {
+  const categoryInfo = CATEGORY_MAP[data.category];
+  const statusInfo = STATUS_MAP[data.status];
+  return (
+    <S.BoardCard>
+      <Link to="">
+        <S.IconWrap>
+          <S.Icon>{data.category}</S.Icon>
+          <S.Icon>{data.status}</S.Icon>
+        </S.IconWrap>
+        <S.Title>{data.title}</S.Title>
+        <S.SubText>서브내용</S.SubText>
+        <S.BoardInfos>
+          <S.WriterInfo>
+            <S.Thumb></S.Thumb>
+            <span>{data.authorName}</span>
+            <S.Date>{data.createDt.split("T")[0]}</S.Date>
+          </S.WriterInfo>
 
-                    <div></div>
-                </div>
-            </Link>
-        </S.BoardCard>
-    )
+          <div></div>
+        </S.BoardInfos>
+      </Link>
+    </S.BoardCard>
+  );
 }
 
 export default CardList;
