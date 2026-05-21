@@ -12,3 +12,7 @@ export const PageDetailWrap = styled.section`
 `;
 
 export const Title = styled.h3``;
+
+export const CommentTitle = styled.h3`
+  margin-bottom: 1.2rem;
+`;

@@ -20,7 +20,7 @@ function BoardDetail() {
         const resComment = await fetchPostsComments(id);
         setPageData(res.data);
         setComments(resComment.data);
-        console.log(res.data);
+        console.log(resComment.data);
       } catch (error) {
         console.log(error);
       }
@@ -63,11 +63,23 @@ function BoardDetail() {
       </S.PageDetailWrap>
 
       <section>
-        <h3>댓글 {comments.totalElements}</h3>
+        <S.CommentTitle>댓글 {comments.totalElements}</S.CommentTitle>
 
         <div>
-          <Comment padding="1.2rem 1.6rem" radius="1.2rem" />
+          <Comment size="big"  radius="" />
         </div>
+
+        <ul>
+          {
+            comments.content?.map((e,i)=>{
+              return(
+                <li key={i}>
+                  {e.content}
+                </li>
+              )
+            })
+          }
+        </ul>
       </section>
     </>
   );

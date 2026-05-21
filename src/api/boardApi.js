@@ -12,5 +12,7 @@ export const fetchPostsComments = (boardPostSn) =>
   api.get(`/v1/board-posts/${boardPostSn}/comments`);
 
 //댓글 작성
-export const postComments = (boardPostSn) =>
-  api.post(`/v1/board-posts/${boardPostSn}/comments`);
+export const postComments = ({boardPostSn,content}) =>
+  api.post(`/v1/board-posts/${boardPostSn}/comments`,{
+    content
+  });

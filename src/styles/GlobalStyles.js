@@ -76,4 +76,8 @@ export const GlobalStyles = createGlobalStyle`
   input:focus{
     outline: none;
   }
+  textarea{
+    resize: none;
+  }
+
 `;

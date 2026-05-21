@@ -5,6 +5,11 @@ export const Comment = styled.section`
   display: flex;
   align-items: flex-start;
   background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  padding: ${({ $size }) =>
+  $size === 'big' ? '1rem' : '2rem'};
+  border-radius: ${({ $size }) =>
+  $size === 'big' ? '0' : '1rem'};
 `;
 
 export const Profile = styled.figure`
@@ -22,14 +27,23 @@ export const CommentForm = styled.form`
 
 export const WriteBox = styled.textarea`
   width: 100%;
-  padding: ${(props) => props.padding};
-  border-radius: ${(props) => props.radius};
+  padding: ${({ $size }) =>
+  $size === 'big' ? '1rem' : '1.2rem 1.6rem'};
+  border-radius: ${({ $size }) =>
+  $size === 'big' ? '1.2rem 1.6rem' : ' 1.2rem'};
+
+  min-height: ${({ $size }) =>
+  $size === 'big' ? '6.2rem' : '8.6rem'};
+
   font-size: 1.4rem;
   line-height: 2rem;
   margin-bottom: 1.2rem;
 
   border: 1px solid ${({ theme }) => theme.colors.gray[200]};
   background-color: ${({ theme }) => theme.colors.gray[100]};
+  &:focus{
+    outline-color:${({ theme }) => theme.colors.main};;
+  }
 `;
 
 export const CommentFormFooter = styled.div`
@@ -38,7 +52,23 @@ export const CommentFormFooter = styled.div`
   justify-content: space-between;
 `;
 
+export const TextCount = styled.span`
+  color: ${({ theme }) => theme.colors.gray[500]};
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+
+`
+
 export const Btn = styled.button`
   ${BasicBtnStyle}
   background-color:${({ theme }) => theme.colors.mainDark};
+  border-radius: .8rem;
+
+
+  font-size: ${({ $size }) =>
+  $size === 'big' ? '1.2rem' : '1.4rem'};
+  line-height: ${({ $size }) =>
+  $size === 'big' ? '1.6rem' : '2rem'};
+  padding: ${({ $size }) =>
+  $size === 'big' ? '.6rem 1.6rem' : '.8rem 2rem'};
 `;
