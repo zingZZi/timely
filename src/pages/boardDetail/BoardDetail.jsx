@@ -3,7 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { fetchPostsComments, fetchPostsDetail } from "../../api/boardApi";
 import * as S from "./BoardDetail.style";
 import { CATEGORYMAP, STATUSMAP } from "../../constants/boardBadge";
-import Comment from "../../components/Comment/Comment";
+import CommentForm from "../../components/Comment/CommentForm";
+import CommentList from "../../components/Comment/CommentList";
 
 function BoardDetail() {
   const { id } = useParams();
@@ -66,19 +67,17 @@ function BoardDetail() {
         <S.CommentTitle>댓글 {comments.totalElements}</S.CommentTitle>
 
         <div>
-          <Comment size="big"  radius="" />
+          <CommentForm size="big" radius="" />
         </div>
-
         <ul>
-          {
-            comments.content?.map((e,i)=>{
-              return(
-                <li key={i}>
-                  {e.content}
-                </li>
-              )
-            })
-          }
+          {comments.content?.map((e, i) => {
+            return (
+              <li key={i}>
+                {" "}
+                <CommentList content={e.content} />
+              </li>
+            );
+          })}
         </ul>
       </section>
     </>

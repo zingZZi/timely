@@ -4,6 +4,7 @@ import CardList from "../../components/board/CardList/CardList";
 import { useEffect, useState } from "react";
 import { fetchPosts } from "../../api/boardApi";
 import { BOARDFILTERLIST } from "./filterlists";
+import { Link } from "react-router-dom";
 
 function Board() {
   const filterList = BOARDFILTERLIST;
@@ -60,7 +61,10 @@ function Board() {
           </S.BtnFilters>
           <S.Input type="text" placeholder="제목, 작성자, 내용 검색..." />
         </S.BoardFilter>
-
+        <div>
+          <p>총 0개</p>
+          <Link to="/board/write">글작성</Link>
+        </div>
         <S.BoardLists>
           {filteredList.map((e, i) => {
             return (
