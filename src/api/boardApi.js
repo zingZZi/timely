@@ -16,3 +16,13 @@ export const postComments = ({boardPostSn,content}) =>
   api.post(`/v1/board-posts/${boardPostSn}/comments`,{
     content
   });
+
+
+  //게시글 생성
+export const postBoard = ({category,status,title,content}) =>
+  api.post('/v1/board-posts',{
+  category ,
+  status,
+  title,
+  content
+  });

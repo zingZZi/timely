@@ -56,11 +56,13 @@ function BoardDetail() {
 
           <div>
             <span>{pageData.authorName}</span>
-            <time dateTime={pageData.createDt}>{pageData.createDt}</time>
+            <time dateTime={pageData.createDt}>
+              {pageData.createDt}
+            </time>
           </div>
         </div>
 
-        <div>{pageData.content}</div>
+        <S.BoardContent dangerouslySetInnerHTML={{ __html: pageData.content }} />
       </S.PageDetailWrap>
 
       <section>

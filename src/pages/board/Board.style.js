@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { BasicBtnStyle } from "../../components/Button/Button";
 
 export let BoardWrap = styled.div`
     display: flex;
@@ -35,9 +37,29 @@ export const Input = styled.input`
     width: 100%;
     border-radius: .8rem;
     &:focus{
-        border-color:${({ theme }) => theme.colors.mainColor};
+        border-color:${({ theme }) => theme.colors.main};
         
     }
+`
+
+export const BoardTotal = styled.div`
+    margin-top:2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`
+
+export const TotalText = styled.p`
+    font-weight:${({ theme }) => theme.fontWeights.regular}; ;
+    font-size:${({ theme }) => theme.fontSizes.sm};
+`
+export const TotalNum = styled.strong`
+    font-weight:${({ theme }) => theme.fontWeights.semibold}; 
+`
+
+export const WriteBtn = styled(Link)`
+    ${BasicBtnStyle}
+    border-radius: 1rem;
 `
 
 export const BoardLists = styled.ul`

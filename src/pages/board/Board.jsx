@@ -61,10 +61,12 @@ function Board() {
           </S.BtnFilters>
           <S.Input type="text" placeholder="제목, 작성자, 내용 검색..." />
         </S.BoardFilter>
-        <div>
-          <p>총 0개</p>
-          <Link to="/board/write">글작성</Link>
-        </div>
+
+        <S.BoardTotal>
+          <S.TotalText>총 <S.TotalNum>{filteredList.length}</S.TotalNum>개</S.TotalText>
+          <S.WriteBtn padding="1rem 2.6rem" to="/board/write">글작성</S.WriteBtn>
+        </S.BoardTotal>
+
         <S.BoardLists>
           {filteredList.map((e, i) => {
             return (

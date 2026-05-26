@@ -32,6 +32,7 @@ function CardList({ data }) {
           <S.WriterInfo>
             <S.Thumb></S.Thumb>
             <span>{data.authorName}</span>
+           
             <S.Date>{data.createDt.split("T")[0]}</S.Date>
           </S.WriterInfo>
 
