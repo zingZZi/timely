@@ -12,14 +12,14 @@ import { useNavigate } from "react-router-dom";
 function BoardWrite() {
   const navigate = useNavigate();
 
-  const [categoryList,setCategoryList] = useState([]);
-  const [stateList,setStatusList] = useState([])
-  const [form,setForm] = useState({
-    title:"",
-    category:"",
-    state:"",
-    content:"",
-  })
+  const [categoryList, setCategoryList] = useState([]);
+  const [stateList, setStatusList] = useState([]);
+  const [form, setForm] = useState({
+    title: "",
+    category: "",
+    state: "",
+    content: "",
+  });
 
   const updateField = (key, value) => {
     if (typeof key === "object") {
@@ -35,23 +35,21 @@ function BoardWrite() {
     }
   };
 
-  useEffect(()=>{
-    const getCommonCode = async ()=>{
-      try{
+  useEffect(() => {
+    const getCommonCode = async () => {
+      try {
         const res = await fetchCommonCode();
         const data = res.data;
         setCategoryList(
-          data.filter((item) => item.codeGroup === "BOARD_CATEGORY")
+          data.filter((item) => item.codeGroup === "BOARD_CATEGORY"),
         );
-        setStatusList(
-          data.filter((item) => item.codeGroup === "BOARD_STATUS")
-        );
-      }catch(error){
-        console.log(error)
+        setStatusList(data.filter((item) => item.codeGroup === "BOARD_STATUS"));
+      } catch (error) {
+        console.log(error);
       }
-    }
-    getCommonCode()
-  },[])
+    };
+    getCommonCode();
+  }, []);
 
   //작성폼 유효성 검사
   const rules = {
@@ -67,20 +65,19 @@ function BoardWrite() {
   };
   const isFilled = isFormFilled(form);
 
-  const boardPost= async()=>{
-    try{
+  const boardPost = async () => {
+    try {
       const res = await postBoard({
-        category:form.category,
-        status:form.state,
-        title:form.title,
-        content:form.content
-      })
-      navigate('/board')
-    }catch(error){
-      console.log(error)
+        category: form.category,
+        status: form.state,
+        title: form.title,
+        content: form.content,
+      });
+      navigate("/board");
+    } catch (error) {
+      console.log(error);
     }
-  }
-
+  };
 
   return (
     <>
@@ -90,11 +87,11 @@ function BoardWrite() {
         <form action="">
           <fieldset className="text-ir">게시판 글 작성</fieldset>
           <FormField must="must" label="제목 " id="title">
-            <Input 
-              placeholder="게시글 제목을 입력하세요" 
+            <Input
+              placeholder="게시글 제목을 입력하세요"
               value={form.title}
-              onChange={(value)=>{
-                updateField('title',value)
+              onChange={(value) => {
+                updateField("title", value);
               }}
             />
           </FormField>
@@ -106,39 +103,47 @@ function BoardWrite() {
                 value={form.category}
                 dataValue="code"
                 dataText="codeNm"
-                onChange={(value)=>{
-                  updateField('category',value)
+                onChange={(value) => {
+                  updateField("category", value);
                 }}
               />
             </FormField>
 
             <FormField must="must" label="상태" id="state">
-              <NativeSelect placeholder="상태 선택" 
-                datalists={stateList} 
+              <NativeSelect
+                placeholder="상태 선택"
+                datalists={stateList}
                 value={form.state}
                 dataValue="code"
                 dataText="codeNm"
-                onChange={(value)=>{
-                  updateField('state',value)
+                onChange={(value) => {
+                  updateField("state", value);
                 }}
-                />
-                
+              />
             </FormField>
           </S.ColFormWrap>
-          
 
           <S.EditorWrap>
-            <Tiptap content={form.content} onChange={(value)=>{
-                updateField('content',value)
-              }}/>
+            <Tiptap
+              content={form.content}
+              onChange={(value) => {
+                updateField("content", value);
+              }}
+            />
           </S.EditorWrap>
 
-          <div>
-            <button>취소</button>
-            <button type="button" disabled={!isFilled}  onClick={()=>{
-              boardPost()
-            }}>게시글 작성</button>
-          </div>
+          <S.BtnWrap>
+            <S.CancleBtn>취소</S.CancleBtn>
+            <S.SubmitBtn
+              type="button"
+              disabled={!isFilled}
+              onClick={() => {
+                boardPost();
+              }}
+            >
+              게시글 작성
+            </S.SubmitBtn>
+          </S.BtnWrap>
         </form>
       </S.WriteContainer>
     </>
