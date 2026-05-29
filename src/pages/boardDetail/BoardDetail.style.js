@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const BackLink = styled(Link)`
-  margin-bottom: 10px;
+  margin-bottom: 2.4rem;
+  display: inline-block;
+
 `;
 export const PageDetailWrap = styled.section`
   margin-bottom: 2.4rem;

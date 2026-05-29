@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { BasicBtnStyle, CancleBtnStyle } from "../../components/Button/Button";
 
 export const BackLink = styled(Link)`
-  margin-bottom: 10px;
+  margin-bottom: 2.4rem;
 `;
 
 export const WriteContainer = styled.section`
