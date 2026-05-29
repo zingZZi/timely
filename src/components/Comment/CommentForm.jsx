@@ -29,7 +29,7 @@ function CommentForm({ size }) {
     <S.Comment>
       <h3 className="text-ir">댓글작성</h3>
       <S.Profile>
-        <img src="/sample/img.jpg" alt="프로필 이미지" />
+        <img src="/public/img/sample.png" alt="프로필 이미지" />
       </S.Profile>
       <S.CommentForm>
         <S.WriteBox

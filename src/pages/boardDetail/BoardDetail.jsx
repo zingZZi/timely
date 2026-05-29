@@ -6,6 +6,8 @@ import { CATEGORYMAP, STATUSMAP } from "../../constants/boardBadge";
 import CommentForm from "../../components/Comment/CommentForm";
 import CommentList from "../../components/Comment/CommentList";
 
+import { MessageCircle, Heart, Bookmark, Share2 } from "lucide-react";
+
 function BoardDetail() {
   const { id } = useParams();
   const [pageData, setPageData] = useState({});
@@ -20,67 +22,111 @@ function BoardDetail() {
         const res = await fetchPostsDetail(id);
         const resComment = await fetchPostsComments(id);
         setPageData(res.data);
+        console.log(res.data);
         setComments(resComment.data);
-        console.log(resComment.data);
       } catch (error) {
         console.log(error);
       }
     };
     detailData();
   }, []);
+
   return (
     <>
       <S.BackLink to="">게시판으로 돌아가기</S.BackLink>
       <S.PageDetailWrap>
         <h2 className="text-ir">게시판 상세페이지</h2>
-        <div>
-          <div>
-            <span>{categoryInfo?.label}</span>
-            <span>{statusInfo?.label}</span>
+        <S.BoardInfo>
+          <S.BoardTop>
+            <S.LabelWrap>
+              <S.Label
+                style={{
+                  color: categoryInfo?.color,
+                  backgroundColor: categoryInfo?.bgColor,
+                }}
+              >
+                {categoryInfo?.label}
+              </S.Label>
+              <S.Label
+                style={{
+                  backgroundColor: statusInfo?.bgColor,
+                  color: statusInfo?.color,
+                }}
+              >
+                {statusInfo?.label}
+              </S.Label>
+            </S.LabelWrap>
 
-            <div>
-              <button type="button">좋아요</button>
-              <button type="button">저장하기</button>
-              <button type="button">공유하기</button>
-            </div>
-          </div>
+            <S.BoardActionBtns>
+              <button type="button">
+                <Heart />
+                <span className="text-ir">좋아요</span>
+              </button>
+              <button type="button">
+                <Bookmark />
+                <span className="text-ir">저장하기</span>
+              </button>
+              <button type="button">
+                <Share2 />
+                <span className="text-ir">공유하기</span>
+              </button>
+            </S.BoardActionBtns>
+          </S.BoardTop>
 
-          <div>
-            <S.Title>{pageData.title}</S.Title>
+          <S.Title>{pageData.title}</S.Title>
 
-            <div>
-              <span>좋아요 개수</span>
-              <span>{pageData.commentCount}</span>
-            </div>
-          </div>
+          <S.BoardMetaRow>
+            <S.WriterInfo>
+              <S.Thumb></S.Thumb>
+              <div>
+                <S.Name>{pageData.authorName}</S.Name>
+                <S.Date dateTime={pageData.createDt}>
+                  {pageData.createDt}
+                </S.Date>
+              </div>
+            </S.WriterInfo>
 
-          <div>
-            <span>{pageData.authorName}</span>
-            <time dateTime={pageData.createDt}>
-              {pageData.createDt}
-            </time>
-          </div>
-        </div>
+            <S.BoardState>
+              <p>
+                <span className="text-ir">좋아요 갯수</span>
+                <Heart />
+                <span>0</span>
+              </p>
 
-        <S.BoardContent dangerouslySetInnerHTML={{ __html: pageData.content }} />
+              <p>
+                <span className="text-ir">댓글 갯수</span>
+                <MessageCircle />
+                <S.CommentCount>{pageData.commentCount}</S.CommentCount>
+              </p>
+            </S.BoardState>
+          </S.BoardMetaRow>
+        </S.BoardInfo>
+
+        <S.BoardContent
+          dangerouslySetInnerHTML={{ __html: pageData.content }}
+        />
       </S.PageDetailWrap>
 
       <section>
-        <S.CommentTitle>댓글 {comments.totalElements}</S.CommentTitle>
+        <S.CommentTitle>
+          <MessageCircle />
+          댓글
+          <S.MessageNum>{comments.totalElements}</S.MessageNum>
+        </S.CommentTitle>
 
         <div>
           <CommentForm size="big" radius="" />
         </div>
-        <ul>
+
+        <S.CommentLists>
           {comments.content?.map((e, i) => {
             return (
-              <li key={i}>
-                {" "}
+              <S.CommentList key={i}>
                 <CommentList content={e.content} />
-              </li>
+              </S.CommentList>
             );
           })}
-        </ul>
+        </S.CommentLists>
       </section>
     </>
   );

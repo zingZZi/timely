@@ -16,7 +16,12 @@ export const Profile = styled.figure`
   height: 3.6rem;
   flex-shrink: 0;
   border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.colors.gray[400]};
+  overflow: hidden;
   margin-right: 1.2rem;
+  img {
+    max-width: 100%;
+  }
 `;
 
 export const CommentForm = styled.form`
@@ -80,4 +85,8 @@ export const Name = styled.b`
 export const Time = styled.time`
   color: ${({ theme }) => theme.colors.gray[400]};
   font-size: ${({ theme }) => theme.fontSizes.xs};
+`;
+
+export const CommnetText = styled.p`
+  margin: 1.2rem 0;
 `;
