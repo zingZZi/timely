@@ -70,7 +70,9 @@ export const Btn = styled.button`
 `;
 
 //댓글 리스트
-export const CommentListCont = styled.div``;
+export const CommentListCont = styled.div`
+  flex: 1;
+`;
 
 export const CommentListInfo = styled.div`
   display: flex;
@@ -90,3 +92,42 @@ export const Time = styled.time`
 export const CommnetText = styled.p`
   margin: 1.2rem 0;
 `;
+
+export const CommentActions = styled.div`
+  display: flex;
+  gap: 1.6rem;
+  button {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 1rem;
+    border-radius: 99px;
+    gap: 0.6rem;
+    svg {
+      width: 1.4rem;
+      height: 1.4rem;
+      color: ${({ theme }) => theme.colors.gray[400]};
+    }
+    span {
+      color: ${({ theme }) => theme.colors.gray[400]};
+    }
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.gray[200]};
+      svg,
+      span {
+        color: ${({ theme }) => theme.colors.gray[700]};
+      }
+    }
+  }
+`;
+export const TumbBtn = styled.button`
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: ${({ theme }) => theme.colors.gray[400]};
+  }
+`;
+export const TumbNum = styled.span`
+  color: ${({ theme }) => theme.colors.gray[400]};
+`;
+
+export const ReCommentBtn = styled.button``;

@@ -34,7 +34,7 @@ function CommentForm({ size }) {
       <S.CommentForm>
         <S.WriteBox
           maxLength={500}
-          size={size}
+          $size={size}
           value={commentText}
           onChange={(e) => {
             commentHandler(e.target.value);

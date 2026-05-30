@@ -115,7 +115,7 @@ function BoardDetail() {
         </S.CommentTitle>
 
         <div>
-          <CommentForm size="big" radius="" />
+          <CommentForm size="big" />
         </div>
 
         <S.CommentLists>
