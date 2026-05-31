@@ -11,8 +11,11 @@ function CommentList({ content }) {
   function recommentBoxShow() {
     setReCommentBox(!reCommentBox);
   }
+  function recommentBoxHidden() {
+    setReCommentBox(false);
+  }
   return (
-    <S.Comment>
+    <S.Comment $size="big">
       <S.Profile>
         <img src="/public/img/sample.png" alt="프로필 이미지" />
       </S.Profile>
@@ -39,7 +42,9 @@ function CommentList({ content }) {
             <span>0</span>
           </S.ReCommentBtn>
         </S.CommentActions>
-        {reCommentBox ? <CommentForm /> : null}
+        {reCommentBox ? (
+          <CommentForm size="small" cancle={recommentBoxHidden} />
+        ) : null}
       </S.CommentListCont>
     </S.Comment>
   );

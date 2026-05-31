@@ -5,9 +5,11 @@ export const Comment = styled.section`
   display: flex;
   align-items: flex-start;
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
-  padding: ${({ $size }) => ($size === "big" ? "1rem" : "2rem")};
-  border-radius: ${({ $size }) => ($size === "big" ? "0" : "1rem")};
+  padding: ${({ $size }) => ($size === "big" ? "2rem" : "1rem")};
+  border-radius: ${({ $size }) => ($size === "big" ? "1rem" : "0")};
+  border: ${({ $size, theme }) =>
+    $size === "big" ? `1px solid ${theme.colors.gray[200]}` : "none"};
+  margin-top: ${({ $size }) => ($size === "small" ? "1rem" : "0")};
 `;
 
 export const Profile = styled.figure`
@@ -30,11 +32,11 @@ export const CommentForm = styled.form`
 
 export const WriteBox = styled.textarea`
   width: 100%;
-  padding: ${({ $size }) => ($size === "big" ? "1rem" : "1.2rem 1.6rem")};
+  padding: ${({ $size }) => ($size === "big" ? "1.2rem 1.6rem" : "1rem")};
   border-radius: ${({ $size }) =>
-    $size === "big" ? "1.2rem 1.6rem" : " 1.2rem"};
+    $size === "big" ? "1.2rem" : " 1.2rem 1.6rem"};
 
-  min-height: ${({ $size }) => ($size === "big" ? "6.2rem" : "8.6rem")};
+  min-height: ${({ $size }) => ($size === "big" ? "8.6rem" : "6.2rem")};
 
   font-size: 1.4rem;
   line-height: 2rem;
@@ -59,14 +61,23 @@ export const TextCount = styled.span`
   line-height: 1.6rem;
 `;
 
+export const BtnsWrap = styled.div`
+  display: flex;
+  gap: 0.6rem;
+  > button {
+    color: ${({ theme }) => theme.colors.white};
+    border-radius: 0.8rem;
+    font-size: ${({ $size }) => ($size === "big" ? "1.4rem" : "1.2rem")};
+    line-height: ${({ $size }) => ($size === "big" ? "2rem" : "1.6rem")};
+    padding: ${({ $size }) =>
+      $size === "big" ? ".8rem 2rem" : ".6rem 1.6rem"};
+  }
+`;
+export const CanCleBtn = styled.button`
+  background-color: ${({ theme }) => theme.colors.gray[500]};
+`;
 export const Btn = styled.button`
-  ${BasicBtnStyle}
-  background-color:${({ theme }) => theme.colors.mainDark};
-  border-radius: 0.8rem;
-
-  font-size: ${({ $size }) => ($size === "big" ? "1.2rem" : "1.4rem")};
-  line-height: ${({ $size }) => ($size === "big" ? "1.6rem" : "2rem")};
-  padding: ${({ $size }) => ($size === "big" ? ".6rem 1.6rem" : ".8rem 2rem")};
+  background-color: ${({ theme }) => theme.colors.mainDark};
 `;
 
 //댓글 리스트

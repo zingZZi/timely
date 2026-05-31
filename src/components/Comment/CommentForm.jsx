@@ -3,7 +3,7 @@ import * as S from "./Comment.style";
 import { useParams } from "react-router-dom";
 import { postComments } from "../../api/boardApi";
 
-function CommentForm({ size }) {
+function CommentForm({ size, cancle }) {
   const { id } = useParams();
   const [textCount, setTextCount] = useState(0);
   const [commentText, setCommentText] = useState("");
@@ -26,7 +26,7 @@ function CommentForm({ size }) {
   };
 
   return (
-    <S.Comment>
+    <S.Comment $size={size}>
       <h3 className="text-ir">댓글작성</h3>
       <S.Profile>
         <img src="/public/img/sample.png" alt="프로필 이미지" />
@@ -43,14 +43,22 @@ function CommentForm({ size }) {
         />
         <S.CommentFormFooter>
           <S.TextCount>{textCount}/500자</S.TextCount>
-          <S.Btn
-            type="button"
-            onClick={() => {
-              handelSubmit();
-            }}
-          >
-            등록
-          </S.Btn>
+          <S.BtnsWrap>
+            {size === "small" ? (
+              <S.CanCleBtn type="button" $size={size} onClick={cancle}>
+                취소
+              </S.CanCleBtn>
+            ) : null}
+            <S.Btn
+              type="button"
+              $size={size}
+              onClick={() => {
+                handelSubmit();
+              }}
+            >
+              등록
+            </S.Btn>
+          </S.BtnsWrap>
         </S.CommentFormFooter>
       </S.CommentForm>
     </S.Comment>
