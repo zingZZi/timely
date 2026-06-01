@@ -3,10 +3,9 @@ import * as S from "./Comment.style";
 import { ThumbsUp, CornerDownRight } from "lucide-react";
 import CommentForm from "./CommentForm";
 
-function CommentList({ content }) {
+function CommentList({ data }) {
   const [commentTumb, setCommentTumb] = useState("");
   const [reCommentBox, setReCommentBox] = useState(false);
-  console.log(content);
 
   function recommentBoxShow() {
     setReCommentBox(!reCommentBox);
@@ -21,10 +20,10 @@ function CommentList({ content }) {
       </S.Profile>
       <S.CommentListCont>
         <S.CommentListInfo>
-          <S.Name>김아무개</S.Name>
+          <S.Name>이름누락</S.Name>
           <S.Time>2025-01-15 15:20</S.Time>
         </S.CommentListInfo>
-        <S.CommnetText>{content}</S.CommnetText>
+        <S.CommnetText>{data.content}</S.CommnetText>
 
         <S.CommentActions>
           <S.TumbBtn>

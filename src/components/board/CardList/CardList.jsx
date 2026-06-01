@@ -27,12 +27,12 @@ function CardList({ data }) {
           </S.Icon>
         </S.IconWrap>
         <S.Title>{data.title}</S.Title>
-        <S.SubText>서브내용</S.SubText>
+        <S.SubText>{data.content}</S.SubText>
         <S.BoardInfos>
           <S.WriterInfo>
             <S.Thumb></S.Thumb>
             <span>{data.authorName}</span>
-           
+
             <S.Date>{data.createDt.split("T")[0]}</S.Date>
           </S.WriterInfo>
 

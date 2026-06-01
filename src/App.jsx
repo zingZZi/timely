@@ -7,7 +7,7 @@ import SignUp from "./pages/auth/SignUp";
 import AppProvider from "./providers";
 import Calendar from "./pages/calendar/Calendar";
 import Home from "./pages/home/Home";
-import Projects from "./pages/projects/Projects";
+import Projects from "./pages/projects/index/Projects";
 import Board from "./pages/board/Board";
 import My from "./pages/calendar/my/My";
 import Team from "./pages/calendar/team/Team";

@@ -22,7 +22,6 @@ function BoardDetail() {
         const res = await fetchPostsDetail(id);
         const resComment = await fetchPostsComments(id);
         setPageData(res.data);
-        console.log(res.data);
         setComments(resComment.data);
       } catch (error) {
         console.log(error);
@@ -122,7 +121,7 @@ function BoardDetail() {
           {comments.content?.map((e, i) => {
             return (
               <S.CommentList key={i}>
-                <CommentList content={e.content} />
+                <CommentList data={e} />
               </S.CommentList>
             );
           })}
