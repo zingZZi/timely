@@ -1,39 +1,152 @@
 import styled from "styled-components";
 
 export const ProjectDetail = styled.section`
-    background-color: ${({ theme }) => theme.colors.white};
-    padding:2.4rem;
-    border:1px solid ${({ theme }) => theme.colors.gray[200]};
-    display: grid;
-	grid-template-columns: 1fr auto;
-    align-items: center;
-    column-gap: 1.2rem;
-    border-radius: 1.2rem;
-`
+  background-color: ${({ theme }) => theme.colors.white};
+  padding: 2.4rem;
+  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  border-radius: 1.2rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 1.2rem;
+
+  margin-bottom: 2.4rem;
+`;
 
 export const ProjectTitle = styled.h2`
-    grid-column: 1/3;
-    order: 1; 
-    margin-bottom: .4rem;
-    font-size: ${({ theme }) => theme.fontSizes.xxl};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    line-height: 3.2rem;
-`
+  grid-column: 1/3;
+  order: 1;
+  margin-bottom: 0.4rem;
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 3.2rem;
+`;
 
-export const ProjectSummery = styled.p`
-grid-column: 1/3;
-order: 3;
-
-`
+export const ProjectDescription = styled.p`
+  grid-column: 1/3;
+  order: 3;
+  line-height: 2rem;
+  color: ${({ theme }) => theme.colors.gray[700]};
+`;
 export const ProjectState = styled.span`
-grid-column: 3/4;
-order: 2;
-padding:.4rem 1.2rem;
-`
+  grid-column: 3/4;
+  order: 2;
+  padding: 0.4rem 1.2rem;
+`;
 
-export const ProjectInfos = styled.ul`
-grid-column: 1/4;
-order: 4;
-margin-top:2rem;
-display: flex;
-`
+export const PrjoectSummary = styled.ul`
+  grid-column: 1/4;
+  order: 4;
+  margin-top: 2rem;
+  display: flex;
+  gap: 1.6rem;
+`;
+
+export const SummaryList = styled.li`
+  padding: 1.6rem;
+  border-radius: 0.8rem;
+  flex-grow: 1;
+  font-size: ${({ theme }) => theme.fontSizes.xxs};
+  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  background-color: ${({ theme }) => theme.colors.gray[100]};
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  &:first-child {
+  }
+`;
+
+export const SummaryItem = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+  color: ${({ theme }) => theme.colors.gray[700]};
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+`;
+
+export const SummeyValue = styled.strong`
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  line-height: 2.4rem;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  width: 100%;
+`;
+
+export const GraphContent = styled.div`
+  width: 100%;
+`;
+
+export const GraphText = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: ${({ theme }) => theme.colors.main};
+  font-size: ${({ theme }) => theme.fontSizes.xxs};
+  strong {
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    font-size: ${({ theme }) => theme.fontSizes.md};
+  }
+`;
+
+export const Graph = styled.div`
+  margin: 0.8rem 0 0;
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 100px;
+  overflow: hidden;
+  background-color: ${({ theme }) => theme.colors.gray[300]};
+`;
+
+export const GraphPerCent = styled.i`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 8px;
+  border-radius: 100px;
+  background-color: ${({ theme }) => theme.colors.main};
+`;
+
+export const TabWrap = styled.nav`
+  display: flex;
+  gap: 2.4rem;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  margin-bottom: 2.4rem;
+`;
+
+export const TabBtn = styled.button`
+  padding: 1.2rem 0.4rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.gray[700]};
+  gap: 0.4rem;
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  &:hover {
+    color: ${({ theme }) => theme.colors.black};
+  }
+
+  &.active {
+    color: ${({ theme }) => theme.colors.main};
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background-color: ${({ theme }) => theme.colors.main};
+    }
+  }
+`;
+
+export const TabContent = styled.section``;
