@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { fetchPostsComments, fetchPostsDetail } from "../../api/boardApi";
+import {
+  fetchPostsComments,
+  fetchPostsDetail,
+  postLike,
+  removeLike,
+} from "../../api/boardApi";
 import * as S from "./BoardDetail.style";
 import { CATEGORYMAP, STATUSMAP } from "../../constants/boardBadge";
 import CommentForm from "../../components/Comment/CommentForm";
@@ -12,6 +17,7 @@ function BoardDetail() {
   const { id } = useParams();
   const [pageData, setPageData] = useState({});
   const [comments, setComments] = useState({});
+  const [like, setLike] = useState(false);
 
   const categoryInfo = CATEGORYMAP[pageData.category];
   const statusInfo = STATUSMAP[pageData.status];
@@ -23,12 +29,31 @@ function BoardDetail() {
         const resComment = await fetchPostsComments(id);
         setPageData(res.data);
         setComments(resComment.data);
+        setLike(res.data.likedByMe);
       } catch (error) {
         console.log(error);
       }
     };
     detailData();
-  }, []);
+  }, [id]);
+
+  const handleLike = async () => {
+    try {
+      if (like) {
+        await removeLike(id);
+        setLike(false);
+      } else {
+        await postLike(id);
+        setLike(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleLike;
+  }, [like]);
 
   return (
     <>
@@ -57,8 +82,13 @@ function BoardDetail() {
             </S.LabelWrap>
 
             <S.BoardActionBtns>
-              <button type="button">
-                <Heart />
+              <button
+                type="button"
+                onClick={() => {
+                  handleLike();
+                }}
+              >
+                <Heart className={like === true ? "active" : null} />
                 <span className="text-ir">좋아요</span>
               </button>
               <button type="button">
@@ -89,7 +119,7 @@ function BoardDetail() {
               <p>
                 <span className="text-ir">좋아요 갯수</span>
                 <Heart />
-                <span>0</span>
+                <span>{pageData.likeCount}</span>
               </p>
 
               <p>

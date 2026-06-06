@@ -44,6 +44,10 @@ export const BoardActionBtns = styled.div`
       width: 2rem;
       height: 2rem;
       color: ${({ theme }) => theme.colors.gray[600]};
+      &.active {
+        color: ${({ theme }) => theme.colors.main};
+        fill: ${({ theme }) => theme.colors.main};
+      }
     }
   }
 `;

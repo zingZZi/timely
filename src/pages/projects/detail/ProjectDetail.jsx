@@ -8,8 +8,16 @@ import {
   GitBranch,
 } from "lucide-react";
 import * as S from "./ProjectDetail.style";
+import { useState } from "react";
 
 function ProjectDetail() {
+  const tabMenu = [
+    { icon: <LayoutDashboard />, menu: "개요" },
+    { icon: <ListTodo />, menu: "작업목록" },
+    { icon: <Activity />, menu: "진행 상황 및 업데이트" },
+    { icon: <GitBranch />, menu: "타임라인" },
+  ];
+  const [activeBtn, setActiveBtn] = useState(0);
   return (
     <>
       <a href="">프로젝트페이지로 돌아가기</a>
@@ -57,22 +65,20 @@ function ProjectDetail() {
       </S.ProjectDetail>
 
       <S.TabWrap>
-        <S.TabBtn className="active">
-          <LayoutDashboard />
-          개요
-        </S.TabBtn>
-        <S.TabBtn>
-          <ListTodo />
-          작업목록
-        </S.TabBtn>
-        <S.TabBtn>
-          <Activity />
-          진행 상황 및 업데이트
-        </S.TabBtn>
-        <S.TabBtn>
-          <GitBranch />
-          타임라인
-        </S.TabBtn>
+        {tabMenu.map((e, i) => {
+          return (
+            <S.TabBtn
+              key={i}
+              className={activeBtn === i ? "active" : null}
+              onClick={() => {
+                setActiveBtn(i);
+              }}
+            >
+              {e.icon}
+              {e.menu}
+            </S.TabBtn>
+          );
+        })}
       </S.TabWrap>
 
       <S.TabContent>

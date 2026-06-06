@@ -64,3 +64,22 @@ export const Date = styled.span`
   color: ${({ theme }) => theme.colors.gray[500]};
   font-size: ${({ theme }) => theme.fontSizes.xs};
 `;
+
+export const CardActionsList = styled.div`
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: start;
+`;
+
+export const Actions = styled.div`
+  display: flex;
+  color: ${({ theme }) => theme.colors.gray[600]};
+  gap: 0.3rem;
+  align-items: center;
+  justify-content: start;
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+`;

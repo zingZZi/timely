@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import * as S from "./CardList.style";
+import { MessageCircle, Heart } from "lucide-react";
 import { CATEGORYMAP, STATUSMAP } from "../../../constants/boardBadge";
 
 function CardList({ data }) {
   const categoryInfo = CATEGORYMAP[data.category];
   const statusInfo = STATUSMAP[data.status];
+  const content = data.content.replace(/<[^>]*>/g, "").substring(0, 50);
+  console.log(data);
   return (
     <S.BoardCard>
       <Link to={`detail/${data.boardPostSn}`}>
@@ -27,7 +30,7 @@ function CardList({ data }) {
           </S.Icon>
         </S.IconWrap>
         <S.Title>{data.title}</S.Title>
-        <S.SubText>{data.content}</S.SubText>
+        <S.SubText>{content}</S.SubText>
         <S.BoardInfos>
           <S.WriterInfo>
             <S.Thumb></S.Thumb>
@@ -36,7 +39,16 @@ function CardList({ data }) {
             <S.Date>{data.createDt.split("T")[0]}</S.Date>
           </S.WriterInfo>
 
-          <div></div>
+          <S.CardActionsList>
+            <S.Actions>
+              <MessageCircle />
+              {data.commentCount}
+            </S.Actions>
+            <S.Actions>
+              <Heart className={data.likedByMe === true ? "active" : null} />
+              {data.likeCount}
+            </S.Actions>
+          </S.CardActionsList>
         </S.BoardInfos>
       </Link>
     </S.BoardCard>
