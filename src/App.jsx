@@ -14,6 +14,7 @@ import Team from "./pages/calendar/team/Team";
 import BoardDetail from "./pages/boardDetail/boardDetail";
 import BoardWrite from "./pages/boardWrite/BoardWrite";
 import ProjectDetail from "./pages/projects/detail/ProjectDetail";
+import NewProject from "./pages/projects/new/NewProject";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           </Route>
           <Route path="projects" element={<Projects />} />
           <Route path="projects/detail/:id" element={<ProjectDetail/>} />
+          <Route path="projects/new" element={<NewProject/>} />
           <Route path="board" element={<Board />} />
           <Route path="board/detail/:id" element={<BoardDetail />} />
           <Route path="board/write" element={<BoardWrite />} />

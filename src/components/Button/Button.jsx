@@ -32,3 +32,18 @@ export const BasicBtn = styled.button`
 export const BasicLink = styled(Link)`
   ${BasicBtnStyle}
 `;
+
+export const BackPageLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: ${({ theme }) => theme.colors.gray[600]};
+  margin-bottom: 2.4rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  gap:.8rem;
+  svg{
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+`
