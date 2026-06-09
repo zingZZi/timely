@@ -15,12 +15,20 @@ import BoardDetail from "./pages/boardDetail/boardDetail";
 import BoardWrite from "./pages/boardWrite/BoardWrite";
 import ProjectDetail from "./pages/projects/detail/ProjectDetail";
 import NewProject from "./pages/projects/new/NewProject";
+import ProtectedRoute from './components/routes/ProtectedRoute';
+
 
 function App() {
   return (
     <AppProvider>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<MainLayout />}>
           <Route path="" element={<Home />} />
           <Route path="schedule" element={<Calendar />}>
             <Route path="my" element={<My />} />
@@ -33,10 +41,9 @@ function App() {
           <Route path="board/detail/:id" element={<BoardDetail />} />
           <Route path="board/write" element={<BoardWrite />} />
         </Route>
-        <Route path="/auth" element={<AuthLayout />}>
-          <Route path="signin" element={<SignIn />} />
-          <Route path="signup" element={<SignUp />} />
+
         </Route>
+        
       </Routes>
     </AppProvider>
   );
