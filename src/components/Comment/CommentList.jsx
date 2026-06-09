@@ -1,18 +1,30 @@
 import { useState } from "react";
 import * as S from "./Comment.style";
-import { ThumbsUp, CornerDownRight } from "lucide-react";
+import { ThumbsUp, CornerDownRight,Trash2 } from "lucide-react";
 import CommentForm from "./CommentForm";
+import {removePostsComments} from '../../api/boardApi';
 
 function CommentList({ data }) {
+  console.log(data)
   const [commentTumb, setCommentTumb] = useState("");
   const [reCommentBox, setReCommentBox] = useState(false);
-
+  
   function recommentBoxShow() {
     setReCommentBox(!reCommentBox);
   }
   function recommentBoxHidden() {
     setReCommentBox(false);
   }
+
+
+  const remvoeComment= async()=>{
+    try{
+    removePostsComments(data.boardPostSn,data.boardCommentSn)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   return (
     <S.Comment $size="big">
       <S.Profile>
@@ -20,8 +32,8 @@ function CommentList({ data }) {
       </S.Profile>
       <S.CommentListCont>
         <S.CommentListInfo>
-          <S.Name>이름누락</S.Name>
-          <S.Time>2025-01-15 15:20</S.Time>
+          <S.Name>{data.authorName}</S.Name>
+          <S.Time>{data.createDt}</S.Time>
         </S.CommentListInfo>
         <S.CommnetText>{data.content}</S.CommnetText>
 
@@ -45,6 +57,11 @@ function CommentList({ data }) {
           <CommentForm size="small" cancle={recommentBoxHidden} />
         ) : null}
       </S.CommentListCont>
+      {/* 작성자가 본인일시 노출 */}
+      <S.DeleteBtn onClick={() => {
+        // 삭제 로직 추가
+        remvoeComment()
+      }}><Trash2/></S.DeleteBtn>
     </S.Comment>
   );
 }

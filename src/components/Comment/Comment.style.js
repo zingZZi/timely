@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BasicBtnStyle } from "../Button/Button";
 
 export const Comment = styled.section`
+  position:relative;
   display: flex;
   align-items: flex-start;
   background-color: ${({ theme }) => theme.colors.white};
@@ -142,3 +143,14 @@ export const TumbNum = styled.span`
 `;
 
 export const ReCommentBtn = styled.button``;
+
+export const DeleteBtn = styled.button`
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+  svg{
+    width:1.4rem;
+    height:1.4rem;
+    color: ${({ theme }) => theme.colors.gray[700]};
+  }
+`

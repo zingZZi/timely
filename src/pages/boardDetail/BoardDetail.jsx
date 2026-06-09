@@ -18,6 +18,7 @@ function BoardDetail() {
   const [pageData, setPageData] = useState({});
   const [comments, setComments] = useState({});
   const [like, setLike] = useState(false);
+  const [likeNum, setLikeNum] = useState('');
 
   const categoryInfo = CATEGORYMAP[pageData.category];
   const statusInfo = STATUSMAP[pageData.status];
@@ -26,10 +27,9 @@ function BoardDetail() {
     const detailData = async () => {
       try {
         const res = await fetchPostsDetail(id);
-        const resComment = await fetchPostsComments(id);
         setPageData(res.data);
-        setComments(resComment.data);
         setLike(res.data.likedByMe);
+        setLikeNum(res.data.likeCount);
       } catch (error) {
         console.log(error);
       }
@@ -37,14 +37,26 @@ function BoardDetail() {
     detailData();
   }, [id]);
 
+  const getComments = async () => {
+    try {
+      const resComment = await fetchPostsComments(id);
+      setComments(resComment.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   const handleLike = async () => {
     try {
       if (like) {
         await removeLike(id);
         setLike(false);
+        setLikeNum(likeNum-1)
       } else {
         await postLike(id);
         setLike(true);
+        setLikeNum(likeNum+1)
       }
     } catch (error) {
       console.log(error);
@@ -52,8 +64,8 @@ function BoardDetail() {
   };
 
   useEffect(() => {
-    handleLike;
-  }, [like]);
+  getComments();
+}, [id]);
 
   return (
     <>
@@ -119,13 +131,13 @@ function BoardDetail() {
               <p>
                 <span className="text-ir">좋아요 갯수</span>
                 <Heart />
-                <span>{pageData.likeCount}</span>
+                <span>{likeNum}</span>
               </p>
 
               <p>
                 <span className="text-ir">댓글 갯수</span>
                 <MessageCircle />
-                <S.CommentCount>{pageData.commentCount}</S.CommentCount>
+                <S.CommentCount>{comments.totalElements}</S.CommentCount>
               </p>
             </S.BoardState>
           </S.BoardMetaRow>
@@ -144,7 +156,7 @@ function BoardDetail() {
         </S.CommentTitle>
 
         <div>
-          <CommentForm size="big" />
+          <CommentForm size="big" onCommentCreated={getComments} />
         </div>
 
         <S.CommentLists>

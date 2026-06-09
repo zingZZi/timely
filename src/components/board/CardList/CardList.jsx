@@ -41,12 +41,12 @@ function CardList({ data }) {
 
           <S.CardActionsList>
             <S.Actions>
-              <MessageCircle />
-              {data.commentCount}
-            </S.Actions>
-            <S.Actions>
               <Heart className={data.likedByMe === true ? "active" : null} />
               {data.likeCount}
+            </S.Actions>
+            <S.Actions>
+              <MessageCircle />
+              {data.commentCount}
             </S.Actions>
           </S.CardActionsList>
         </S.BoardInfos>

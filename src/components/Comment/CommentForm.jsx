@@ -3,7 +3,7 @@ import * as S from "./Comment.style";
 import { useParams } from "react-router-dom";
 import { postComments } from "../../api/boardApi";
 
-function CommentForm({ size, cancle }) {
+function CommentForm({ size, cancle,onCommentCreated}) {
   const { id } = useParams();
   const [textCount, setTextCount] = useState(0);
   const [commentText, setCommentText] = useState("");
@@ -20,6 +20,7 @@ function CommentForm({ size, cancle }) {
       });
       setTextCount(0);
       setCommentText("");
+      onCommentCreated();
     } catch (error) {
       console.log(error);
     }
