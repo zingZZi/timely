@@ -13,13 +13,21 @@ import {
 import * as S from "./ProjectDetail.style";
 import { useState } from "react";
 import { BackPageLink } from "../../../components/Button/Button";
+import OverviewTab from "./tabs/OverviewTab";
+import TaskListTab from "./tabs/TaskListTab";
+import ProgressUpdateTab from "./tabs/ProgressUpdateTab";
+import TimelineTab from "./tabs/TimelineTab";
 
 function ProjectDetail() {
-  const tabMenu = [
-    { icon: <LayoutDashboard />, menu: "개요" },
-    { icon: <ListTodo />, menu: "작업목록" },
-    { icon: <Activity />, menu: "진행 상황 및 업데이트" },
-    { icon: <GitBranch />, menu: "타임라인" },
+  const tabs = [
+    { icon: <LayoutDashboard />, menu: "개요", component: <OverviewTab /> },
+    { icon: <ListTodo />, menu: "작업목록", component: <TaskListTab /> },
+    {
+      icon: <Activity />,
+      menu: "진행 상황 및 업데이트",
+      component: <ProgressUpdateTab />,
+    },
+    { icon: <GitBranch />, menu: "타임라인", component: <TimelineTab /> },
   ];
   const [activeBtn, setActiveBtn] = useState(0);
   return (
@@ -81,7 +89,7 @@ function ProjectDetail() {
       </S.ProjectDetail>
 
       <S.TabWrap>
-        {tabMenu.map((e, i) => {
+        {tabs.map((e, i) => {
           return (
             <S.TabBtn
               key={i}
@@ -98,7 +106,7 @@ function ProjectDetail() {
       </S.TabWrap>
 
       <S.TabContent>
-        <h2>개요</h2>
+        {tabs.find((tab, index) => index === activeBtn)?.component}
       </S.TabContent>
     </>
   );
