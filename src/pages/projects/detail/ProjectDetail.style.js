@@ -5,33 +5,55 @@ export const ProjectDetail = styled.section`
   padding: 2.4rem;
   border: 1px solid ${({ theme }) => theme.colors.gray[200]};
   border-radius: 1.2rem;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  column-gap: 1.2rem;
-
   margin-bottom: 2.4rem;
 `;
 
-export const ProjectTitle = styled.h2`
-  grid-column: 1/3;
-  order: 1;
+export const ProjectInfoTop = styled.div`
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
   margin-bottom: 0.4rem;
+`;
+
+export const ProjectTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.xxl};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 3.2rem;
 `;
-
-export const ProjectDescription = styled.p`
-  grid-column: 1/3;
-  order: 3;
-  line-height: 2rem;
-  color: ${({ theme }) => theme.colors.gray[700]};
+export const TagWrap = styled.div`
+  display: flex;
+  gap: 1rem;
+  > span {
+    padding: 0.4rem 1rem;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    line-height: 1.6rem;
+    svg {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+`;
+export const Visibility = styled.span`
+  background-color: #f3f4f6;
+  color: #6b7280;
+`;
+export const Exception = styled.span`
+  background-color: #fffbeb;
+  color: #d97706;
 `;
 export const ProjectState = styled.span`
-  grid-column: 3/4;
-  order: 2;
-  padding: 0.4rem 1.2rem;
+  background-color: pink;
+`;
+
+export const ProjectDescription = styled.p`
+  line-height: 2rem;
+  margin-bottom: 0.4rem;
+  color: ${({ theme }) => theme.colors.gray[700]};
 `;
 
 export const PrjoectSummary = styled.ul`

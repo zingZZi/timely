@@ -7,7 +7,6 @@ function CardList({ data }) {
   const categoryInfo = CATEGORYMAP[data.category];
   const statusInfo = STATUSMAP[data.status];
   const content = data.content.replace(/<[^>]*>/g, "").substring(0, 50);
-  console.log(data);
   return (
     <S.BoardCard>
       <Link to={`detail/${data.boardPostSn}`}>

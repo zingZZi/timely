@@ -3,7 +3,11 @@ import { Navigate, Outlet } from "react-router-dom";
 function ProtectedRoute() {
   const token = localStorage.getItem("accessToken");
 
-  return token ? <Outlet /> : <Navigate to="/auth/signin" replace />;
+  if (!token) {
+    return <Navigate to="/auth/signin" replace />;
+  }
+
+  return <Outlet />;
 }
 
 export default ProtectedRoute;

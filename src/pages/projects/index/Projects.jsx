@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import * as S from "./Index.style";
-import { User, Calendar } from "lucide-react";
+import { User, Calendar, Eye, EyeOff } from "lucide-react";
 
 function Projects() {
   return (
@@ -59,6 +59,10 @@ function Projects() {
                 <Calendar />
                 2024-02-13
               </S.ProjectInfo>
+              <S.VisibilityTag>
+                <Eye />
+                공개
+              </S.VisibilityTag>
               <S.TagWrap>
                 <S.Tag>웹개발</S.Tag>
                 <S.Tag>UI/UX</S.Tag>
