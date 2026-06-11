@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BasicBtnStyle } from "../../../../components/Button/Button";
 
 export const TaskListTab = styled.section``;
 export const TabHeader = styled.div`
@@ -6,6 +7,7 @@ export const TabHeader = styled.div`
   align-items: center;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 2rem;
 `;
 export const TabTitleTitle = styled.h3`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -18,12 +20,32 @@ export const TabTitleSum = styled.p`
   color: ${({ theme }) => theme.colors.gray[600]};
 `;
 export const AddTaskBtn = styled.button`
+  ${BasicBtnStyle}
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.5rem;
   svg {
     width: 1.6rem;
     height: 1.6rem;
+  }
+`;
+
+export const ColFormWrap = styled.div`
+  display: flex;
+  gap: 1.6rem;
+`;
+
+export const FromBtnsWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  button {
+    border-radius: 0.5rem;
+    padding: 0.8rem 1.6rem;
   }
 `;
 
@@ -50,6 +72,14 @@ export const TaskSummaryList = styled.li`
     background-color: pink;
     border-radius: 50%;
   }
+`;
+
+export const AddTaskForm = styled.form`
+  padding: 0.6rem 2rem 2rem;
+  border-radius: 1.2rem;
+  margin-bottom: 2rem;
+  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 export const TaskLists = styled.ul`

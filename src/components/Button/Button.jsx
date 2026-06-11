@@ -33,6 +33,10 @@ export const BasicLink = styled(Link)`
   ${BasicBtnStyle}
 `;
 
+export const BasicCancleBtn = styled.button`
+  ${CancleBtnStyle}
+`;
+
 export const BackPageLink = styled(Link)`
   display: flex;
   align-items: center;
@@ -40,10 +44,9 @@ export const BackPageLink = styled(Link)`
   color: ${({ theme }) => theme.colors.gray[600]};
   margin-bottom: 2.4rem;
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  gap:.8rem;
-  svg{
+  gap: 0.8rem;
+  svg {
     width: 1.6rem;
     height: 1.6rem;
   }
-
-`
+`;

@@ -1,7 +1,19 @@
 import { Ellipsis, Plus, User, Calendar } from "lucide-react";
 import * as S from "./TaskListTab.style";
+import FormField from "../../../../components/form/FormField/FormField";
+import Input from "../../../../components/form/Input/Input";
+import NativeSelect from "../../../../components/form/Select/NativeSelect";
+import { useState } from "react";
+import { BasicBtn, BasicCancleBtn } from "../../../../components/Button/Button";
 
 function TaskListTab() {
+  const [formShow, setFormShow] = useState(false);
+  const [addTaskForm, setAddTaskForm] = useState({
+    taskName: "",
+    manager: "",
+    priority: "",
+    deadLine: "",
+  });
   return (
     <S.TaskListTab>
       <S.TabHeader>
@@ -11,20 +23,56 @@ function TaskListTab() {
             상태를 변경하면 진행 업데이트에 자동 기록됩니다
           </S.TabTitleSum>
         </div>
-        <S.AddTaskBtn>
+        <S.AddTaskBtn
+          onClick={() => {
+            setFormShow(!formShow);
+          }}
+        >
           <Plus />
           작업추가
         </S.AddTaskBtn>
       </S.TabHeader>
-      <form action="">
-        <fieldset>
-          <legend>작업추가하기</legend>
-          <label htmlFor="">작업명</label>
-          <input type="text" />
-        </fieldset>
-        <button>취소</button>
-        <button>추가</button>
-      </form>
+      {formShow ? (
+        <S.AddTaskForm action="">
+          <fieldset>
+            <legend className="text-ir">작업추가하기</legend>
+            <S.ColFormWrap>
+              <FormField must="must" label="작업명 " id="TaskName">
+                <Input placeholder="작업명 " />
+              </FormField>
+
+              <FormField label="담당자" id="manager">
+                <NativeSelect
+                  placeholder="우선순위를 선택해주세요"
+                  datalists={["김민수", "김실명"]}
+                  value={addTaskForm.manager}
+                  dataValue="manager"
+                  dataText="manager"
+                />
+              </FormField>
+            </S.ColFormWrap>
+            <S.ColFormWrap>
+              <FormField label="우선순위" id="priority">
+                <NativeSelect
+                  placeholder="우선순위를 선택해주세요"
+                  datalists={["보통", "긴급"]}
+                  value={addTaskForm.priority}
+                  dataValue="positionCd"
+                  dataText="positionNm"
+                />
+              </FormField>
+              <FormField must="must" label="마감일 " id="deadline">
+                <Input type="date" />
+              </FormField>
+            </S.ColFormWrap>
+          </fieldset>
+          <S.FromBtnsWrap>
+            <BasicCancleBtn>취소</BasicCancleBtn>
+            <BasicBtn>추가</BasicBtn>
+          </S.FromBtnsWrap>
+        </S.AddTaskForm>
+      ) : null}
+
       <S.TaskSummary>
         <p>총 6개 작업</p>
         <S.TaskSummaryLists>
