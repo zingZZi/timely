@@ -1,0 +1,105 @@
+import styled from "styled-components";
+
+export const TaskListTab = styled.section``;
+export const TabHeader = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+export const TabTitleTitle = styled.h3`
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  margin-bottom: 0.4rem;
+`;
+export const TabTitleSum = styled.p`
+  width: 100%;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.gray[600]};
+`;
+export const AddTaskBtn = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+`;
+
+export const TaskSummary = styled.div`
+  display: flex;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  gap: 1.6rem;
+  margin-bottom: 1.6rem;
+  color: ${({ theme }) => theme.colors.gray[600]};
+`;
+export const TaskSummaryLists = styled.ul`
+  display: flex;
+  gap: 1rem;
+`;
+export const TaskSummaryList = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  &::before {
+    content: "";
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    background-color: pink;
+    border-radius: 50%;
+  }
+`;
+
+export const TaskLists = styled.ul`
+  border-radius: 1.2rem;
+  overflow: hidden;
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+export const TaskList = styled.li`
+  padding: 2rem;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  button {
+    flex-shrink: 0;
+  }
+`;
+export const TaskHeader = styled.div`
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+export const TaskTitle = styled.h4`
+  font-size: ${({ theme }) => theme.fontSizes.md};
+`;
+
+export const Tasklabel = styled.span`
+  padding: 0.4rem 0.8rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  border-radius: 0.4rem;
+  background-color: pink;
+`;
+
+export const TaskMeta = styled.ul`
+  display: flex;
+  gap: 1.2rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.gray[600]};
+`;
+export const TaskMetaItem = styled.li`
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+`;

@@ -64,6 +64,11 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 0;
     text-indent: -9999px;
     overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
   }
   button{
     background-color: transparent;
