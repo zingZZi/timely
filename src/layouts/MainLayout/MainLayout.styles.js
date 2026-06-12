@@ -16,4 +16,5 @@ export const MainContainer = styled.div`
 export const Container = styled.div`
   padding:3.2rem;
   overflow-y: auto;
+  height: 100%;
 `

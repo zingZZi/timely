@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { BasicBtnStyle } from "../../../../components/Button/Button";
+import { hexToRgba } from "../../../../styles/utils/color";
 
 export const TaskListTab = styled.section``;
 export const TabHeader = styled.div`
@@ -11,13 +12,13 @@ export const TabHeader = styled.div`
 `;
 export const TabTitleTitle = styled.h3`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
+  font-size: ${({ theme }) => theme.fontSizes.md};
   margin-bottom: 0.4rem;
 `;
 export const TabTitleSum = styled.p`
   width: 100%;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  color: ${({ theme }) => theme.colors.gray[600]};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  color: ${({ theme }) => theme.colors.gray[500]};
 `;
 export const AddTaskBtn = styled.button`
   ${BasicBtnStyle}
@@ -51,7 +52,7 @@ export const FromBtnsWrap = styled.div`
 
 export const TaskSummary = styled.div`
   display: flex;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   gap: 1.6rem;
   margin-bottom: 1.6rem;
   color: ${({ theme }) => theme.colors.gray[600]};
@@ -84,7 +85,6 @@ export const AddTaskForm = styled.form`
 
 export const TaskLists = styled.ul`
   border-radius: 1.2rem;
-  overflow: hidden;
   background-color: ${({ theme }) => theme.colors.white};
 `;
 export const TaskList = styled.li`
@@ -93,12 +93,17 @@ export const TaskList = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position:relative;
   &:last-child {
     border-bottom: 0;
   }
 
   button {
     flex-shrink: 0;
+  }
+
+  &:hover{
+    background-color: ${({ theme }) => hexToRgba(theme.colors.gray[200], 0.1)};
   }
 `;
 export const TaskHeader = styled.div`
@@ -108,12 +113,12 @@ export const TaskHeader = styled.div`
   margin-bottom: 1rem;
 `;
 export const TaskTitle = styled.h4`
-  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
 `;
 
 export const Tasklabel = styled.span`
   padding: 0.4rem 0.8rem;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   border-radius: 0.4rem;
   background-color: pink;
 `;
@@ -121,7 +126,8 @@ export const Tasklabel = styled.span`
 export const TaskMeta = styled.ul`
   display: flex;
   gap: 1.2rem;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  line-height:1.6rem;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   color: ${({ theme }) => theme.colors.gray[600]};
 `;
 export const TaskMetaItem = styled.li`
@@ -133,3 +139,55 @@ export const TaskMetaItem = styled.li`
     height: 1.4rem;
   }
 `;
+
+export const StateCahngeBtn = styled.button`
+  display: flex;
+  width:2.4rem;
+  height:2.4rem;
+  align-items:center;
+  justify-content:center;
+  svg{
+    width:1.6rem;
+    height:1.6rem;
+  color: ${({ theme }) => theme.colors.gray[600]};
+  }
+`
+
+export const ChangeStateWrap = styled.div`
+  position:absolute;
+  background-color: ${({ theme }) => theme.colors.white};
+  border:1px solid ${({ theme }) => theme.colors.gray[200]};
+  border-radius:0.8rem;
+  padding:1rem  1.2rem;
+  right:2rem;
+  top:50%;
+`
+
+export const ChangeStateHeader = styled.p`
+  padding:.6rem 0rem;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  color: ${({ theme }) => theme.colors.gray[600]};
+`
+
+export const ChageStateBtn = styled.button`
+  width:100%;
+  display:flex;
+  align-items:center;
+  padding:.8rem 0;
+  gap:0.4rem;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  color: ${({ theme }) => theme.colors.gray[600]};
+`
+
+export const IconWrap = styled.span`
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:.4rem;
+  background-color: ${({ theme }) => theme.colors.main};
+  border-radius:.5rem;
+  svg{
+    width:1.4rem;
+    height:1.4rem;
+  }
+`

@@ -1,4 +1,4 @@
-import { Ellipsis, Plus, User, Calendar } from "lucide-react";
+import { Ellipsis, Plus, User, Calendar,Clock3,CircleCheck } from "lucide-react";
 import * as S from "./TaskListTab.style";
 import FormField from "../../../../components/form/FormField/FormField";
 import Input from "../../../../components/form/Input/Input";
@@ -8,6 +8,7 @@ import { BasicBtn, BasicCancleBtn } from "../../../../components/Button/Button";
 
 function TaskListTab() {
   const [formShow, setFormShow] = useState(false);
+  const [changeState, setChangeState] = useState(false);
   const [addTaskForm, setAddTaskForm] = useState({
     taskName: "",
     manager: "",
@@ -100,32 +101,19 @@ function TaskListTab() {
               </S.TaskMetaItem>
             </S.TaskMeta>
           </div>
-          <button type="button" aria-label="작업 메뉴">
+          <S.StateCahngeBtn type="button" aria-label="작업 메뉴">
             <Ellipsis aria-label="작업 메뉴 열기" />
-          </button>
-        </S.TaskList>
+          </S.StateCahngeBtn>
 
-        <S.TaskList>
-          <div>
-            <S.TaskHeader>
-              <S.TaskTitle>요구사항 분석 및 기획구사항</S.TaskTitle>
-              <S.Tasklabel>완료</S.Tasklabel>
-              <S.Tasklabel>높음</S.Tasklabel>
-            </S.TaskHeader>
-            <S.TaskMeta>
-              <S.TaskMetaItem>
-                <Calendar />
-                2024-01-20
-              </S.TaskMetaItem>
-              <S.TaskMetaItem>
-                <User />
-                담당자 김민수
-              </S.TaskMetaItem>
-            </S.TaskMeta>
-          </div>
-          <button type="button" aria-label="작업 메뉴">
-            <Ellipsis aria-label="작업 메뉴 열기" />
-          </button>
+          <S.ChangeStateWrap>
+            <S.ChangeStateHeader>상태변경</S.ChangeStateHeader>
+            <S.ChageStateBtn>
+              <S.IconWrap><Clock3/></S.IconWrap>대기(으)로 변경</S.ChageStateBtn>
+            <S.ChageStateBtn>
+              <S.IconWrap><CircleCheck/></S.IconWrap>
+              완료(으)로 변경
+            </S.ChageStateBtn>
+          </S.ChangeStateWrap>
         </S.TaskList>
       </S.TaskLists>
     </S.TaskListTab>
