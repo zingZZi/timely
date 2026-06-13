@@ -1,10 +1,10 @@
 import { Ellipsis, Plus, User, Calendar,Clock3,CircleCheck } from "lucide-react";
 import * as S from "./TaskListTab.style";
-import FormField from "../../../../components/form/FormField/FormField";
-import Input from "../../../../components/form/Input/Input";
-import NativeSelect from "../../../../components/form/Select/NativeSelect";
+import FormField from "../../../../../components/form/FormField/FormField";
+import Input from "../../../../../components/form/Input/Input";
+import NativeSelect from "../../../../../components/form/Select/NativeSelect";
+import { BasicBtn, BasicCancleBtn } from "../../../../../components/Button/Button";
 import { useState } from "react";
-import { BasicBtn, BasicCancleBtn } from "../../../../components/Button/Button";
 
 function TaskListTab() {
   const [formShow, setFormShow] = useState(false);
@@ -39,7 +39,7 @@ function TaskListTab() {
             <legend className="text-ir">작업추가하기</legend>
             <S.ColFormWrap>
               <FormField must="must" label="작업명 " id="TaskName">
-                <Input placeholder="작업명 " />
+                <Input placeholder="작업명 " size="small" />
               </FormField>
 
               <FormField label="담당자" id="manager">
@@ -49,6 +49,7 @@ function TaskListTab() {
                   value={addTaskForm.manager}
                   dataValue="manager"
                   dataText="manager"
+                  size="small"
                 />
               </FormField>
             </S.ColFormWrap>
@@ -60,10 +61,11 @@ function TaskListTab() {
                   value={addTaskForm.priority}
                   dataValue="positionCd"
                   dataText="positionNm"
+                  size="small"
                 />
               </FormField>
               <FormField must="must" label="마감일 " id="deadline">
-                <Input type="date" />
+                <Input type="date" size="small"/>
               </FormField>
             </S.ColFormWrap>
           </fieldset>

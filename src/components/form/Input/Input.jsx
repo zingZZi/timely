@@ -1,6 +1,6 @@
 import * as S from './Input.style';
 
-function Input({type="text",id,placeholder,value,onChange}){
+function Input({type="text",id,size="normal",placeholder,value,onChange}){
     return(
         <S.Input 
           type={type} 
@@ -8,6 +8,7 @@ function Input({type="text",id,placeholder,value,onChange}){
           placeholder={placeholder} 
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          size={size}
         />
     )
 }

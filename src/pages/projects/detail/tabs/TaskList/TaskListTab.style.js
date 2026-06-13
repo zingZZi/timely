@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { BasicBtnStyle } from "../../../../components/Button/Button";
-import { hexToRgba } from "../../../../styles/utils/color";
+import { BasicBtnStyle } from "../../../../../components/Button/Button";
+import { hexToRgba } from "../../../../../styles/utils/color";
 
 export const TaskListTab = styled.section``;
 export const TabHeader = styled.div`

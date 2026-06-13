@@ -6,13 +6,14 @@ import {
   ChevronDown,
 } from "lucide-react";
 import * as S from "./UpdateFeedCard.style";
-import ProfileImg from "../profileImg/ProfileImg";
+import ProfileImg from "../../../../../components/profileImg/ProfileImg";
+import CommentLists from "./CommentLists";
 function UpdateFeedCard() {
   return (
     <S.UpdateFeedCard>
       <ProfileImg size={3.2} img="/img/sample.png" alt="홍길동 프로필 이미지" />
 
-      <div>
+      <S.CardContent>
         <S.CardMeta>
           <S.Name>홍길동</S.Name>
           <S.DateTime dateTime="2024-06-01">2024-06-01</S.DateTime>
@@ -50,12 +51,15 @@ function UpdateFeedCard() {
 
         <S.CommentBtn>
           <MessageSquare />
-          댓글
+          댓글 2개
           <S.CommentArrowWrap>
             <ChevronDown />
           </S.CommentArrowWrap>
         </S.CommentBtn>
-      </div>
+
+
+        <CommentLists/>
+      </S.CardContent>
     </S.UpdateFeedCard>
   );
 }

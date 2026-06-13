@@ -1,8 +1,13 @@
-import { CircleCheck,TrendingUp,Info,FileText,Flag,RefreshCw } from 'lucide-react';
-import ProgressGraph from '../../../../components/progressGraph/ProgressGraph';
+import {Plus,CircleCheck,TrendingUp,Info,FileText,Flag,RefreshCw } from 'lucide-react';
+import ProgressGraph from '../../../../../components/progressGraph/ProgressGraph';
+import UpdateFeedCard from './UpdateFeedCard';
+import ProgressUpdateForm from './ProgressUpdateForm';
 import * as S from "./ProgressUpdateTab.style";
-import UpdateFeedCard from '../../../../components/Card/UpdateFeedCard';
+import { useState } from 'react';
+
 function ProgressUpdateTab() {
+  const [formShow,setFormShow] = useState(false)
+
   return (
     <>
       <h3 className="text-ir">진행 상황 및 업데이트</h3>
@@ -63,7 +68,9 @@ function ProgressUpdateTab() {
         <S.UpdateFeed>
           <S.UpdateFeedHeader>
             <S.FeedTitle>업데이트 피드</S.FeedTitle>
-            <button>새 업데이트 작성</button>
+            <S.AddUpdateButton onClick={()=>{
+              setFormShow(!formShow)
+            }} ><Plus/>새 업데이트 작성</S.AddUpdateButton>
           </S.UpdateFeedHeader>
           <S.Filters>
             <button>전체</button>
@@ -73,6 +80,12 @@ function ProgressUpdateTab() {
             <button><FileText/>노트</button>
             <button><RefreshCw/>작업변경 <span>자동</span></button>
           </S.Filters>
+
+
+          {/* 입력폼 */}
+          {formShow?<ProgressUpdateForm/>:null}
+
+          {/* 리스트 */}
           <ul>
             <li>
               <UpdateFeedCard/>
@@ -80,6 +93,8 @@ function ProgressUpdateTab() {
           </ul>
         </S.UpdateFeed>
 
+
+        {/* 마일스톤영역 */}
         <S.Milestone>
           <S.FeedTitle>마일스톤</S.FeedTitle>
           <S.MilestoneLists>

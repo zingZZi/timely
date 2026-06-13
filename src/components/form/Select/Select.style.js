@@ -9,7 +9,13 @@ export const SelectBox = styled.button`
     align-items: center;
     justify-content: start;
     padding:0 5.6rem 0 1.6rem;
-    height: 5.4rem;
+
+
+    
+    height: ${({ size }) =>
+    size === "small" ? "4.2rem" : "5.4rem"};
+
+    
     font-size: ${({ theme }) => theme.fontSizes.sm};
     border:1px solid  ${({ theme }) => theme.colors.gray[200]};
     border-radius: ${({ theme }) => theme.borderRadius.lg};

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { hexToRgba } from "../../../../styles/utils/color";
+import { hexToRgba } from "../../../../../styles/utils/color";
 
 export const SummaryList = styled.ul`
     display: flex;
@@ -67,6 +67,24 @@ export const FeedTitle = styled.h4`
     font-size: ${({ theme }) => theme.fontSizes.md};
     font-weight: ${({ theme }) => theme.fontWeights.semibold};
 `
+
+export const AddUpdateButton = styled.button`
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    justify-content: center;
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    color: ${({ theme }) => theme.colors.main};
+    svg{
+        width: 1rem;
+        height: 1rem;
+    }
+    :hover{
+        color: ${({ theme }) => theme.colors.mainDark};
+    }
+`
+
+
 
 export const UpdateFeed = styled.section`
 flex-shrink:1;

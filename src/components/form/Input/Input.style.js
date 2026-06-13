@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { hexToRgba } from "../../../styles/utils/color";
 
+
 export let Input = styled.input`
     padding:0 1.6rem;
-    height: 5.4rem;
+    height: ${({ size }) =>
+    size === "small" ? "4.2rem" : "5.4rem"};
+    height: ${(props) => `${props.size}rem`};
     font-size: ${({ theme }) => theme.fontSizes.sm};
     border:1px solid  ${({ theme }) => theme.colors.gray[200]};
-    border-radius: ${({ theme }) => theme.borderRadius.lg} ;
+    border-radius: ${({ theme }) => theme.borderRadius.lg};
+
     &:focus{
         outline: none;
         box-shadow: 0 0  3px 2px ${({ theme }) => hexToRgba(theme.colors.main, 0.4)};;

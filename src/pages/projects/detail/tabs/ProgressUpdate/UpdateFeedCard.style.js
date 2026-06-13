@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { hexToRgba } from "../../styles/utils/color";
+import { hexToRgba } from "../../../../../styles/utils/color";
 
 export const UpdateFeedCard = styled.div`
   padding: 2rem;
@@ -14,7 +14,10 @@ export const UpdateFeedCard = styled.div`
   }
 `;
 
-export const CardContent = styled.div``;
+export const CardContent = styled.div`
+  width: 100%;
+  flex-shrink: 1;
+`;
 export const CardMeta = styled.div`
   display: flex;
   align-items: center;
@@ -113,6 +116,7 @@ export const CommentBtn = styled.button`
   gap: 0.6rem;
   color: ${({ theme }) => hexToRgba(theme.colors.gray[600], 0.8)};
   font-size: ${({ theme }) => theme.fontSizes.xs};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   margin-top: 1.2rem;
   svg {
     width: 1.4rem;
