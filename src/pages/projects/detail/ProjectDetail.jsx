@@ -29,7 +29,7 @@ function ProjectDetail() {
     },
     { icon: <GitBranch />, menu: "타임라인", component: <TimelineTab /> },
   ];
-  const [activeBtn, setActiveBtn] = useState(2);
+  const [activeBtn, setActiveBtn] = useState(3);
   return (
     <>
       <BackPageLink to="/projects">프로젝트페이지로 돌아가기</BackPageLink>

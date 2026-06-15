@@ -131,4 +131,7 @@ export const CommentArrowWrap = styled.span`
     width: 1.2rem;
     height: 1.2rem;
   }
+  rotate: ${({ active }) => {
+    active ? "calc(180deg)" : null;
+  }};
 `;

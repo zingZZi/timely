@@ -8,7 +8,9 @@ import {
 import * as S from "./UpdateFeedCard.style";
 import ProfileImg from "../../../../../components/profileImg/ProfileImg";
 import CommentLists from "./CommentLists";
+import { useState } from "react";
 function UpdateFeedCard() {
+  let [commentLitsShow, setCommentLitsShow] = useState(false);
   return (
     <S.UpdateFeedCard>
       <ProfileImg size={3.2} img="/img/sample.png" alt="홍길동 프로필 이미지" />
@@ -49,16 +51,18 @@ function UpdateFeedCard() {
           </S.FileList>
         </S.FileLists>
 
-        <S.CommentBtn>
+        <S.CommentBtn
+          onClick={() => {
+            setCommentLitsShow(!commentLitsShow);
+          }}
+        >
           <MessageSquare />
           댓글 2개
-          <S.CommentArrowWrap>
+          <S.CommentArrowWrap $active={commentLitsShow}>
             <ChevronDown />
           </S.CommentArrowWrap>
         </S.CommentBtn>
-
-
-        <CommentLists/>
+        {commentLitsShow ? <CommentLists /> : null}
       </S.CardContent>
     </S.UpdateFeedCard>
   );
