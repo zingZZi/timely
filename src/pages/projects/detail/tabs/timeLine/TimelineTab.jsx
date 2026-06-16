@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Plus } from "lucide-react";
 import * as S from "./TimelineTab.style";
 import AddTimeLine from "./AddTimeline";
+import { BasicBtn } from "../../../../../components/Button/Button";
 
 function TimelineTab() {
   let testData = [
@@ -19,6 +20,13 @@ function TimelineTab() {
       summary: "와이어프레임, UI/UX 디자인, 클라이언트 컨펌",
       state: "진행중",
     },
+    {
+      id: "3",
+      title: "개발",
+      date: "2026-10-10~2016-12-12",
+      summary: "와이어프레임, UI/UX 디자인, 클라이언트 컨펌",
+      state: "예정",
+    },
   ];
 
   const [editingId, setEditingId] = useState(null);
@@ -28,25 +36,26 @@ function TimelineTab() {
       <S.ProjectTimeLine>
         <S.Header>
           <S.SectionTitle>프로젝트 타임라인</S.SectionTitle>
-          <button
+          <BasicBtn
             onClick={() => {
               setTimeLineForm(!timeLineForm);
             }}
           >
+            <Plus />
             단계 추가
-          </button>
+          </BasicBtn>
         </S.Header>
         {timeLineForm ? <AddTimeLine /> : null}
         <ol>
           {testData.map((e, i) => {
             return (
               <S.TimeLineList key={e.id}>
-                <S.StateSticker></S.StateSticker>
+                <S.StateSticker state={e.state}></S.StateSticker>
                 <article>
                   <S.TimeLineHeader>
                     <S.TimeTitle>{e.title}</S.TimeTitle>
                     <S.TimeLineControls>
-                      <S.StateLabel>{e.state}</S.StateLabel>
+                      <S.StateLabel state={e.state}>{e.state}</S.StateLabel>
                       <button
                         onClick={() => {
                           setEditingId(i);

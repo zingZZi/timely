@@ -22,13 +22,12 @@ export const LogoLink = styled(Link)`
   justify-content: ${({ $asideopen }) => ($asideopen ? null : "center")};
 `;
 export const LogoIcon = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   width: 2.8rem;
   height: 2.8rem;
-  background-color: pink;
-  color: white;
+  img {
+    max-width: 100%;
+  }
 `;
 
 export const AsideBtnWrap = styled.div`

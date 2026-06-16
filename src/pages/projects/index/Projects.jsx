@@ -9,6 +9,8 @@ function Projects() {
       <PageHeader
         title="프로젝트 관리"
         subtitle="진행 중인 프로젝트들을 효율적으로 관리하세요"
+        linkText="새 프로젝트"
+        link="/projects/new"
       />
 
       <S.Tab>

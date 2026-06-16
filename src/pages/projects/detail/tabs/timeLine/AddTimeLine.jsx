@@ -2,14 +2,18 @@ import FormField from "../../../../../components/form/FormField/FormField";
 import Input from "../../../../../components/form/Input/Input";
 import NativeSelect from "../../../../../components/form/Select/NativeSelect";
 import * as S from "./AddTimeLine.style";
+import {
+  BasicBtn,
+  BasicCancleBtn,
+} from "../../../../../components/Button/Button";
 function AddTimeLine() {
   return (
-    <form>
+    <S.AddTimeLine>
       <fieldset>
         <legend className="text-ir">타임라인 추가양식 폼</legend>
         <S.Colgroup>
           <FormField label="단계명" must>
-            <Input size="4.2" />
+            <Input size="4.2" placeholder="ex) 기획, 디자인, 개발" />
           </FormField>
           <FormField label="상태" must>
             <NativeSelect
@@ -30,10 +34,14 @@ function AddTimeLine() {
         </S.Colgroup>
 
         <FormField label="설명" must>
-          <Input size="4.2" />
+          <Input size="4.2" placeholder="이 단계에서 수행할 작업 내용" />
         </FormField>
       </fieldset>
-    </form>
+      <S.BtnWrap>
+        <BasicCancleBtn>취소</BasicCancleBtn>
+        <BasicBtn>추가</BasicBtn>
+      </S.BtnWrap>
+    </S.AddTimeLine>
   );
 }
 

@@ -65,13 +65,32 @@ export const TaskSummaryList = styled.li`
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  color: ${({ theme, state }) => {
+    switch (state) {
+      case "finish":
+        return theme.colors.main;
+      case "ing":
+        return theme.colors.primary;
+      case "wait":
+        return theme.colors.gray[600];
+    }
+  }};
   &::before {
     content: "";
     position: relative;
     width: 1rem;
     height: 1rem;
-    background-color: pink;
     border-radius: 50%;
+    background-color: ${({ theme, state }) => {
+      switch (state) {
+        case "finish":
+          return theme.colors.main;
+        case "ing":
+          return theme.colors.primary;
+        case "wait":
+          return theme.colors.gray[600];
+      }
+    }};
   }
 `;
 
@@ -93,7 +112,7 @@ export const TaskList = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position:relative;
+  position: relative;
   &:last-child {
     border-bottom: 0;
   }
@@ -102,7 +121,7 @@ export const TaskList = styled.li`
     flex-shrink: 0;
   }
 
-  &:hover{
+  &:hover {
     background-color: ${({ theme }) => hexToRgba(theme.colors.gray[200], 0.1)};
   }
 `;
@@ -126,7 +145,7 @@ export const Tasklabel = styled.span`
 export const TaskMeta = styled.ul`
   display: flex;
   gap: 1.2rem;
-  line-height:1.6rem;
+  line-height: 1.6rem;
   font-size: ${({ theme }) => theme.fontSizes.xs};
   color: ${({ theme }) => theme.colors.gray[600]};
 `;
@@ -142,52 +161,52 @@ export const TaskMetaItem = styled.li`
 
 export const StateCahngeBtn = styled.button`
   display: flex;
-  width:2.4rem;
-  height:2.4rem;
-  align-items:center;
-  justify-content:center;
-  svg{
-    width:1.6rem;
-    height:1.6rem;
-  color: ${({ theme }) => theme.colors.gray[600]};
+  width: 2.4rem;
+  height: 2.4rem;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: ${({ theme }) => theme.colors.gray[600]};
   }
-`
+`;
 
 export const ChangeStateWrap = styled.div`
-  position:absolute;
+  position: absolute;
   background-color: ${({ theme }) => theme.colors.white};
-  border:1px solid ${({ theme }) => theme.colors.gray[200]};
-  border-radius:0.8rem;
-  padding:1rem  1.2rem;
-  right:2rem;
-  top:50%;
-`
+  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  border-radius: 0.8rem;
+  padding: 1rem 1.2rem;
+  right: 2rem;
+  top: 50%;
+`;
 
 export const ChangeStateHeader = styled.p`
-  padding:.6rem 0rem;
+  padding: 0.6rem 0rem;
   font-size: ${({ theme }) => theme.fontSizes.xs};
   color: ${({ theme }) => theme.colors.gray[600]};
-`
+`;
 
 export const ChageStateBtn = styled.button`
-  width:100%;
-  display:flex;
-  align-items:center;
-  padding:.8rem 0;
-  gap:0.4rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 0;
+  gap: 0.4rem;
   font-size: ${({ theme }) => theme.fontSizes.xs};
   color: ${({ theme }) => theme.colors.gray[600]};
-`
+`;
 
 export const IconWrap = styled.span`
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
   background-color: ${({ theme }) => theme.colors.main};
-  border-radius:.5rem;
-  svg{
-    width:1.4rem;
-    height:1.4rem;
+  border-radius: 0.5rem;
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
   }
-`
+`;

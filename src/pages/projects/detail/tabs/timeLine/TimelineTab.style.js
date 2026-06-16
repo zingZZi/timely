@@ -27,6 +27,18 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    svg {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
 `;
 
 export const TimeLineLists = styled.ol``;
@@ -73,8 +85,26 @@ export const StateLabel = styled.span`
   line-height: 2rem;
   padding: 0 0.8rem;
   border-radius: 0.5rem;
-
-  background-color: pink;
+  background-color: ${({ theme, state }) => {
+    switch (state) {
+      case "완료":
+        return hexToRgba(theme.colors.main, 0.1);
+      case "진행중":
+        return hexToRgba(theme.colors.primary, 0.1);
+      default:
+        return hexToRgba(theme.colors.gray[400], 0.3);
+    }
+  }};
+  color: ${({ theme, state }) => {
+    switch (state) {
+      case "완료":
+        return theme.colors.main;
+      case "진행중":
+        return theme.colors.primary;
+      default:
+        return theme.colors.gray[700];
+    }
+  }};
 `;
 export const Statedate = styled.span`
   display: block;
@@ -93,9 +123,19 @@ export const StateSticker = styled.i`
   position: absolute;
   width: 1.4rem;
   height: 1.4rem;
-  background-color: pink;
   border-radius: 60%;
   left: 0;
+
+  background-color: ${({ theme, state }) => {
+    switch (state) {
+      case "완료":
+        return theme.colors.main;
+      case "진행중":
+        return theme.colors.primary;
+      default:
+        return theme.colors.gray[400];
+    }
+  }};
 `;
 
 export const TimeLineSummary = styled.section`

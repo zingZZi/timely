@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
+export const CommonBtnWrap = css`
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
 const sharedBaseStyle = css`
   width: ${(props) => (props.size === "full-size" ? "100%" : "auto")};
   margin: 0;

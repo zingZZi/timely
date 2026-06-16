@@ -1,9 +1,19 @@
-import { Ellipsis, Plus, User, Calendar,Clock3,CircleCheck } from "lucide-react";
+import {
+  Ellipsis,
+  Plus,
+  User,
+  Calendar,
+  Clock3,
+  CircleCheck,
+} from "lucide-react";
 import * as S from "./TaskListTab.style";
 import FormField from "../../../../../components/form/FormField/FormField";
 import Input from "../../../../../components/form/Input/Input";
 import NativeSelect from "../../../../../components/form/Select/NativeSelect";
-import { BasicBtn, BasicCancleBtn } from "../../../../../components/Button/Button";
+import {
+  BasicBtn,
+  BasicCancleBtn,
+} from "../../../../../components/Button/Button";
 import { useState } from "react";
 
 function TaskListTab() {
@@ -65,7 +75,7 @@ function TaskListTab() {
                 />
               </FormField>
               <FormField must="must" label="마감일 " id="deadline">
-                <Input type="date" size="small"/>
+                <Input type="date" size="small" />
               </FormField>
             </S.ColFormWrap>
           </fieldset>
@@ -79,9 +89,9 @@ function TaskListTab() {
       <S.TaskSummary>
         <p>총 6개 작업</p>
         <S.TaskSummaryLists>
-          <S.TaskSummaryList>2 완료</S.TaskSummaryList>
-          <S.TaskSummaryList>2 진행중</S.TaskSummaryList>
-          <S.TaskSummaryList>2 대기</S.TaskSummaryList>
+          <S.TaskSummaryList state="finish">2 완료</S.TaskSummaryList>
+          <S.TaskSummaryList state="ing">2 진행중</S.TaskSummaryList>
+          <S.TaskSummaryList state="wait">2 대기</S.TaskSummaryList>
         </S.TaskSummaryLists>
       </S.TaskSummary>
       <S.TaskLists>
@@ -110,9 +120,15 @@ function TaskListTab() {
           <S.ChangeStateWrap>
             <S.ChangeStateHeader>상태변경</S.ChangeStateHeader>
             <S.ChageStateBtn>
-              <S.IconWrap><Clock3/></S.IconWrap>대기(으)로 변경</S.ChageStateBtn>
+              <S.IconWrap>
+                <Clock3 />
+              </S.IconWrap>
+              대기(으)로 변경
+            </S.ChageStateBtn>
             <S.ChageStateBtn>
-              <S.IconWrap><CircleCheck/></S.IconWrap>
+              <S.IconWrap>
+                <CircleCheck />
+              </S.IconWrap>
               완료(으)로 변경
             </S.ChageStateBtn>
           </S.ChangeStateWrap>
