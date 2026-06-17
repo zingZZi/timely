@@ -6,7 +6,9 @@ import FormField from "../FormField/FormField";
 import Input from "../Input/Input";
 
 
-function SearchSelect({popTitle,placeholder,value,onChange,datalists,labelKey}) {
+function SearchSelect({popTitle,placeholder,value,onChange,datalists,labelKey,
+    renderHeader,
+    renderItem}) {
     const { openPopup } = usePopup();
     return (
         <SelectShell placeholder={placeholder} value={value}

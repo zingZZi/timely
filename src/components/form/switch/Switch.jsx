@@ -1,5 +1,5 @@
 import * as S from "./Switch.style";
-function Switch({ id, name, desc, value }) {
+function Switch({ id, name, desc, value,onClick}) {
   return (
     <S.SwitchWrap>
       <S.Swith
@@ -9,8 +9,9 @@ function Switch({ id, name, desc, value }) {
         aria-describedby={desc}
         value={value}
         checked={value}
+        readOnly
       />
-      <S.SwitchBtn></S.SwitchBtn>
+      <S.SwitchBtn type="button" onClick={onClick}></S.SwitchBtn>
     </S.SwitchWrap>
   );
 }

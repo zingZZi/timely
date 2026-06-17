@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import * as S from "./NewProject.style";
-import { BackPageLink } from "../../../components/Button/Button";
+import { BackPageLink, BasicBtn, BasicCancleBtn } from "../../../components/Button/Button";
 import { ArrowLeft, Shield, EyeOff, Eye } from "lucide-react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import Input from "../../../components/form/Input/Input";
@@ -8,6 +8,11 @@ import FormField from "../../../components/form/FormField/FormField";
 import { useState } from "react";
 import Switch from "../../../components/form/switch/Switch";
 import Textarea from "../../../components/form/textarea/Textarea";
+import { sampleStateData,sampleImportanceData,allUserData} from "./sampleData";
+import NativeSelect from "../../../components/form/Select/NativeSelect";
+import SearchSelect from "../../../components/form/Select/SearchSelect";
+import UserItem from "./popup/UserItem";
+import SearchPopHeader from "./popup/SearchPopHeader";
 function NewProject() {
   const [form, setForm] = useState({
     title: "",
@@ -24,9 +29,24 @@ function NewProject() {
     show: false,
     exceptionUser: "",
   });
+
+  const updateField = (key, value) => {
+    if (typeof key === "object") {
+      setForm((prev) => ({
+        ...prev,
+        ...key,
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+    }
+  };
+
   return (
     <>
-      <BackPageLink>
+      <BackPageLink to="/projects">
         <ArrowLeft />
         프로젝트 목록으로 돌아가기
       </BackPageLink>
@@ -38,23 +58,52 @@ function NewProject() {
             <FormField must="must" label="프로젝트" id="projectName">
               <Input placeholder="프로젝트명을 입력해주세요" />
             </FormField>
-            <FormField must="must" label="프로젝트설명" id="projectSummary">
+            <FormField label="프로젝트설명" id="projectSummary">
               <Textarea name="projectSummary" />
             </FormField>
             <S.FormColgroup>
               <FormField must="must" label="상태" id="state">
-                <Input placeholder="프로젝트명을 입력해주세요" />
+                <NativeSelect 
+                  placeholder="상태선택" 
+                  datalists={sampleStateData} 
+                  value={form.state}
+                  dataValue= "stateCd" 
+                  dataText= "stateNm"
+                  onChange={(value)=>{
+                    updateField('state',value)
+                  }}
+                />
               </FormField>
               <FormField must="must" label="우선순위" id="import">
-                <Input placeholder="프로젝트명을 입력해주세요" />
+                <NativeSelect 
+                  placeholder="우선순위 선택" 
+                  datalists={sampleImportanceData} 
+                  value={form.import}
+                  dataValue= "importCd" 
+                  dataText= "importNm"
+                  onChange={(value)=>{
+                    updateField('import',value)
+                  }}
+                />
               </FormField>
             </S.FormColgroup>
             <S.FormColgroup>
               <FormField must="must" label="담당자" id="pm">
-                <Input placeholder="프로젝트명을 입력해주세요" />
+                  <SearchSelect 
+                    datalists={allUserData} 
+                    popTitle="담당자 선택"
+                    renderHeader={() => (<SearchPopHeader />) 
+                    }
+                    renderItem={(data, onClick) => (
+                        <UserItem
+                            data={data}
+                            onClick={onClick}
+                        />
+                    )}
+                  />
               </FormField>
               <FormField must="must" label="마감일" id="dueDate">
-                <Input placeholder="프로젝트명을 입력해주세요" />
+                <Input placeholder="프로젝트명을 입력해주세요" type="date" />
               </FormField>
             </S.FormColgroup>
             <FormField must="must" label="참여 인원 (작업자)" id="projectName">
@@ -63,10 +112,10 @@ function NewProject() {
 
             <S.FormColgroup>
               <FormField must="must" label="예산" id="budget">
-                <Input placeholder="프로젝트명을 입력해주세요" />
+                <Input placeholder="ex) 5,000 만원" />
               </FormField>
               <FormField must="must" label="클라이언트" id="client">
-                <Input placeholder="프로젝트명을 입력해주세요" />
+                <Input placeholder="ex) (주)온상" />
               </FormField>
             </S.FormColgroup>
 
@@ -77,29 +126,46 @@ function NewProject() {
 
           <S.FormFieldset>
             <legend className="text-ir">접근 권한 설정 입력폼</legend>
-            <h3>
+            <S.AccessTitle>
               <Shield />
               접근 권한 설정
-            </h3>
-            <div>
+            </S.AccessTitle>
+            <S.AccessCheckBoxWrap>
               <div>
-                <label htmlFor="showall">
-                  <EyeOff />
+                <S.CheckLabel htmlFor="showall">
+                  {
+                    form.show?<Eye/>:<EyeOff />
+                  }
                   전체 공개
-                </label>
-                <p id="showall-desc">
+                </S.CheckLabel>
+                <S.AccessSum id="showall-desc">
                   담당자와 참여 인원만 이 프로젝트를 조회할 수 있습니다.
-                </p>
+                </S.AccessSum>
               </div>
               <Switch
                 id="showall"
                 name="showall"
                 desc="showall-desc"
                 value={form.show}
+                onClick={()=>{
+                  updateField('show',!form.show)
+                }}
               />
-            </div>
-            {form.show ? null : <>예외조회권한</>}
+            </S.AccessCheckBoxWrap>
+            {
+              form.show 
+                ? null 
+                : 
+                  <S.AccessSelectBox>
+                    <h4>예외 조회 권한</h4>
+                    <p>직급 또는 권한이 높은 사용자는 프로젝트 참여 여부와 관계없이 조회할 수 있도록 예외를 지정할 수 있습니다.</p>
+                  </S.AccessSelectBox>
+            }
           </S.FormFieldset>
+          <S.ButtonWrap>
+            <BasicCancleBtn>취소</BasicCancleBtn>
+            <BasicBtn>프로젝트 생성</BasicBtn>
+          </S.ButtonWrap>
         </form>
       </S.NewProjectWrap>
     </>

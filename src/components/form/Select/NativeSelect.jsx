@@ -9,12 +9,17 @@ function NativeSelect({size="normal",placeholder,datalists,onChange,value,dataVa
     return(
         <S.Wrapper>
             <SelectShell size={size} placeholder={placeholder} value={selectedText}/>
+             
             <S.HiddenSelect 
                 name={dataValue}
+                value={value}
                 onChange={(e) => {
                     onChange(e.target.value); // 코드값 전달
                 }}
             >
+                 <option value="" disabled>
+                    {placeholder}
+                </option>
                 {
                     datalists.map((data,e)=>{
                         return(

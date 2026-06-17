@@ -262,7 +262,7 @@ function SignUp(){
                       dataValue="positionCd"
                       dataText="positionNm"
                       onChange={(value) => {
-                        updateField("position", value);   // 코드값 저장 (예: '01')
+                        updateField("position", value); 
                       }}
                     />
                   </FormField>
