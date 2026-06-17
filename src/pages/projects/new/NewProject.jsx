@@ -1,18 +1,27 @@
 import { Link } from "react-router-dom";
 import * as S from "./NewProject.style";
-import { BackPageLink, BasicBtn, BasicCancleBtn } from "../../../components/Button/Button";
-import { ArrowLeft, Shield, EyeOff, Eye } from "lucide-react";
+import {
+  BackPageLink,
+  BasicBtn,
+  BasicCancleBtn,
+} from "../../../components/Button/Button";
+import { ArrowLeft, Shield, EyeOff, Eye, Users } from "lucide-react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import Input from "../../../components/form/Input/Input";
 import FormField from "../../../components/form/FormField/FormField";
 import { useState } from "react";
 import Switch from "../../../components/form/switch/Switch";
 import Textarea from "../../../components/form/textarea/Textarea";
-import { sampleStateData,sampleImportanceData,allUserData} from "./sampleData";
+import {
+  sampleStateData,
+  sampleImportanceData,
+  allUserData,
+} from "./sampleData";
 import NativeSelect from "../../../components/form/Select/NativeSelect";
 import SearchSelect from "../../../components/form/Select/SearchSelect";
 import UserItem from "./popup/UserItem";
 import SearchPopHeader from "./popup/SearchPopHeader";
+import PopupList from "./popup/PopupList";
 function NewProject() {
   const [form, setForm] = useState({
     title: "",
@@ -63,44 +72,43 @@ function NewProject() {
             </FormField>
             <S.FormColgroup>
               <FormField must="must" label="상태" id="state">
-                <NativeSelect 
-                  placeholder="상태선택" 
-                  datalists={sampleStateData} 
+                <NativeSelect
+                  placeholder="상태선택"
+                  datalists={sampleStateData}
                   value={form.state}
-                  dataValue= "stateCd" 
-                  dataText= "stateNm"
-                  onChange={(value)=>{
-                    updateField('state',value)
+                  dataValue="stateCd"
+                  dataText="stateNm"
+                  onChange={(value) => {
+                    updateField("state", value);
                   }}
                 />
               </FormField>
               <FormField must="must" label="우선순위" id="import">
-                <NativeSelect 
-                  placeholder="우선순위 선택" 
-                  datalists={sampleImportanceData} 
+                <NativeSelect
+                  placeholder="우선순위 선택"
+                  datalists={sampleImportanceData}
                   value={form.import}
-                  dataValue= "importCd" 
-                  dataText= "importNm"
-                  onChange={(value)=>{
-                    updateField('import',value)
+                  dataValue="importCd"
+                  dataText="importNm"
+                  onChange={(value) => {
+                    updateField("import", value);
                   }}
                 />
               </FormField>
             </S.FormColgroup>
             <S.FormColgroup>
               <FormField must="must" label="담당자" id="pm">
-                  <SearchSelect 
-                    datalists={allUserData} 
-                    popTitle="담당자 선택"
-                    renderHeader={() => (<SearchPopHeader />) 
-                    }
-                    renderItem={(data, onClick) => (
-                        <UserItem
-                            data={data}
-                            onClick={onClick}
-                        />
-                    )}
-                  />
+                <SearchSelect
+                  placeholder="담당자 검색 및 선택"
+                  datalists={allUserData}
+                  popTitle="담당자 선택"
+                  subtext="한 명만 선택할 수 있습니다."
+                  headerIcon={<Users />}
+                  arrowIcon={false}
+                  labelKey="userNm"
+                  searchKeys={["name", "department", "position"]}
+                  renderItem={(data) => <PopupList data={data} />}
+                />
               </FormField>
               <FormField must="must" label="마감일" id="dueDate">
                 <Input placeholder="프로젝트명을 입력해주세요" type="date" />
@@ -133,9 +141,7 @@ function NewProject() {
             <S.AccessCheckBoxWrap>
               <div>
                 <S.CheckLabel htmlFor="showall">
-                  {
-                    form.show?<Eye/>:<EyeOff />
-                  }
+                  {form.show ? <Eye /> : <EyeOff />}
                   전체 공개
                 </S.CheckLabel>
                 <S.AccessSum id="showall-desc">
@@ -147,20 +153,20 @@ function NewProject() {
                 name="showall"
                 desc="showall-desc"
                 value={form.show}
-                onClick={()=>{
-                  updateField('show',!form.show)
+                onClick={() => {
+                  updateField("show", !form.show);
                 }}
               />
             </S.AccessCheckBoxWrap>
-            {
-              form.show 
-                ? null 
-                : 
-                  <S.AccessSelectBox>
-                    <h4>예외 조회 권한</h4>
-                    <p>직급 또는 권한이 높은 사용자는 프로젝트 참여 여부와 관계없이 조회할 수 있도록 예외를 지정할 수 있습니다.</p>
-                  </S.AccessSelectBox>
-            }
+            {form.show ? null : (
+              <S.AccessSelectBox>
+                <h4>예외 조회 권한</h4>
+                <p>
+                  직급 또는 권한이 높은 사용자는 프로젝트 참여 여부와 관계없이
+                  조회할 수 있도록 예외를 지정할 수 있습니다.
+                </p>
+              </S.AccessSelectBox>
+            )}
           </S.FormFieldset>
           <S.ButtonWrap>
             <BasicCancleBtn>취소</BasicCancleBtn>
