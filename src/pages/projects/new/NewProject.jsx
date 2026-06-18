@@ -20,7 +20,6 @@ import {
 import NativeSelect from "../../../components/form/Select/NativeSelect";
 import SearchSelect from "../../../components/form/Select/SearchSelect";
 import UserItem from "./popup/UserItem";
-import SearchPopHeader from "./popup/SearchPopHeader";
 import PopupList from "./popup/PopupList";
 function NewProject() {
   const [form, setForm] = useState({
