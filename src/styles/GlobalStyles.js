@@ -35,6 +35,9 @@ export const GlobalStyles = createGlobalStyle`
     line-height: 1em;
     font-family: 'Noto Sans KR', sans-serif;
   }
+  input{
+    font-family: 'Noto Sans KR', sans-serif;
+  }
   ol, ul {
     list-style: none;
   }
