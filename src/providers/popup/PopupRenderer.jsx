@@ -1,6 +1,7 @@
 import { createPortal } from "react-dom";
 import * as S from "./Popup.style";
 import { X } from "lucide-react";
+import { BasicBtn } from "../../components/Button/Button";
 
 function PopupRenderer({ popup, closePopup }) {
   if (!popup) return null;
@@ -24,6 +25,10 @@ function PopupRenderer({ popup, closePopup }) {
           </button>
         </S.Header>
         {popup.content}
+        <S.PopFooter>
+          <S.footerText>1명 선택됨 / 전체 12명</S.footerText>
+          <BasicBtn>완료</BasicBtn>
+        </S.PopFooter>
       </S.Layout>
     </S.Dim>,
     document.body,

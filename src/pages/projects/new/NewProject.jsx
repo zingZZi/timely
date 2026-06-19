@@ -5,7 +5,7 @@ import {
   BasicBtn,
   BasicCancleBtn,
 } from "../../../components/Button/Button";
-import { ArrowLeft, Shield, EyeOff, Eye, Users } from "lucide-react";
+import { ArrowLeft, Shield, EyeOff, Eye, Users, User} from "lucide-react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import Input from "../../../components/form/Input/Input";
 import FormField from "../../../components/form/FormField/FormField";
@@ -19,8 +19,8 @@ import {
 } from "./sampleData";
 import NativeSelect from "../../../components/form/Select/NativeSelect";
 import SearchSelect from "../../../components/form/Select/SearchSelect";
-import UserItem from "./popup/UserItem";
 import PopupList from "./popup/PopupList";
+import TagInput from "../../../components/form/tagInput/TagInput";
 function NewProject() {
   const [form, setForm] = useState({
     title: "",
@@ -32,7 +32,7 @@ function NewProject() {
     worker: "",
     budget: "",
     client: "",
-    tag: "",
+    tag: ['test1','test2'],
     files: "",
     show: false,
     exceptionUser: "",
@@ -60,7 +60,11 @@ function NewProject() {
       </BackPageLink>
       <S.NewProjectWrap>
         <PageHeader title="새 프로젝트 생성" />
-        <form action="">
+        <form onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+            }
+          }}>
           <fieldset>
             <legend className="text-ir">프로젝트 기본 내용</legend>
             <FormField must="must" label="프로젝트" id="projectName">
@@ -102,11 +106,11 @@ function NewProject() {
                   datalists={allUserData}
                   popTitle="담당자 선택"
                   subtext="한 명만 선택할 수 있습니다."
-                  headerIcon={<Users />}
+                  headerIcon={<User />}
                   arrowIcon={false}
                   labelKey="userNm"
                   searchKeys={["name", "department", "position"]}
-                  renderItem={(data) => <PopupList data={data} />}
+                  renderItem={(data) => <PopupList data={data}/>}
                 />
               </FormField>
               <FormField must="must" label="마감일" id="dueDate">
@@ -114,7 +118,18 @@ function NewProject() {
               </FormField>
             </S.FormColgroup>
             <FormField must="must" label="참여 인원 (작업자)" id="projectName">
-              <Input placeholder="프로젝트명을 입력해주세요" />
+              <SearchSelect
+                  placeholder="작업자 검색 및 선택"
+                  datalists={allUserData}
+                  popTitle="참여 인원 선택"
+                  subtext="여러명을 선택할 수 있습니다."
+                  headerIcon={<Users />}
+                  arrowIcon={false}
+                  labelKey="userNm"
+                  searchKeys={["name", "department", "position"]}
+                  multiple={true}
+                  renderItem={(data) => <PopupList data={data} multiple={true}/>}
+                />
             </FormField>
 
             <S.FormColgroup>
@@ -129,6 +144,14 @@ function NewProject() {
             <FormField must="must" label="태그" id="tag">
               <Input placeholder="프로젝트명을 입력해주세요" />
             </FormField>
+            <TagInput 
+              size={4.6}  
+              placeholder="태그를 입력해주세요" 
+              value={form.tag}
+              onChange={(value) => {
+                updateField("tag", value);
+              }}
+            />
           </fieldset>
 
           <S.FormFieldset>
@@ -169,7 +192,9 @@ function NewProject() {
           </S.FormFieldset>
           <S.ButtonWrap>
             <BasicCancleBtn>취소</BasicCancleBtn>
-            <BasicBtn>프로젝트 생성</BasicBtn>
+            <BasicBtn type="button" onClick={()=>{
+              console.log(form)
+            }}>프로젝트 생성</BasicBtn>
           </S.ButtonWrap>
         </form>
       </S.NewProjectWrap>

@@ -2,9 +2,15 @@ import styled from "styled-components";
 
 export const FlexBox = styled.div`
   display: flex;
-  gap: 0.8rem;
+  align-items: center;
+  justify-content: space-between;
 `;
-export const UserInfo = styled.div``;
+export const UserInfo = styled.div`
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-grow: 0;
+`;
 export const UserName = styled.strong`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};

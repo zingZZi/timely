@@ -55,6 +55,7 @@ export const GlobalStyles = createGlobalStyle`
   html{font-size:10px}
   body{
     font-size: 1.4rem;
+    overflow-y: hidden;
   }
   a{
     text-decoration: none;

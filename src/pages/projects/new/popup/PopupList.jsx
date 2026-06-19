@@ -1,9 +1,9 @@
 import * as S from "./PopupList.style";
 import ProfileImg from "./../../../../components/profileImg/ProfileImg";
-function PopupList({ data }) {
+function PopupList({ data, multiple }) {
   return (
     <S.FlexBox>
-      <div>
+      <S.UserInfo>
         <ProfileImg size={4} img={data.profileImg} alt={data.userNm} />
         <div>
           <S.UserName>{data.userNm}</S.UserName>
@@ -12,8 +12,10 @@ function PopupList({ data }) {
             <span>{data.positionNm}</span>
           </S.UserMeta>
         </div>
-      </div>
-      <input type="checkbox" />
+      </S.UserInfo>
+      {
+        multiple?<input type="checkbox" />:null
+      }
     </S.FlexBox>
   );
 }

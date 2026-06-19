@@ -56,3 +56,22 @@ export const SubText = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   margin-top: 0.4rem;
 `;
+
+
+export const PopFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top:1px solid ${({ theme }) => theme.colors.gray[100]};
+  padding-top:2rem;
+  >button{
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    padding:.8rem 1.6rem;
+    border-radius: 0.5rem;
+  }
+`
+
+export const footerText = styled.span`
+  color: ${({ theme }) => theme.colors.gray[600]};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+`
