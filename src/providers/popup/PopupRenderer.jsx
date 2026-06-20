@@ -25,10 +25,12 @@ function PopupRenderer({ popup, closePopup }) {
           </button>
         </S.Header>
         {popup.content}
-        <S.PopFooter>
-          <S.footerText>1명 선택됨 / 전체 12명</S.footerText>
-          <BasicBtn>완료</BasicBtn>
-        </S.PopFooter>
+        {popup.popFooter ? (
+          <S.PopFooter>
+            <S.footerText>1명 선택됨 / 전체 12명</S.footerText>
+            <BasicBtn>완료</BasicBtn>
+          </S.PopFooter>
+        ) : null}
       </S.Layout>
     </S.Dim>,
     document.body,

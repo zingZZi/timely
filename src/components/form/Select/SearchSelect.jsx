@@ -17,18 +17,22 @@ function SearchSelect({
   arrowIcon,
   renderItem, // 추가: 커스텀 렌더링 함수
   searchKeys, // 추가: 검색할 키 목록 (없으면 labelKey로 검색)
+  popFooter,
+  renderSelected,
 }) {
   const { openPopup } = usePopup();
   return (
     <SelectShell
       placeholder={placeholder}
       arrowIcon={arrowIcon}
-      value={value}
+      value={value?.[labelKey]}
+      renderSelected={renderSelected}
       onClick={() =>
         openPopup({
           headerIcon: headerIcon,
           title: popTitle,
           subtext: subtext,
+          popFooter: popFooter,
           content: (
             <SearchSelectPop
               onSelect={onChange}

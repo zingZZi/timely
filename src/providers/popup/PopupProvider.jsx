@@ -10,8 +10,9 @@ function PopupProvider({ children }) {
     content,
     subtext = false,
     headerIcon = false,
+    popFooter = false,
   }) => {
-    setPopup({ title, content, subtext, headerIcon });
+    setPopup({ title, content, subtext, headerIcon, popFooter });
   };
 
   const closePopup = () => {

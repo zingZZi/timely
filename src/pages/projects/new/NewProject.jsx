@@ -27,7 +27,7 @@ function NewProject() {
     description: "",
     state: "",
     import: "",
-    owner: "",
+    pm: { userNm: "김민수", positionCd: "LEAD", positionNm: "팀장" },
     deadline: "",
     worker: "",
     budget: "",
@@ -113,6 +113,13 @@ function NewProject() {
                   labelKey="userNm"
                   searchKeys={["name", "department", "position"]}
                   renderItem={(data) => <PopupList data={data} />}
+                  value={form.pm}
+                  renderSelected={(user) => (
+                    <>
+                      <strong>test</strong>
+                      <span>test</span>
+                    </>
+                  )}
                 />
               </FormField>
               <FormField must="must" label="마감일" id="dueDate">
@@ -130,6 +137,7 @@ function NewProject() {
                 labelKey="userNm"
                 searchKeys={["name", "department", "position"]}
                 multiple={true}
+                popFooter={true}
                 renderItem={(data) => <PopupList data={data} multiple={true} />}
               />
             </FormField>
