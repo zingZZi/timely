@@ -21,21 +21,22 @@ import NativeSelect from "../../../components/form/Select/NativeSelect";
 import SearchSelect from "../../../components/form/Select/SearchSelect";
 import PopupList from "./popup/PopupList";
 import TagInput from "../../../components/form/tagInput/TagInput";
+import WorkerSelected from "./popup/WorkerSelected";
 function NewProject() {
   const [form, setForm] = useState({
     title: "",
     description: "",
     state: "",
     import: "",
-    pm: { userNm: "김민수", positionCd: "LEAD", positionNm: "팀장" },
+    pm: "",
     deadline: "",
-    worker: "",
+    worker: [],
     budget: "",
     client: "",
     tag: "",
     files: "",
     show: false,
-    exceptionUser: "",
+    exceptionUser: [],
   });
 
   const updateField = (key, value) => {
@@ -69,11 +70,23 @@ function NewProject() {
         >
           <fieldset>
             <legend className="text-ir">프로젝트 기본 내용</legend>
-            <FormField must="must" label="프로젝트" id="projectName">
-              <Input placeholder="프로젝트명을 입력해주세요" />
+            <FormField must="must" label="프로젝트" id="title">
+              <Input
+                placeholder="프로젝트명을 입력해주세요"
+                value={form.title}
+                onChange={(value) => {
+                  updateField("title", value);
+                }}
+              />
             </FormField>
-            <FormField label="프로젝트설명" id="projectSummary">
-              <Textarea name="projectSummary" />
+            <FormField label="프로젝트설명" id="description">
+              <Textarea
+                name="description"
+                value={form.description}
+                onChange={(value) => {
+                  updateField("description", value);
+                }}
+              />
             </FormField>
             <S.FormColgroup>
               <FormField must="must" label="상태" id="state">
@@ -114,40 +127,90 @@ function NewProject() {
                   searchKeys={["name", "department", "position"]}
                   renderItem={(data) => <PopupList data={data} />}
                   value={form.pm}
-                  renderSelected={(user) => (
-                    <>
-                      <strong>test</strong>
-                      <span>test</span>
-                    </>
+                  renderSelected={(data) => (
+                    <WorkerSelected data={data} size={3} />
                   )}
+                  onChange={(value) => {
+                    updateField("pm", value);
+                  }}
                 />
               </FormField>
-              <FormField must="must" label="마감일" id="dueDate">
-                <Input placeholder="프로젝트명을 입력해주세요" type="date" />
+              <FormField must="must" label="마감일" id="deadline">
+                <Input
+                  placeholder="프로젝트명을 입력해주세요"
+                  type="date"
+                  value={form.deadline}
+                  onChange={(value) => {
+                    updateField("deadline", value);
+                  }}
+                />
               </FormField>
             </S.FormColgroup>
-            <FormField must="must" label="참여 인원 (작업자)" id="projectName">
+            <FormField must="must" label="참여 인원 (작업자)" id="worker">
               <SearchSelect
+                multiple
+                headerIcon={<Users />}
                 placeholder="작업자 검색 및 선택"
-                datalists={allUserData}
                 popTitle="참여 인원 선택"
                 subtext="여러명을 선택할 수 있습니다."
-                headerIcon={<Users />}
+                datalists={allUserData}
                 arrowIcon={false}
                 labelKey="userNm"
                 searchKeys={["name", "department", "position"]}
-                multiple={true}
+                compareKey="userSn"
                 popFooter={true}
-                renderItem={(data) => <PopupList data={data} multiple={true} />}
+                value={form.worker}
+                renderItem={(data, isChecked) => (
+                  <PopupList data={data} multiple={true} checked={isChecked} />
+                )}
+                onChange={(value) => {
+                  updateField("worker", value);
+                }}
+                renderSelected={(data) => (
+                  <>
+                    <S.MultipleInputWrap>
+                      {data.map((e) => {
+                        return (
+                          <WorkerSelected
+                            multiple
+                            key={e.userSn}
+                            data={e}
+                            size={3}
+                            compareKey="userSn"
+                            value={form.worker}
+                            onChange={(value) => {
+                              updateField("worker", value);
+                            }}
+                          />
+                        );
+                      })}
+                      {data.length > 0 ? (
+                        <S.MultipleNum>{data.length}명 선택됨</S.MultipleNum>
+                      ) : null}
+                    </S.MultipleInputWrap>
+                  </>
+                )}
               />
             </FormField>
 
             <S.FormColgroup>
               <FormField must="must" label="예산" id="budget">
-                <Input placeholder="ex) 5,000 만원" />
+                <Input
+                  placeholder="ex) 5,000 만원"
+                  value={form.budget}
+                  onChange={(value) => {
+                    updateField("budget", value);
+                  }}
+                />
               </FormField>
               <FormField must="must" label="클라이언트" id="client">
-                <Input placeholder="ex) (주)온상" />
+                <Input
+                  placeholder="ex) (주)온상"
+                  value={form.client}
+                  onChange={(value) => {
+                    updateField("client", value);
+                  }}
+                />
               </FormField>
             </S.FormColgroup>
 
@@ -191,11 +254,68 @@ function NewProject() {
             </S.AccessCheckBoxWrap>
             {form.show ? null : (
               <S.AccessSelectBox>
-                <h4>예외 조회 권한</h4>
-                <p>
+                <S.AccessSelectTitle>예외 조회 권한</S.AccessSelectTitle>
+                <S.AccesseDesc>
                   직급 또는 권한이 높은 사용자는 프로젝트 참여 여부와 관계없이
                   조회할 수 있도록 예외를 지정할 수 있습니다.
-                </p>
+                </S.AccesseDesc>
+
+                <FormField
+                  must="must"
+                  label="예외 조회 가능 사용자"
+                  id="exceptionUser"
+                >
+                  <SearchSelect
+                    multiple
+                    headerIcon={<Users />}
+                    placeholder="예외 사용자 검색 및 선택"
+                    popTitle="예외 조회 사용자 선택"
+                    subtext="여러명을 선택할 수 있습니다."
+                    datalists={allUserData}
+                    arrowIcon={false}
+                    labelKey="userNm"
+                    searchKeys={["name", "department", "position"]}
+                    compareKey="userSn"
+                    popFooter={true}
+                    value={form.exceptionUser}
+                    renderItem={(data, isChecked) => (
+                      <PopupList
+                        data={data}
+                        multiple={true}
+                        checked={isChecked}
+                      />
+                    )}
+                    onChange={(value) => {
+                      updateField("exceptionUser", value);
+                    }}
+                    renderSelected={(data) => (
+                      <>
+                        <S.MultipleInputWrap>
+                          {data.map((e) => {
+                            return (
+                              <WorkerSelected
+                                multiple
+                                key={e.userSn}
+                                data={e}
+                                size={3}
+                                compareKey="userSn"
+                                value={form.exceptionUser}
+                                onChange={(value) => {
+                                  updateField("exceptionUser", value);
+                                }}
+                              />
+                            );
+                          })}
+                          {data.length > 0 ? (
+                            <S.MultipleNum>
+                              {data.length}명 선택됨
+                            </S.MultipleNum>
+                          ) : null}
+                        </S.MultipleInputWrap>
+                      </>
+                    )}
+                  />
+                </FormField>
               </S.AccessSelectBox>
             )}
           </S.FormFieldset>

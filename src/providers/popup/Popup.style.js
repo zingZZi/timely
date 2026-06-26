@@ -14,7 +14,7 @@ export const Dim = styled.article`
   justify-content: center;
 `;
 export const Layout = styled.div`
-  min-width: 448px;
+  width: 448px;
   background-color: white;
   padding: 24px;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
@@ -57,21 +57,20 @@ export const SubText = styled.p`
   margin-top: 0.4rem;
 `;
 
-
 export const PopFooter = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-top:1px solid ${({ theme }) => theme.colors.gray[100]};
-  padding-top:2rem;
-  >button{
+  justify-content: flex-end;
+  border-top: 1px solid ${({ theme }) => theme.colors.gray[100]};
+  padding-top: 2rem;
+  > button {
     font-size: ${({ theme }) => theme.fontSizes.xs};
-    padding:.8rem 1.6rem;
+    padding: 0.8rem 1.6rem;
     border-radius: 0.5rem;
   }
-`
+`;
 
 export const footerText = styled.span`
   color: ${({ theme }) => theme.colors.gray[600]};
   font-size: ${({ theme }) => theme.fontSizes.xs};
-`
+`;

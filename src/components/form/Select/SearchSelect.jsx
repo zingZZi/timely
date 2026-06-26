@@ -4,6 +4,8 @@ import { useState } from "react";
 import { usePopup } from "../../../providers/popup/usePopup";
 import FormField from "../FormField/FormField";
 import Input from "../Input/Input";
+import { X } from "lucide-react";
+import ProfileImg from "../../profileImg/ProfileImg";
 
 function SearchSelect({
   popTitle,
@@ -19,13 +21,15 @@ function SearchSelect({
   searchKeys, // 추가: 검색할 키 목록 (없으면 labelKey로 검색)
   popFooter,
   renderSelected,
+  multiple,
+  compareKey,
 }) {
   const { openPopup } = usePopup();
   return (
     <SelectShell
       placeholder={placeholder}
       arrowIcon={arrowIcon}
-      value={value?.[labelKey]}
+      value={value}
       renderSelected={renderSelected}
       onClick={() =>
         openPopup({
@@ -40,6 +44,9 @@ function SearchSelect({
               labelKey={labelKey}
               renderItem={renderItem}
               searchKeys={searchKeys}
+              multiple={multiple}
+              value={value}
+              compareKey={compareKey}
             />
           ),
         })
@@ -53,12 +60,48 @@ function SearchSelectPop({
   labelKey,
   renderItem,
   searchKeys,
+  multiple,
+  value,
+  compareKey,
 }) {
+  //다중선택관련
+  const [values, setValues] = useState(value);
+
   const { closePopup } = usePopup();
   const handleClick = (data) => {
-    onSelect(data);
-    closePopup();
+    if (multiple) {
+      //다중선택 Action
+      const isChecked = values.some(
+        (item) => item[compareKey] === data[compareKey],
+      );
+      if (isChecked) {
+        //선택 해제
+        const newValues = values.filter(
+          (item) => item[compareKey] !== data[compareKey],
+        );
+
+        setValues(newValues);
+        onSelect(newValues);
+      } else {
+        const newValues = [...values, data];
+        setValues(newValues);
+        onSelect(newValues);
+      }
+    } else {
+      //단일선택 Action
+      onSelect(data);
+      closePopup();
+    }
   };
+
+  //리스트 삭제버튼
+  function Delete(data) {
+    const newValues = values.filter(
+      (item) => item[compareKey] !== data[compareKey],
+    );
+    setValues(newValues);
+    onSelect(newValues);
+  }
 
   //input 검색관련
   const [searchInput, setSearchInput] = useState("");
@@ -69,7 +112,6 @@ function SearchSelectPop({
     return keys.some((key) => item[key]?.includes(searchInput));
   });
 
-  console.log(filteredData);
   return (
     <>
       <FormField placeholder="회사명을 검색하세요" id="searchCompany">
@@ -80,12 +122,45 @@ function SearchSelectPop({
           }}
         />
       </FormField>
+
+      {multiple && values ? (
+        <S.SeletedLists>
+          {values.map((e, i) => {
+            return (
+              <S.SeletedList key={i}>
+                <ProfileImg size={1.6} />
+                {e.userNm}
+                <S.DeleteBtn
+                  onClick={() => {
+                    Delete(e);
+                  }}
+                >
+                  <X />
+                </S.DeleteBtn>
+              </S.SeletedList>
+            );
+          })}
+        </S.SeletedLists>
+      ) : null}
+
       <S.SearchLists>
         {filteredData.map((data, i) => {
+          const isChecked = multiple
+            ? values.some((value) => value[compareKey] === data[compareKey])
+            : null;
           return (
             <S.SearchList key={i}>
-              <S.SearchListBtn onClick={() => handleClick(data)}>
-                {renderItem ? renderItem(data) : data[labelKey]}
+              <S.SearchListBtn
+                onClick={() => handleClick(data)}
+                $active={
+                  multiple
+                    ? values.some(
+                        (value) => value[compareKey] === data[compareKey],
+                      )
+                    : null
+                }
+              >
+                {renderItem ? renderItem(data, isChecked) : data[labelKey]}
               </S.SearchListBtn>
             </S.SearchList>
           );

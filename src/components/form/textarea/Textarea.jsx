@@ -1,7 +1,15 @@
 import * as S from "./Textarea.style";
 
-function Textarea({ name }) {
-  return <S.Textarea name={name}></S.Textarea>;
+function Textarea({ name, value, onChange }) {
+  return (
+    <S.Textarea
+      name={name}
+      value={value}
+      onChange={(e) => {
+        onChange(e.target.value);
+      }}
+    ></S.Textarea>
+  );
 }
 
 export default Textarea;

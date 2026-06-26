@@ -8,12 +8,12 @@ function SelectShell({
   arrowIcon = true,
   ...props
 }) {
+  const hasValue = Array.isArray(value) ? value.length > 0 : !!value;
   return (
     <S.SelectBox type="button" {...props}>
-      {/* {value || <S.Placeholder>{placeholder}</S.Placeholder>} */}
-      {value ? (
+      {hasValue ? (
         renderSelected ? (
-          renderSelected()
+          renderSelected(value)
         ) : (
           value
         )

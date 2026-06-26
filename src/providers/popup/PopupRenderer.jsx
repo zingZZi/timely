@@ -27,8 +27,7 @@ function PopupRenderer({ popup, closePopup }) {
         {popup.content}
         {popup.popFooter ? (
           <S.PopFooter>
-            <S.footerText>1명 선택됨 / 전체 12명</S.footerText>
-            <BasicBtn>완료</BasicBtn>
+            <BasicBtn onClick={closePopup}>완료</BasicBtn>
           </S.PopFooter>
         ) : null}
       </S.Layout>

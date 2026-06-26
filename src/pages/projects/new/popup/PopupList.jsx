@@ -1,10 +1,14 @@
 import * as S from "./PopupList.style";
 import ProfileImg from "./../../../../components/profileImg/ProfileImg";
-function PopupList({ data, multiple }) {
+import { Check } from "lucide-react";
+function PopupList({ data, multiple, checked }) {
   return (
     <S.FlexBox>
       <S.UserInfo>
-        <ProfileImg size={4} img={data.profileImg} alt={data.userNm} />
+        <S.MultipleProfileWrap>
+          <ProfileImg size={4} img={data.profileImg} alt={data.userNm} />
+          {checked ? <Check /> : null}
+        </S.MultipleProfileWrap>
         <div>
           <S.UserName>{data.userNm}</S.UserName>
           <S.UserMeta>
@@ -13,9 +17,11 @@ function PopupList({ data, multiple }) {
           </S.UserMeta>
         </div>
       </S.UserInfo>
-      {
-        multiple?<input type="checkbox" />:null
-      }
+      {multiple ? (
+        <S.MultipleCheckBox className={checked ? "hi" : null}>
+          {checked ? <Check /> : null}
+        </S.MultipleCheckBox>
+      ) : null}
     </S.FlexBox>
   );
 }

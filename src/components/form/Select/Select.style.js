@@ -7,13 +7,13 @@ export const SelectBox = styled.button`
   display: flex;
   align-items: center;
   justify-content: start;
-  padding: 0 5.6rem 0 1.6rem;
-  height: ${({ size }) => (size === "small" ? "4.2rem" : "5.4rem")};
+  padding: 1rem 5.6rem 1rem 1.6rem;
+  min-height: ${({ size }) => (size === "small" ? "4.2rem" : "5.4rem")};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   border: 1px solid ${({ theme }) => theme.colors.gray[200]};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   background-color: ${({ theme }) => theme.colors.white};
-  svg {
+  > svg {
     position: absolute;
     right: 1.6rem;
     top: 50%;
@@ -55,7 +55,11 @@ export const SearchLists = styled.ul`
   margin-top: 1.6rem;
 `;
 
-export const SearchList = styled.li``;
+export const SearchList = styled.li`
+  border-radius: 1.4rem;
+  overflow: hidden;
+  margin-bottom: 0.3rem;
+`;
 
 export const SearchListBtn = styled.button`
   width: 100%;
@@ -64,6 +68,37 @@ export const SearchListBtn = styled.button`
   line-height: 2rem;
   padding: 1.2rem;
   &:hover {
-    background: ${({ theme }) => hexToRgba(theme.colors.main, 0.2)};
+    background: ${({ $active, theme }) =>
+      $active ? null : hexToRgba(theme.colors.gray[200], 0.3)};
+  }
+  background: ${({ $active, theme }) =>
+    $active ? hexToRgba(theme.colors.main, 0.1) : "white"};
+`;
+
+/* 다중선택시 */
+
+export const SeletedLists = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+`;
+export const SeletedList = styled.li`
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.main};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+`;
+export const DeleteBtn = styled.button`
+  display: flex;
+  align-items: center;
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: ${({ theme }) => theme.colors.main};
+    &:hover {
+      color: ${({ theme }) => theme.colors.danger};
+    }
   }
 `;
