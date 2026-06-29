@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import * as S from "./TimelineTab.style";
-import AddTimeLine from "./AddTimeline";
+import AddTimeLine from "./AddTimeLine";
 import { BasicBtn } from "../../../../../components/Button/Button";
 
 function TimelineTab() {
