@@ -11,6 +11,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
+import LogoImg from "/public/img/logo.png";
+
 function Aside({ asideOpen, asideHandle, menus }) {
   let [depthOpen, setDepthOpen] = useState(false);
   let navigate = useNavigate();
@@ -26,7 +28,7 @@ function Aside({ asideOpen, asideHandle, menus }) {
       <S.AsideLogo>
         <S.LogoLink to="/" $asideopen={asideOpen}>
           <S.LogoIcon>
-            <img src="/public/img/logo.png" alt="로고 아이콘" />
+            <img src={LogoImg} alt="로고 아이콘" />
           </S.LogoIcon>
           {asideOpen ? <Logo /> : null}
         </S.LogoLink>
