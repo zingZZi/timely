@@ -10,7 +10,7 @@ import Projects from "./pages/projects/index/Projects";
 import Board from "./pages/board/Board";
 import My from "./pages/calendar/my/My";
 import Team from "./pages/calendar/team/Team";
-import BoardDetail from "./pages/boardDetail/boardDetail";
+import BoardDetail from "./pages/boardDetail/BoardDetail";
 import BoardWrite from "./pages/boardWrite/BoardWrite";
 import ProjectDetail from "./pages/projects/detail/ProjectDetail";
 import NewProject from "./pages/projects/new/NewProject";
