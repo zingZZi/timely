@@ -2,8 +2,9 @@ import { useState } from "react";
 import * as S from "./Comment.style";
 import { useParams } from "react-router-dom";
 import { postComments } from "../../api/boardApi";
+import ProfileImg from "../profileImg/ProfileImg";
 
-function CommentForm({ size, cancle,onCommentCreated}) {
+function CommentForm({ size, cancle, onCommentCreated }) {
   const { id } = useParams();
   const [textCount, setTextCount] = useState(0);
   const [commentText, setCommentText] = useState("");
@@ -29,9 +30,7 @@ function CommentForm({ size, cancle,onCommentCreated}) {
   return (
     <S.Comment $size={size}>
       <h3 className="text-ir">댓글작성</h3>
-      <S.Profile>
-        <img src="/public/img/sample.png" alt="프로필 이미지" />
-      </S.Profile>
+      <ProfileImg size={3.6} />
       <S.CommentForm>
         <S.WriteBox
           maxLength={500}

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import * as S from "./CardList.style";
 import { MessageCircle, Heart } from "lucide-react";
 import { CATEGORYMAP, STATUSMAP } from "../../../constants/boardBadge";
+import ProfileImg from "../../profileImg/ProfileImg";
 
 function CardList({ data }) {
   const categoryInfo = CATEGORYMAP[data.category];
@@ -32,7 +33,7 @@ function CardList({ data }) {
         <S.SubText>{content}</S.SubText>
         <S.BoardInfos>
           <S.WriterInfo>
-            <S.Thumb></S.Thumb>
+            <ProfileImg size={2.8} />
             <span>{data.authorName}</span>
 
             <S.Date>{data.createDt.split("T")[0]}</S.Date>

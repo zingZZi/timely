@@ -4,6 +4,7 @@ import { ThumbsUp, CornerDownRight, Trash2 } from "lucide-react";
 import CommentForm from "./CommentForm";
 import { removePostsComments } from "../../api/boardApi";
 import { useSelector } from "react-redux";
+import ProfileImg from "../profileImg/ProfileImg";
 
 function CommentList({ data }) {
   let userInfo = useSelector((state) => {
@@ -30,9 +31,10 @@ function CommentList({ data }) {
 
   return (
     <S.Comment $size="big">
-      <S.Profile>
+      {/* <S.Profile>
         <img src="/public/img/sample.png" alt="프로필 이미지" />
-      </S.Profile>
+      </S.Profile> */}
+      <ProfileImg size={3.6} />
       <S.CommentListCont>
         <S.CommentListInfo>
           <S.Name>{data.authorName}</S.Name>

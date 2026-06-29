@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { BasicBtnStyle } from "../Button/Button";
 
 export const Comment = styled.section`
-  position:relative;
+  position: relative;
   display: flex;
   align-items: flex-start;
+  gap: 1.2rem;
   background-color: ${({ theme }) => theme.colors.white};
   padding: ${({ $size }) => ($size === "big" ? "2rem" : "1rem")};
   border-radius: ${({ $size }) => ($size === "big" ? "1rem" : "0")};
@@ -148,9 +149,9 @@ export const DeleteBtn = styled.button`
   position: absolute;
   top: 1.6rem;
   right: 1.6rem;
-  svg{
-    width:1.4rem;
-    height:1.4rem;
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
     color: ${({ theme }) => theme.colors.gray[700]};
   }
-`
+`;

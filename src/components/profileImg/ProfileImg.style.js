@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProfileWrap = styled.span`
+export const ProfileWrap = styled.figure`
   position: relative;
   border-radius: 50%;
   overflow: hidden;
@@ -8,7 +8,7 @@ export const ProfileWrap = styled.span`
   width: ${(props) => `${props.size}rem`};
   height: ${(props) => `${props.size}rem`};
   background-color: ${({ theme }) => theme.colors.gray[500]};
-  flex-shrink:0;
+  flex-shrink: 0;
   img {
     max-width: 100%;
     position: absolute;
@@ -17,4 +17,3 @@ export const ProfileWrap = styled.span`
     transform: translate(-50%, -50%);
   }
 `;
-
