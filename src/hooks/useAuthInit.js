@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { changeData } from "../store";
-import { getUserInfo } from "../api/AuthApi";
+import { getUserInfo } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 
 export const useAuthInit = () => {

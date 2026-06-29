@@ -7,7 +7,7 @@ import Input from "../../components/form/Input/Input";
 import CheckboxField from "../../components/form/CheckboxField/CheckboxField";
 import { Checkbox } from "../../components/form/Input/Input.style";
 import { useNavigate } from "react-router-dom";
-import { getUserInfo, signIn } from "../../api/AuthApi";
+import { getUserInfo, signIn } from "../../api/authApi";
 import { changeData } from "../../store";
 import { useDispatch } from "react-redux";
 function SignIn() {
