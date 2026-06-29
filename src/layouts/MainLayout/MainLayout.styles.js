@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { theme } from "../../styles/theme";
 export const MainLayout = styled.div`
   display: flex;
   overflow: hidden;
@@ -7,14 +6,14 @@ export const MainLayout = styled.div`
 `;
 
 export const MainContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.gray[100]};
+  background-color: #f8faf9;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 `;
 
 export const Container = styled.div`
-  padding:3.2rem;
+  padding: 3.2rem;
   overflow-y: auto;
   height: 100%;
-`
+`;
