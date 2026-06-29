@@ -15,8 +15,8 @@ import { useState } from "react";
 import { BackPageLink } from "../../../components/Button/Button";
 import OverviewTab from "./tabs/OverviewTab";
 import TaskListTab from "./tabs/TaskList/TaskListTab";
-import ProgressUpdateTab from "./tabs/progressUpdate/ProgressUpdateTab";
-import TimelineTab from "./tabs/timeLine/TimelineTab";
+import ProgressUpdateTab from "./tabs/ProgressUpdate/ProgressUpdateTab";
+import TimelineTab from "./tabs/TimeLine/TimelineTab";
 
 function ProjectDetail() {
   const tabs = [
