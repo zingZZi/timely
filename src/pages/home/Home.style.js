@@ -43,11 +43,13 @@ export const StatesList = styled.li`
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  font-size: ${({ theme }) => theme.fontSizes.xs2};
+  color: ${({ theme }) => theme.colors.gray[500]};
 `;
 export const ProjectState = styled.span`
   display: block;
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 0.8rem;
+  height: 0.8rem;
   border-radius: 50%;
   background-color: ${({ status, theme }) => {
     if (status === "delay") return theme.colors.chartDelay;

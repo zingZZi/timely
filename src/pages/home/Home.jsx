@@ -5,6 +5,7 @@ import PageHeader from "../../components/PageHeader/PageHeader";
 import StateLabel from "../../components/Label/StateLabel";
 import BarChart from "../../components/graph/BarChart/BarChart";
 import ProfileImg from "../../components/profileImg/ProfileImg";
+import { CircleCheckBig, AlarmClockCheck, Loader } from "lucide-react";
 function Home() {
   return (
     <S.HomeLayout>
@@ -18,16 +19,29 @@ function Home() {
             <StateCard
               title="총프로젝트"
               num="12"
-              icon="total"
+              icon={<CircleCheckBig />}
               footer="전체 진행 상황"
-              graph="30%"
+              graph="30"
+              color="main"
             />
           </li>
           <li>
-            <StateCard title="총프로젝트" footer="하단" />
+            <StateCard
+              title="다가오는일정"
+              num="2"
+              footer="2 마감 임박 작업"
+              icon={<AlarmClockCheck />}
+              color="orange"
+            />
           </li>
           <li>
-            <StateCard title="총프로젝트" num="12" icon="total" />
+            <StateCard
+              title="검토 대기"
+              num="2"
+              icon="total"
+              icon={<Loader />}
+              color="gray"
+            />
           </li>
         </S.HomeTotalCard>
       </S.HomeTotal>

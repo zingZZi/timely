@@ -24,19 +24,22 @@ import TagInput from "../../../components/form/tagInput/TagInput";
 import WorkerSelected from "./popup/WorkerSelected";
 function NewProject() {
   const [form, setForm] = useState({
-    title: "",
+    projectNm: "",
     description: "",
-    state: "",
-    import: "",
     pm: "",
-    deadline: "",
+    ownerUserSn: "",
+    status: "",
+    priority: "", //우선순위
+    endDt: "",
+    budgetAmt: "",
+    clientNm: "",
+    tagNames: "",
     worker: [],
-    budget: "",
-    client: "",
-    tag: "",
+    memberUserSns: [],
+    exceptionUser: [],
+    accessUserSns: [],
     files: "",
     show: false,
-    exceptionUser: [],
   });
 
   const updateField = (key, value) => {
@@ -51,6 +54,47 @@ function NewProject() {
         [key]: value,
       }));
     }
+  };
+
+  //유효성 검사
+  const REQUIRED_FIELDS = {
+    projectNm: { label: "프로젝트명", required: true },
+    description: { label: "프로젝트설명", required: false },
+    status: { label: "상태", required: true },
+    priority: { label: "우선순위", required: true },
+    pm: { label: "담당자", required: true },
+    endDt: { label: "마감일", required: true },
+    worker: { label: "참여 인원", required: true },
+    budgetAmt: { label: "예산", required: true },
+    clientNm: { label: "클라이언트", required: true },
+    tagNames: { label: "태그", required: true },
+    files: { label: "파일", required: false },
+    show: { label: "공개여부", required: true },
+    exceptionUser: { label: "예외 인원", required: false },
+  };
+
+  const validate = (data) => {
+    const errors = {};
+
+    // REQUIRED_FIELDS 순회
+    Object.entries(REQUIRED_FIELDS).forEach(([key, config]) => {
+      if (config.required && data[key] < 0) {
+        console.log("값없음");
+      }
+      // 값 꺼내기
+      // 값이 없으면 errors에 저장
+    });
+
+    return errors;
+  };
+  const handelSubmit = async () => {
+    console.log(validate(form));
+    // const payload = {
+    //   ...form,
+    //   ownerUserSn: form.pm?.userSn ?? "",
+    //   memberUserSns: form.worker.map((u) => u.userSn),
+    // };
+    // console.log(payload);
   };
 
   return (
@@ -70,12 +114,12 @@ function NewProject() {
         >
           <fieldset>
             <legend className="text-ir">프로젝트 기본 내용</legend>
-            <FormField must="must" label="프로젝트" id="title">
+            <FormField must="must" label="프로젝트" id="projectNm">
               <Input
                 placeholder="프로젝트명을 입력해주세요"
-                value={form.title}
+                value={form.projectNm}
                 onChange={(value) => {
-                  updateField("title", value);
+                  updateField("projectNm", value);
                 }}
               />
             </FormField>
@@ -89,27 +133,27 @@ function NewProject() {
               />
             </FormField>
             <S.FormColgroup>
-              <FormField must="must" label="상태" id="state">
+              <FormField must="must" label="상태" id="status">
                 <NativeSelect
                   placeholder="상태선택"
                   datalists={sampleStateData}
-                  value={form.state}
+                  value={form.status}
                   dataValue="stateCd"
                   dataText="stateNm"
                   onChange={(value) => {
-                    updateField("state", value);
+                    updateField("status", value);
                   }}
                 />
               </FormField>
-              <FormField must="must" label="우선순위" id="import">
+              <FormField must="must" label="우선순위" id="priority">
                 <NativeSelect
                   placeholder="우선순위 선택"
                   datalists={sampleImportanceData}
-                  value={form.import}
+                  value={form.priority}
                   dataValue="importCd"
                   dataText="importNm"
                   onChange={(value) => {
-                    updateField("import", value);
+                    updateField("priority", value);
                   }}
                 />
               </FormField>
@@ -135,13 +179,13 @@ function NewProject() {
                   }}
                 />
               </FormField>
-              <FormField must="must" label="마감일" id="deadline">
+              <FormField must="must" label="마감일" id="endDt">
                 <Input
                   placeholder="프로젝트명을 입력해주세요"
                   type="date"
-                  value={form.deadline}
+                  value={form.endDt}
                   onChange={(value) => {
-                    updateField("deadline", value);
+                    updateField("endDt", value);
                   }}
                 />
               </FormField>
@@ -194,33 +238,33 @@ function NewProject() {
             </FormField>
 
             <S.FormColgroup>
-              <FormField must="must" label="예산" id="budget">
+              <FormField must="must" label="예산" id="budgetAmt">
                 <Input
                   placeholder="ex) 5,000 만원"
-                  value={form.budget}
+                  value={form.budgetAmt}
                   onChange={(value) => {
-                    updateField("budget", value);
+                    updateField("budgetAmt", value);
                   }}
                 />
               </FormField>
-              <FormField must="must" label="클라이언트" id="client">
+              <FormField must="must" label="클라이언트" id="clientNm">
                 <Input
                   placeholder="ex) (주)온상"
-                  value={form.client}
+                  value={form.clientNm}
                   onChange={(value) => {
-                    updateField("client", value);
+                    updateField("clientNm", value);
                   }}
                 />
               </FormField>
             </S.FormColgroup>
 
-            <FormField must="must" label="태그" id="tag">
+            <FormField must="must" label="태그" id="tagNames">
               <TagInput
                 size={4.6}
                 placeholder="태그를 입력해주세요"
-                value={form.tag}
+                value={form.tagNames}
                 onChange={(value) => {
-                  updateField("tag", value);
+                  updateField("tagNames", value);
                 }}
               />
             </FormField>
@@ -324,7 +368,7 @@ function NewProject() {
             <BasicBtn
               type="button"
               onClick={() => {
-                console.log(form);
+                handelSubmit();
               }}
             >
               프로젝트 생성
