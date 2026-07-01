@@ -23,6 +23,7 @@ function SearchSelect({
   renderSelected,
   multiple,
   compareKey,
+  isEmptyValue
 }) {
   const { openPopup } = usePopup();
   return (
@@ -31,6 +32,7 @@ function SearchSelect({
       arrowIcon={arrowIcon}
       value={value}
       renderSelected={renderSelected}
+      isEmptyValue={isEmptyValue}
       onClick={() =>
         openPopup({
           headerIcon: headerIcon,

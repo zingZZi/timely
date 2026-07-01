@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import * as S from './Select.style';
 import SelectShell from "./SelectShell";
 
-function NativeSelect({size="normal",placeholder,datalists,onChange,value,dataValue,dataText}){
+function NativeSelect({size="normal",placeholder,datalists,onChange,value,dataValue,dataText,isEmptyValue}){
     
   const selectedText =
     datalists?.find((item) => item[dataValue] === value)?.[dataText] || "";
     return(
         <S.Wrapper>
-            <SelectShell size={size} placeholder={placeholder} value={selectedText}/>
+            <SelectShell size={size} placeholder={placeholder} value={selectedText} isEmptyValue={isEmptyValue}/>
              
             <S.HiddenSelect 
                 name={dataValue}

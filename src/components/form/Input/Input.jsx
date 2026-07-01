@@ -1,16 +1,19 @@
+import { forwardRef } from "react";
 import * as S from './Input.style';
 
-function Input({type="text",id,size="normal",placeholder,value,onChange}){
-    return(
+const Input = forwardRef(({ type = "text", id, size = "normal", placeholder, value, onChange, isEmptyValue }, ref) => {
+    return (
         <S.Input 
-          type={type} 
-          id={id} 
-          placeholder={placeholder} 
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          size={size}
+            ref={ref}
+            type={type} 
+            id={id} 
+            placeholder={placeholder} 
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            size={size}
+            isEmptyValue={isEmptyValue}
         />
     )
-}
+});
 
 export default Input

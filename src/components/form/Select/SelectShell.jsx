@@ -6,11 +6,12 @@ function SelectShell({
   renderSelected,
   placeholder,
   arrowIcon = true,
+  isEmptyValue,
   ...props
 }) {
   const hasValue = Array.isArray(value) ? value.length > 0 : !!value;
   return (
-    <S.SelectBox type="button" {...props}>
+    <S.SelectBox type="button" {...props} isEmptyValue={isEmptyValue}>
       {hasValue ? (
         renderSelected ? (
           renderSelected(value)

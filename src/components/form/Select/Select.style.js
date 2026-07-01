@@ -20,6 +20,16 @@ export const SelectBox = styled.button`
     transform: translateY(-50%);
     color: ${({ theme }) => theme.colors.gray[500]};
   }
+
+  //error state
+  border: ${({ isEmptyValue, theme }) => {
+    if (isEmptyValue) return `1px solid ${theme.colors.danger}`;
+    return `1px solid ${theme.colors.gray[200]}`;
+  }};
+  box-shadow: ${({ isEmptyValue, theme }) => {
+    if (isEmptyValue) return `0 0 3px 2px ${hexToRgba(theme.colors.danger, 0.4)}`;
+    return `none`;
+  }};
 `;
 
 export const Placeholder = styled.span`

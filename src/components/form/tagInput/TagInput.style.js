@@ -10,13 +10,23 @@ export const TagInputWrap = styled.div`
   padding: 1rem 1.6rem;
   min-height: ${(props) => `${props.size}rem`};
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  &:focus {
+  //error state
+  border: ${({ isEmptyValue, theme }) => {
+    if (isEmptyValue) return `1px solid ${theme.colors.danger}`;
+    return `1px solid ${theme.colors.gray[200]}`;
+  }};
+  box-shadow: ${({ isEmptyValue, theme }) => {
+    if (isEmptyValue) return `0 0 3px 2px ${hexToRgba(theme.colors.danger, 0.4)}`;
+    return `none`;
+  }};
+  &:focus-within {
     outline: none;
     box-shadow: 0 0 3px 2px ${({ theme }) => hexToRgba(theme.colors.main, 0.4)};
     border-color: ${({ theme }) => theme.colors.main};
   }
+
+
 `;
 
 export const Input = styled.input`

@@ -8,7 +8,6 @@ export let Input = styled.input`
     size === "small" ? "4.2rem" : "5.4rem"};
     height: ${(props) => `${props.size}rem`};
     font-size: ${({ theme }) => theme.fontSizes.sm};
-    border:1px solid  ${({ theme }) => theme.colors.gray[200]};
     border-radius: ${({ theme }) => theme.borderRadius.lg};
 
     &:focus{
@@ -19,6 +18,16 @@ export let Input = styled.input`
     &::placeholder{
         color:${({ theme }) => theme.colors.gray[500]};
     }
+
+    //error state
+    border: ${({ isEmptyValue, theme }) => {
+        if (isEmptyValue) return `1px solid ${theme.colors.danger}`;
+        return `1px solid ${theme.colors.gray[200]}`;
+    }};
+    box-shadow: ${({ isEmptyValue, theme }) => {
+        if (isEmptyValue) return `0 0 3px 2px ${hexToRgba(theme.colors.danger, 0.4)}`;
+        return `none`;
+    }};
 `;
 
 

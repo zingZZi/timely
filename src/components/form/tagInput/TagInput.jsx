@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import * as S from "./TagInput.style";
-function TagInput({ size, placeholder, value, onChange, id }) {
+function TagInput({ size, placeholder, value, onChange, id,isEmptyValue}) {
   let tagLists = value;
   let [inputValue, setInputValue] = useState("");
   function Delete(index) {
@@ -28,7 +28,7 @@ function TagInput({ size, placeholder, value, onChange, id }) {
 
   return (
     <>
-      <S.TagInputWrap size={size}>
+      <S.TagInputWrap size={size} isEmptyValue={isEmptyValue}>
         {tagLists.length > 0 ? (
           <S.Tags>
             {tagLists.map((e, i) => {

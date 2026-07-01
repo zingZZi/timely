@@ -9,7 +9,7 @@ import { ArrowLeft, Shield, EyeOff, Eye, Users, User } from "lucide-react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import Input from "../../../components/form/Input/Input";
 import FormField from "../../../components/form/FormField/FormField";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Switch from "../../../components/form/switch/Switch";
 import Textarea from "../../../components/form/textarea/Textarea";
 import {
@@ -54,47 +54,72 @@ function NewProject() {
         [key]: value,
       }));
     }
+    
+    setErrors((prev) => {
+      if (!prev[key]) return prev;
+      if (isEmptyValue(value)) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
   };
 
   //유효성 검사
   const REQUIRED_FIELDS = {
-    projectNm: { label: "프로젝트명", required: true },
-    description: { label: "프로젝트설명", required: false },
-    status: { label: "상태", required: true },
-    priority: { label: "우선순위", required: true },
-    pm: { label: "담당자", required: true },
-    endDt: { label: "마감일", required: true },
-    worker: { label: "참여 인원", required: true },
-    budgetAmt: { label: "예산", required: true },
-    clientNm: { label: "클라이언트", required: true },
-    tagNames: { label: "태그", required: true },
-    files: { label: "파일", required: false },
-    show: { label: "공개여부", required: true },
-    exceptionUser: { label: "예외 인원", required: false },
+    projectNm: { label: "프로젝트명", required: () => true },
+    description: { label: "프로젝트설명", required: () => false },
+    status: { label: "상태", required: () => true },
+    priority: { label: "우선순위", required: () => true },
+    pm: { label: "담당자", required: () => true },
+    endDt: { label: "마감일", required: () => true },
+    worker: { label: "참여 인원", required: () => true },
+    budgetAmt: { label: "예산", required: () => true },
+    clientNm: { label: "클라이언트", required: () => true },
+    tagNames: { label: "태그", required: () => true },
+    files: { label: "파일", required: () => false },
+    show: { label: "공개여부", required: () => true },
+    exceptionUser: {
+      label: "예외 인원",
+      required: (formData) => formData.show === false,
+    },
   };
 
-  const validate = (data) => {
-    const errors = {};
-
-    // REQUIRED_FIELDS 순회
-    Object.entries(REQUIRED_FIELDS).forEach(([key, config]) => {
-      if (config.required && data[key] < 0) {
-        console.log("값없음");
+  const isEmptyValue = (value) => {
+    if (typeof value === "boolean") return false; // boolean은 항상 값이 있는 것으로 간주
+    if (Array.isArray(value)) return value.length === 0;
+    if (typeof value === "number") return value === null || value === undefined;
+    if (value === null || value === undefined) return true;
+    if (typeof value === "string") return value.trim() === "";
+    return false;
+  };
+  const formRef = useRef({});
+  const [errors, setErrors] = useState({});
+  
+  const validateForm = (formData) => {
+    const newErrors = {};
+    Object.entries(REQUIRED_FIELDS).forEach(([key, { label, required }]) => {
+      const isRequired = required(formData); 
+      if (!isRequired) return;
+      if (isEmptyValue(formData[key])) {
+        newErrors[key] = `${label}은(는) 필수 입력 항목입니다.`;
       }
-      // 값 꺼내기
-      // 값이 없으면 errors에 저장
     });
-
-    return errors;
+    return newErrors;
   };
+
+
   const handelSubmit = async () => {
-    console.log(validate(form));
-    // const payload = {
-    //   ...form,
-    //   ownerUserSn: form.pm?.userSn ?? "",
-    //   memberUserSns: form.worker.map((u) => u.userSn),
-    // };
-    // console.log(payload);
+    const newErrors = validateForm(form);
+    setErrors(newErrors); 
+    if(Object.keys(newErrors).length > 0) return; // 유효성 검사 실패 시 제출 중단
+    const payload = {
+      ...form,
+      ownerUserSn: form.pm?.userSn ?? "",
+      memberUserSns: form.worker.map((u) => u.userSn),
+    };
+
+    //api 데이터 송출
+    console.log(payload)
   };
 
   return (
@@ -118,6 +143,7 @@ function NewProject() {
               <Input
                 placeholder="프로젝트명을 입력해주세요"
                 value={form.projectNm}
+                isEmptyValue={!!errors.projectNm}
                 onChange={(value) => {
                   updateField("projectNm", value);
                 }}
@@ -127,6 +153,7 @@ function NewProject() {
               <Textarea
                 name="description"
                 value={form.description}
+                isEmptyValue={!!errors.description}
                 onChange={(value) => {
                   updateField("description", value);
                 }}
@@ -143,6 +170,7 @@ function NewProject() {
                   onChange={(value) => {
                     updateField("status", value);
                   }}
+                  isEmptyValue={!!errors.status}
                 />
               </FormField>
               <FormField must="must" label="우선순위" id="priority">
@@ -155,6 +183,7 @@ function NewProject() {
                   onChange={(value) => {
                     updateField("priority", value);
                   }}
+                isEmptyValue={!!errors.priority}
                 />
               </FormField>
             </S.FormColgroup>
@@ -171,6 +200,7 @@ function NewProject() {
                   searchKeys={["name", "department", "position"]}
                   renderItem={(data) => <PopupList data={data} />}
                   value={form.pm}
+                isEmptyValue={!!errors.pm}
                   renderSelected={(data) => (
                     <WorkerSelected data={data} size={3} />
                   )}
@@ -187,6 +217,7 @@ function NewProject() {
                   onChange={(value) => {
                     updateField("endDt", value);
                   }}
+                isEmptyValue={!!errors.endDt}
                 />
               </FormField>
             </S.FormColgroup>
@@ -204,6 +235,7 @@ function NewProject() {
                 compareKey="userSn"
                 popFooter={true}
                 value={form.worker}
+                isEmptyValue={!!errors.worker}
                 renderItem={(data, isChecked) => (
                   <PopupList data={data} multiple={true} checked={isChecked} />
                 )}
@@ -245,6 +277,7 @@ function NewProject() {
                   onChange={(value) => {
                     updateField("budgetAmt", value);
                   }}
+                  isEmptyValue={!!errors.budgetAmt}
                 />
               </FormField>
               <FormField must="must" label="클라이언트" id="clientNm">
@@ -254,6 +287,7 @@ function NewProject() {
                   onChange={(value) => {
                     updateField("clientNm", value);
                   }}
+                  isEmptyValue={!!errors.clientNm}
                 />
               </FormField>
             </S.FormColgroup>
@@ -266,6 +300,7 @@ function NewProject() {
                 onChange={(value) => {
                   updateField("tagNames", value);
                 }}
+                isEmptyValue={!!errors.tagNames}
               />
             </FormField>
           </fieldset>
@@ -322,6 +357,7 @@ function NewProject() {
                     compareKey="userSn"
                     popFooter={true}
                     value={form.exceptionUser}
+                    isEmptyValue={!!errors.exceptionUser}
                     renderItem={(data, isChecked) => (
                       <PopupList
                         data={data}
