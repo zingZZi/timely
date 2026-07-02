@@ -88,11 +88,15 @@ export const ProjectState = styled.div`
 `;
 
 export const Priority = styled.span`
-  border-radius: 0.4rem;
+  border-radius: 9rem;  
+  background-color: ${({ theme ,$color}) => hexToRgba(theme.colors[$color], 0.1)};
+  color: ${({ theme ,$color}) => theme.colors[$color]};
 `;
 
 export const State = styled.span`
   border-radius: 999px;
+  background-color: ${({ theme ,$color}) => hexToRgba(theme.colors[$color], 0.1)};
+  color: ${({ theme ,$color}) => theme.colors[$color]};
 `;
 
 export const GraphContent = styled.div``;
@@ -146,6 +150,7 @@ export const VisibilityTag = styled.span`
     width: 1.4rem;
     height: 1.4rem;
   }
+
 `;
 
 export const TagWrap = styled.div`

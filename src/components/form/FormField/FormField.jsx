@@ -9,7 +9,7 @@ function FormField({label,must=false,children,id,error=true,errorText}){
                 <S.Label htmlFor={id}>
                     {label}
                     {
-                        must?"*":null
+                        must?<S.MustIcon>*</S.MustIcon>:null
                     }
                 </S.Label>
                 {React.cloneElement(children, {id})}

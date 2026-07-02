@@ -1,9 +1,51 @@
 import { Link } from "react-router-dom";
+import { useState,useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import * as S from "./Index.style";
 import { User, Calendar, Eye, EyeOff } from "lucide-react";
+import { fetchProjects } from "../../../api/projectApi";
+import { VISIBILITY_LABEL, STATUS_LABEL, PRIORITY_LABEL } from "../../../constants/project";
 
 function Projects() {
+  const [pjList, setPjList] = useState([{
+      "projectSn": 1,
+      "projectNm": "웹사이트 리뉴얼 프로젝트",
+      "status": "IN_PROGRESS",
+      "priority": "HIGH",
+      "visibility": "PRIVATE",
+      "progressRate": 75,
+      "ownerUserSn": 1,
+      "ownerUserNm": "김민수",
+      "startDt": "2026-05-01",
+      "endDt": "2026-06-30",
+      "budgetAmt": 50000000,
+      "clientNm": "(주)테크놀로지",
+      "tags": [
+        {
+          "projectTagSn": 1,
+          "tagNm": "웹개발"
+        }
+      ],
+      "memberCount": 3,
+      "accessExceptionCount": 2,
+      "createDt": "2026-05-17T09:00:00",
+      "updateDt": "2026-05-17T10:00:00"
+    }]);
+
+  const fetchList = async () => {
+    try{
+      const response = await fetchProjects();
+      console.log(response.data);
+      setPjList(response.data.content);
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  // useEffect(() => {
+  //   fetchList();
+  // }, []);
+
   return (
     <>
       <PageHeader
@@ -16,7 +58,7 @@ function Projects() {
       <S.Tab>
         <S.TabBtn className="active">
           전체
-          <S.TabNum>10</S.TabNum>
+          <S.TabNum>{pjList.length}</S.TabNum>
         </S.TabBtn>
         <S.TabBtn>
           진행중
@@ -33,47 +75,57 @@ function Projects() {
       </S.Tab>
 
       <S.ProjectLists>
-        <S.ProjectList>
-          <S.ProjectCard>
-            <Link to="/projects/detail/1">
-              <S.ProjectTitle>웹사이트 리뉴얼 프로젝트</S.ProjectTitle>
-              <S.ProjectSum>
-                기존 웹사이트의 UI/UX를 개선하고 반응형 디자인을 적용하는
-                프로젝트입니다.
-              </S.ProjectSum>
-              <S.ProjectState>
-                <S.Priority>높음</S.Priority>
-                <S.State>진행중</S.State>
-              </S.ProjectState>
-              <S.GraphContent>
-                <S.GraphText>
-                  진행률 <strong>76%</strong>
-                </S.GraphText>
-                <S.Graph>
-                  <S.GraphPerCent></S.GraphPerCent>
-                </S.Graph>
-              </S.GraphContent>
-              <S.ProjectInfo>
-                <User />
-                김민수
-              </S.ProjectInfo>
-              <S.ProjectInfo>
-                <Calendar />
-                2024-02-13
-              </S.ProjectInfo>
-              <S.VisibilityTag>
-                <Eye />
-                공개
-              </S.VisibilityTag>
-              <S.TagWrap>
-                <S.Tag>웹개발</S.Tag>
-                <S.Tag>UI/UX</S.Tag>
-                <S.Tag>반응형</S.Tag>
-                <S.MoreTag>+ 1</S.MoreTag>
-              </S.TagWrap>
-            </Link>
-          </S.ProjectCard>
-        </S.ProjectList>
+        {pjList.map((e,i)=>{
+          return(
+            <S.ProjectList key={e.projectSn}>
+              <S.ProjectCard>
+                <Link to={`/projects/detail/${e.projectSn}`}>
+                  <S.ProjectTitle>{e.projectNm}</S.ProjectTitle>
+                  <S.ProjectSum>
+                    기존 웹사이트의 UI/UX를 개선하고 반응형 디자인을 적용하는
+                    프로젝트입니다.
+                  </S.ProjectSum>
+                  <S.ProjectState>
+                    <S.Priority $color={PRIORITY_LABEL[e.priority].color}>
+                      {PRIORITY_LABEL[e.priority].label}
+                    </S.Priority>
+                    <S.State $color={STATUS_LABEL[e.status].color}>
+                      {STATUS_LABEL[e.status].label}
+                    </S.State>
+                  </S.ProjectState>
+                  <S.GraphContent>
+                    <S.GraphText>
+                      진행률 <strong>{e.progressRate}%</strong>
+                    </S.GraphText>
+                    <S.Graph>
+                      <S.GraphPerCent style={{ width: `${e.progressRate}%` }}></S.GraphPerCent>
+                    </S.Graph>
+                  </S.GraphContent>
+                  <S.ProjectInfo>
+                    <User />
+                    {e.ownerUserNm}
+                  </S.ProjectInfo>
+                  <S.ProjectInfo>
+                    <Calendar />
+                    {e.startDt}
+                  </S.ProjectInfo>
+                  <S.VisibilityTag>
+                    {
+                      e.visibility === "PUBLIC" ? <Eye /> : <EyeOff />
+                    }
+                    {VISIBILITY_LABEL[e.visibility]}
+                  </S.VisibilityTag>
+                  <S.TagWrap>
+                    {e.tags.map((tag, index) => {
+                      return <S.Tag key={index}>{tag.tagNm}</S.Tag>;
+                    })}
+                    <S.MoreTag>+ 1</S.MoreTag>
+                  </S.TagWrap>
+                </Link>
+              </S.ProjectCard>
+            </S.ProjectList>
+          )
+        })}
       </S.ProjectLists>
     </>
   );

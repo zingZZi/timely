@@ -17,3 +17,11 @@ export let ErrorText = styled.p`
     font-size: ${({ theme }) => theme.fontSizes.xs};
     color:${({ theme }) => theme.colors.danger};
 `
+
+export const MustIcon = styled.span`
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    color:${({ theme }) => theme.colors.danger};
+    display: inline-block;
+    margin-left: 0.2rem;
+
+`
