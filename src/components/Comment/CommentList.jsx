@@ -6,7 +6,7 @@ import { removePostsComments } from "../../api/boardApi";
 import { useSelector } from "react-redux";
 import ProfileImg from "../profileImg/ProfileImg";
 
-function CommentList({ data }) {
+function CommentList({ data, onDelete }) {
   let userInfo = useSelector((state) => {
     return state.userInfo;
   });
@@ -23,12 +23,13 @@ function CommentList({ data }) {
 
   const remvoeComment = async () => {
     try {
-      removePostsComments(data.boardPostSn, data.boardCommentSn);
+      await removePostsComments(data.boardPostSn, data.boardCommentSn);
+      onDelete(data.boardCommentSn);
     } catch (error) {
       console.log(error);
     }
   };
-
+  console.log(userInfo.userSn);
   return (
     <S.Comment $size="big">
       {/* <S.Profile>

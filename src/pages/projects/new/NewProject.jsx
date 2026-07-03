@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as S from "./NewProject.style";
 import {
   BackPageLink,
@@ -22,7 +22,10 @@ import SearchSelect from "../../../components/form/Select/SearchSelect";
 import PopupList from "./popup/PopupList";
 import TagInput from "../../../components/form/tagInput/TagInput";
 import WorkerSelected from "./popup/WorkerSelected";
+import { ErrorText } from "../../../components/form/FormField/FormField.style";
+import { postProject } from "../../../api/projectApi";
 function NewProject() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     projectNm: "",
     description: "",
@@ -54,7 +57,7 @@ function NewProject() {
         [key]: value,
       }));
     }
-    
+
     setErrors((prev) => {
       if (!prev[key]) return prev;
       if (isEmptyValue(value)) return prev;
@@ -73,7 +76,18 @@ function NewProject() {
     pm: { label: "담당자", required: () => true },
     endDt: { label: "마감일", required: () => true },
     worker: { label: "참여 인원", required: () => true },
-    budgetAmt: { label: "예산", required: () => true },
+    budgetAmt: {
+      label: "예산",
+      required: () => true,
+      validate: (value) => {
+        if (isEmptyValue(value)) return null; // required 체크에서 이미 처리
+        // 숫자(정수) 형태인지 확인. 콤마 포함 문자열이면 콤마 제거 후 체크
+        const raw = typeof value === "string" ? value.replace(/,/g, "") : value;
+        return /^\d+$/.test(String(raw))
+          ? null
+          : "예산은 숫자만 입력 가능합니다.";
+      },
+    },
     clientNm: { label: "클라이언트", required: () => true },
     tagNames: { label: "태그", required: () => true },
     files: { label: "파일", required: () => false },
@@ -92,34 +106,59 @@ function NewProject() {
     if (typeof value === "string") return value.trim() === "";
     return false;
   };
-  const formRef = useRef({});
   const [errors, setErrors] = useState({});
-  
+
   const validateForm = (formData) => {
     const newErrors = {};
-    Object.entries(REQUIRED_FIELDS).forEach(([key, { label, required }]) => {
-      const isRequired = required(formData); 
-      if (!isRequired) return;
-      if (isEmptyValue(formData[key])) {
-        newErrors[key] = `${label}은(는) 필수 입력 항목입니다.`;
-      }
-    });
+    Object.entries(REQUIRED_FIELDS).forEach(
+      ([key, { label, required, validate }]) => {
+        const value = formData[key];
+        const isRequired = required(formData);
+        if (!isRequired) return;
+        if (isEmptyValue(value)) {
+          newErrors[key] = `${label}은(는) 필수 입력 항목입니다.`;
+          return;
+        }
+        if (typeof validate === "function") {
+          const errorMsg = validate(value, formData);
+          if (errorMsg) newErrors[key] = errorMsg;
+        }
+      },
+    );
     return newErrors;
   };
 
-
   const handelSubmit = async () => {
     const newErrors = validateForm(form);
-    setErrors(newErrors); 
-    if(Object.keys(newErrors).length > 0) return; // 유효성 검사 실패 시 제출 중단
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return; // 유효성 검사 실패 시 제출 중단
     const payload = {
       ...form,
       ownerUserSn: form.pm?.userSn ?? "",
       memberUserSns: form.worker.map((u) => u.userSn),
+      visibility: form.show ? "PUBLIC" : "PRIVATE",
+      budgetAmt: form.budgetAmt.replace(/,/g, ""),
+      accessUserSns: form.exceptionUser.map((u) => u.userSn),
+      progressRate: 0, //추후 수정필요성 있음
     };
 
     //api 데이터 송출
-    console.log(payload)
+    try {
+      await postProject(payload);
+      navigate("/projects");
+    } catch (error) {
+      if (error.response) {
+        // 서버가 응답은 했지만 에러 상태코드를 반환한 경우
+        console.log("status:", error.response.status);
+        console.log("data:", error.response.data);
+      } else if (error.request) {
+        // 요청은 보냈지만 응답을 못 받은 경우 (네트워크 끊김, CORS 등)
+        console.log("no response:", error.request);
+      } else {
+        // 요청 설정 자체에서 에러가 난 경우
+        console.log("error message:", error.message);
+      }
+    }
   };
 
   return (
@@ -149,6 +188,7 @@ function NewProject() {
                 }}
               />
             </FormField>
+
             <FormField label="프로젝트설명" id="description">
               <Textarea
                 name="description"
@@ -183,7 +223,7 @@ function NewProject() {
                   onChange={(value) => {
                     updateField("priority", value);
                   }}
-                isEmptyValue={!!errors.priority}
+                  isEmptyValue={!!errors.priority}
                 />
               </FormField>
             </S.FormColgroup>
@@ -200,7 +240,7 @@ function NewProject() {
                   searchKeys={["name", "department", "position"]}
                   renderItem={(data) => <PopupList data={data} />}
                   value={form.pm}
-                isEmptyValue={!!errors.pm}
+                  isEmptyValue={!!errors.pm}
                   renderSelected={(data) => (
                     <WorkerSelected data={data} size={3} />
                   )}
@@ -217,7 +257,7 @@ function NewProject() {
                   onChange={(value) => {
                     updateField("endDt", value);
                   }}
-                isEmptyValue={!!errors.endDt}
+                  isEmptyValue={!!errors.endDt}
                 />
               </FormField>
             </S.FormColgroup>
@@ -270,16 +310,20 @@ function NewProject() {
             </FormField>
 
             <S.FormColgroup>
-              <FormField must="must" label="예산" id="budgetAmt">
-                <Input
-                  placeholder="ex) 5,000 만원"
-                  value={form.budgetAmt}
-                  onChange={(value) => {
-                    updateField("budgetAmt", value);
-                  }}
-                  isEmptyValue={!!errors.budgetAmt}
-                />
-              </FormField>
+              <div>
+                <FormField must="must" label="예산" id="budgetAmt">
+                  <Input
+                    placeholder="ex) 50000000"
+                    value={form.budgetAmt}
+                    onChange={(value) => {
+                      updateField("budgetAmt", value);
+                    }}
+                    isEmptyValue={!!errors.budgetAmt}
+                  />
+                </FormField>
+                <ErrorText>{errors.budgetAmt}</ErrorText>
+              </div>
+
               <FormField must="must" label="클라이언트" id="clientNm">
                 <Input
                   placeholder="ex) (주)온상"

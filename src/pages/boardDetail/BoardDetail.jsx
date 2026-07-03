@@ -16,9 +16,9 @@ import { MessageCircle, Heart, Bookmark, Share2 } from "lucide-react";
 function BoardDetail() {
   const { id } = useParams();
   const [pageData, setPageData] = useState({});
-  const [comments, setComments] = useState({});
+  const [comments, setComments] = useState([]);
   const [like, setLike] = useState(false);
-  const [likeNum, setLikeNum] = useState('');
+  const [likeNum, setLikeNum] = useState("");
 
   const categoryInfo = CATEGORYMAP[pageData.category];
   const statusInfo = STATUSMAP[pageData.status];
@@ -46,26 +46,35 @@ function BoardDetail() {
     }
   };
 
-
   const handleLike = async () => {
     try {
       if (like) {
         await removeLike(id);
         setLike(false);
-        setLikeNum(likeNum-1)
+        setLikeNum(likeNum - 1);
       } else {
         await postLike(id);
         setLike(true);
-        setLikeNum(likeNum+1)
+        setLikeNum(likeNum + 1);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleDeleteComment = (boardCommentSn) => {
+    setComments((prev) => ({
+      ...prev,
+      content: prev.content.filter(
+        (comment) => comment.boardCommentSn !== boardCommentSn,
+      ),
+      totalElements: prev.totalElements - 1,
+    }));
+  };
+
   useEffect(() => {
-  getComments();
-}, [id]);
+    getComments();
+  }, [id]);
 
   return (
     <>
@@ -163,7 +172,7 @@ function BoardDetail() {
           {comments.content?.map((e, i) => {
             return (
               <S.CommentList key={i}>
-                <CommentList data={e} />
+                <CommentList data={e} onDelete={handleDeleteComment} />
               </S.CommentList>
             );
           })}

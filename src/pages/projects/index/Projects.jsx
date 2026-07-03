@@ -1,50 +1,31 @@
 import { Link } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import * as S from "./Index.style";
 import { User, Calendar, Eye, EyeOff } from "lucide-react";
 import { fetchProjects } from "../../../api/projectApi";
-import { VISIBILITY_LABEL, STATUS_LABEL, PRIORITY_LABEL } from "../../../constants/project";
+import {
+  VISIBILITY_LABEL,
+  STATUS_LABEL,
+  PRIORITY_LABEL,
+} from "../../../constants/project";
 
 function Projects() {
-  const [pjList, setPjList] = useState([{
-      "projectSn": 1,
-      "projectNm": "웹사이트 리뉴얼 프로젝트",
-      "status": "IN_PROGRESS",
-      "priority": "HIGH",
-      "visibility": "PRIVATE",
-      "progressRate": 75,
-      "ownerUserSn": 1,
-      "ownerUserNm": "김민수",
-      "startDt": "2026-05-01",
-      "endDt": "2026-06-30",
-      "budgetAmt": 50000000,
-      "clientNm": "(주)테크놀로지",
-      "tags": [
-        {
-          "projectTagSn": 1,
-          "tagNm": "웹개발"
-        }
-      ],
-      "memberCount": 3,
-      "accessExceptionCount": 2,
-      "createDt": "2026-05-17T09:00:00",
-      "updateDt": "2026-05-17T10:00:00"
-    }]);
+  const [pjList, setPjList] = useState([]);
 
   const fetchList = async () => {
-    try{
+    try {
       const response = await fetchProjects();
       console.log(response.data);
       setPjList(response.data.content);
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
 
-  // useEffect(() => {
-  //   fetchList();
-  // }, []);
+  useEffect(() => {
+    fetchList();
+  }, []);
 
   return (
     <>
@@ -75,8 +56,8 @@ function Projects() {
       </S.Tab>
 
       <S.ProjectLists>
-        {pjList.map((e,i)=>{
-          return(
+        {pjList.map((e, i) => {
+          return (
             <S.ProjectList key={e.projectSn}>
               <S.ProjectCard>
                 <Link to={`/projects/detail/${e.projectSn}`}>
@@ -98,7 +79,9 @@ function Projects() {
                       진행률 <strong>{e.progressRate}%</strong>
                     </S.GraphText>
                     <S.Graph>
-                      <S.GraphPerCent style={{ width: `${e.progressRate}%` }}></S.GraphPerCent>
+                      <S.GraphPerCent
+                        style={{ width: `${e.progressRate}%` }}
+                      ></S.GraphPerCent>
                     </S.Graph>
                   </S.GraphContent>
                   <S.ProjectInfo>
@@ -107,12 +90,10 @@ function Projects() {
                   </S.ProjectInfo>
                   <S.ProjectInfo>
                     <Calendar />
-                    {e.startDt}
+                    {e.endDt}
                   </S.ProjectInfo>
                   <S.VisibilityTag>
-                    {
-                      e.visibility === "PUBLIC" ? <Eye /> : <EyeOff />
-                    }
+                    {e.visibility === "PUBLIC" ? <Eye /> : <EyeOff />}
                     {VISIBILITY_LABEL[e.visibility]}
                   </S.VisibilityTag>
                   <S.TagWrap>
@@ -124,7 +105,7 @@ function Projects() {
                 </Link>
               </S.ProjectCard>
             </S.ProjectList>
-          )
+          );
         })}
       </S.ProjectLists>
     </>

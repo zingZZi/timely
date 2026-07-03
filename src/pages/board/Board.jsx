@@ -1,14 +1,16 @@
 import PageHeader from "../../components/PageHeader/PageHeader";
+import { CircleAlert, CalendarCheck2, UserStar } from "lucide-react";
 import * as S from "./Board.style";
 import CardList from "../../components/board/CardList/CardList";
 import { useEffect, useState } from "react";
-import { fetchPosts } from "../../api/boardApi";
+import { fetchPosts, fetchPostsSideBar } from "../../api/boardApi";
 import { BOARDFILTERLIST } from "./filterlists";
 import { Link } from "react-router-dom";
 
 function Board() {
   const filterList = BOARDFILTERLIST;
   const [boardList, setBoardList] = useState([]);
+  const [recentNotice, setRecentNotice] = useState([]);
   const [activeBtn, setActiveBtn] = useState(0);
   const [selectCategory, setSelectCategory] = useState("");
 
@@ -23,6 +25,9 @@ function Board() {
       try {
         const res = await fetchPosts();
         setBoardList(res.data.content);
+        const sideDatas = await fetchPostsSideBar();
+        setRecentNotice(sideDatas.data.recentNotices);
+        console.log(sideDatas.data.recentNotices);
       } catch (error) {
         console.log(error);
       }
@@ -63,8 +68,12 @@ function Board() {
         </S.BoardFilter>
 
         <S.BoardTotal>
-          <S.TotalText>총 <S.TotalNum>{filteredList.length}</S.TotalNum>개</S.TotalText>
-          <S.WriteBtn padding="1rem 2.6rem" to="/board/write">글작성</S.WriteBtn>
+          <S.TotalText>
+            총 <S.TotalNum>{filteredList.length}</S.TotalNum>개
+          </S.TotalText>
+          <S.WriteBtn padding="1rem 2.6rem" to="/board/write">
+            글작성
+          </S.WriteBtn>
         </S.BoardTotal>
 
         <S.BoardLists>
@@ -80,15 +89,35 @@ function Board() {
 
       <S.BoardAside>
         <S.AsideCard>
-          <h3>최근공지</h3>
+          <S.AsideCardHeader>
+            <CircleAlert />
+            최근공지
+          </S.AsideCardHeader>
+          {recentNotice.length > 0 ? (
+            recentNotice.map((e, i) => {
+              return (
+                <S.SideLink to="" key={i}>
+                  {e.title} <S.SideData>{e.createDt}</S.SideData>
+                </S.SideLink>
+              );
+            })
+          ) : (
+            <S.AsideCardCountNone>최근 공지가 없습니다</S.AsideCardCountNone>
+          )}
         </S.AsideCard>
 
         <S.AsideCard>
-          <h3>다가오는 일정</h3>
+          <S.AsideCardHeader>
+            <CalendarCheck2 />
+            다가오는 일정
+          </S.AsideCardHeader>
         </S.AsideCard>
 
         <S.AsideCard>
-          <h3>활발한 사용자</h3>
+          <S.AsideCardHeader>
+            <UserStar />
+            활발한 사용자
+          </S.AsideCardHeader>
         </S.AsideCard>
       </S.BoardAside>
     </S.BoardWrap>

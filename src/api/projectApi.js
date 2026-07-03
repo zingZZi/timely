@@ -1,12 +1,11 @@
 import api from "./api";
 
-
 //프로젝트 리스트
-export const fetchProjects = (params) => api.get("/v1/projects");
-
+export const fetchProjects = () => api.get("/v1/projects");
 
 //프로젝트 상세조회
-export const fetchProjectDetail = (projectSn) => api.get(`/v1/projects/${projectSn}`);
+export const fetchProjectDetail = (projectSn) =>
+  api.get(`/v1/projects/${projectSn}`);
 
 //프로젝트 생성
 export const postProject = ({
@@ -15,27 +14,29 @@ export const postProject = ({
   ownerUserSn,
   status,
   priority,
-  show,
+  visibility,
   endDt,
   budgetAmt,
   clientNm,
   tagNames,
   memberUserSns,
   accessUserSns,
-  files,
+  //files,
+  progressRate,
 }) =>
-  api.post("/v1/board-posts", {
+  api.post("/v1/projects", {
     projectNm,
     description,
     ownerUserSn,
     status,
     priority,
-    show,
+    visibility,
     endDt,
     budgetAmt,
     clientNm,
     tagNames,
     memberUserSns,
     accessUserSns,
-    files,
+    progressRate,
+    files: [],
   });

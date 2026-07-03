@@ -1,36 +1,36 @@
 export const sampleStateData = [
   {
-    stateCd: "test1",
-    stateNm: "예정",
-  },
-  {
-    stateCd: "test2",
+    stateCd: "IN_PROGRESS",
     stateNm: "진행중",
   },
   {
-    stateCd: "test3",
+    stateCd: "COMPLETED",
+    stateNm: "완료",
+  },
+  {
+    stateCd: "ON_HOLD",
     stateNm: "보류",
   },
 ];
 
 export const sampleImportanceData = [
   {
-    importCd: "test1",
+    importCd: "HIGH",
     importNm: "높음",
   },
   {
-    importCd: "test2",
+    importCd: "MEDIUM",
     importNm: "보통",
   },
   {
-    importCd: "test3",
+    importCd: "LOW",
     importNm: "낮음",
   },
 ];
 
 export const allUserData = [
   {
-    userSn: 1,
+    userSn: 4,
     companySn: 1,
     companyNm: "삼성전자 주식회사",
     userNm: "김민수",

@@ -3,6 +3,9 @@ import api from "./api";
 //게시판 리스트
 export const fetchPosts = () => api.get("/v1/board-posts");
 
+//사이드정보 리스트
+export const fetchPostsSideBar = () => api.get("/v1/board-posts/sidebar");
+
 //게시글 생성
 export const postBoard = ({ category, status, title, content }) =>
   api.post("/v1/board-posts", {
@@ -16,11 +19,9 @@ export const postBoard = ({ category, status, title, content }) =>
 export const deletePosts = (boardPostSn) =>
   api.delete(`/v1/board-posts/${boardPostSn}`);
 
-
 //게시판상세조회
 export const fetchPostsDetail = (boardPostSn) =>
   api.get(`/v1/board-posts/${boardPostSn}`);
-
 
 //댓글 목록 조회
 export const fetchPostsComments = (boardPostSn) =>
@@ -35,8 +36,6 @@ export const postComments = ({ boardPostSn, content }) =>
 //댓글 삭제
 export const removePostsComments = (boardPostSn, boardCommentSn) =>
   api.delete(`/v1/board-posts/${boardPostSn}/comments/${boardCommentSn}`);
-
-
 
 //게시글 좋아요
 export const postLike = (boardPostSn) =>
@@ -54,11 +53,9 @@ export const addBookmark = (boardPostSn) =>
 export const removeBookmark = (boardPostSn) =>
   api.delete(`/v1/board-posts/${boardPostSn}/bookmarks`);
 
-
 //댓글 좋아요
-export const commentLike = (boardPostSn,boardCommentSn) =>
+export const commentLike = (boardPostSn, boardCommentSn) =>
   api.post(`/v1/board-posts/${boardPostSn}/comments/${boardCommentSn}/likes`);
 //댓글 좋아요 취소
-export const removecommentLike = (boardPostSn,boardCommentSn) =>
+export const removecommentLike = (boardPostSn, boardCommentSn) =>
   api.delete(`/v1/board-posts/${boardPostSn}/comments/${boardCommentSn}/likes`);
-
