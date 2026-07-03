@@ -56,7 +56,7 @@ function Projects() {
       </S.Tab>
 
       <S.ProjectLists>
-        {pjList.map((e, i) => {
+        {pjList.map((e) => {
           return (
             <S.ProjectList key={e.projectSn}>
               <S.ProjectCard>
