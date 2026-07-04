@@ -47,15 +47,18 @@ export const ProjectLists = styled.ul`
   flex-wrap: wrap;
   justify-content: flex-start;
   flex-direction: row;
+  gap: 1.5%;
+  row-gap: 1.6rem;
 `;
 export const ProjectList = styled.li`
-  width: 33%;
+  width: 32.33%;
 `;
 
 export const ProjectCard = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   padding: 2.4rem;
   border-radius: 1.6rem;
+  height: 100%;
   border: 1px solid ${({ theme }) => theme.colors.gray[200]};
   &:hover {
     box-shadow: -4px 5px 5px #4b55632b;
@@ -66,6 +69,11 @@ export const ProjectTitle = styled.h3`
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   font-size: ${({ theme }) => theme.fontSizes.md};
   margin-bottom: 1rem;
+
+  white-space: nowrap; /* 텍스트가 길어도 줄바꿈을 하지 않음 */
+  overflow: hidden; /* 박스를 벗어나는 텍스트를 숨김 */
+  text-overflow: ellipsis; /* 벗어난 텍스트를 말줄임(...)으로 표시 */
+  display: block;
 `;
 
 export const ProjectSum = styled.p`
@@ -88,15 +96,17 @@ export const ProjectState = styled.div`
 `;
 
 export const Priority = styled.span`
-  border-radius: 9rem;  
-  background-color: ${({ theme ,$color}) => hexToRgba(theme.colors[$color], 0.1)};
-  color: ${({ theme ,$color}) => theme.colors[$color]};
+  border-radius: 9rem;
+  background-color: ${({ theme, $color }) =>
+    hexToRgba(theme.colors[$color], 0.1)};
+  color: ${({ theme, $color }) => theme.colors[$color]};
 `;
 
 export const State = styled.span`
   border-radius: 999px;
-  background-color: ${({ theme ,$color}) => hexToRgba(theme.colors[$color], 0.1)};
-  color: ${({ theme ,$color}) => theme.colors[$color]};
+  background-color: ${({ theme, $color }) =>
+    hexToRgba(theme.colors[$color], 0.1)};
+  color: ${({ theme, $color }) => theme.colors[$color]};
 `;
 
 export const GraphContent = styled.div``;
@@ -150,7 +160,6 @@ export const VisibilityTag = styled.span`
     width: 1.4rem;
     height: 1.4rem;
   }
-
 `;
 
 export const TagWrap = styled.div`

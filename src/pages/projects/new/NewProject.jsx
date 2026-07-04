@@ -129,11 +129,17 @@ function NewProject() {
   };
 
   const handelSubmit = async () => {
+    let today = new Date();
+    let year = today.getFullYear(); // 년도
+    let month = String(today.getMonth() + 1).padStart(2, "0");
+    let date = String(today.getDate()).padStart(2, "0");
+
     const newErrors = validateForm(form);
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return; // 유효성 검사 실패 시 제출 중단
     const payload = {
       ...form,
+      startDt: `${year}-${month}-${date}`,
       ownerUserSn: form.pm?.userSn ?? "",
       memberUserSns: form.worker.map((u) => u.userSn),
       visibility: form.show ? "PUBLIC" : "PRIVATE",

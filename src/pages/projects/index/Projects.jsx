@@ -97,10 +97,12 @@ function Projects() {
                     {VISIBILITY_LABEL[e.visibility]}
                   </S.VisibilityTag>
                   <S.TagWrap>
-                    {e.tags.map((tag, index) => {
+                    {e.tags.slice(0, 4).map((tag, index) => {
                       return <S.Tag key={index}>{tag.tagNm}</S.Tag>;
                     })}
-                    <S.MoreTag>+ 1</S.MoreTag>
+                    {e.tags.length > 4 ? (
+                      <S.MoreTag>+ {e.tags.length - 4}</S.MoreTag>
+                    ) : null}
                   </S.TagWrap>
                 </Link>
               </S.ProjectCard>

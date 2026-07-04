@@ -43,8 +43,8 @@ export const Priority = styled.span`
   line-height: 1.6rem;
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem;
-  background-color: pink;
   display: inline-block;
+  color: ${({ theme, $color }) => theme.colors[$color]};
 `;
 
 export const TagLists = styled.ul`

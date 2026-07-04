@@ -47,7 +47,8 @@ export const Exception = styled.span`
   color: #d97706;
 `;
 export const ProjectState = styled.span`
-  background-color: pink;
+  color: ${({ theme, $color }) =>
+    theme.colors[$color] ?? theme.colors.secondary};
 `;
 
 export const ProjectDescription = styled.p`
