@@ -203,10 +203,12 @@ export const IconWrap = styled.span`
   align-items: center;
   justify-content: center;
   padding: 0.4rem;
-  background-color: ${({ theme }) => theme.colors.main};
   border-radius: 0.5rem;
+  background-color: ${({ theme, $color }) =>
+    hexToRgba(theme.colors[$color], 0.2)};
   svg {
     width: 1.4rem;
     height: 1.4rem;
+    color: ${({ theme, $color }) => theme.colors[$color]};
   }
 `;

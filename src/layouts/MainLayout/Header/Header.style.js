@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { theme } from "../../../styles/theme";
+import { hexToRgba } from "../../../styles/utils/color";
 //공통 stylecss
 
 const HeaderPop = css`
@@ -61,7 +61,22 @@ export const HeaderActions = styled.div`
 export const AlarmContainer = styled.div`
   position: relative;
 `;
-export const AlarmBtn = styled.button``;
+export const AlarmBtn = styled.button`
+  display: flex;
+  width: 3.2rem;
+  height: 3.2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  &:hover {
+    background-color: ${({ theme }) => hexToRgba(theme.colors.gray[300], 0.5)};
+  }
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: ${({ theme }) => theme.colors.gray[600]};
+  }
+`;
 export const AlarmPop = styled.div`
   ${HeaderPop}
   width:22rem;
@@ -77,4 +92,27 @@ export const HeaderUserPop = styled.div`
 
 export const UserInfo = styled.div`
   padding: 1.2rem 1rem;
+`;
+export const UserLinks = styled.ul``;
+export const UserLink = styled(Link)`
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.8rem;
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+`;
+export const UserBtn = styled.button`
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.8rem;
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
 `;

@@ -42,3 +42,9 @@ export const postProject = ({
     progressRate,
     files: [],
   });
+
+//프로젝트 상세 api들
+
+//작업목록 생성 api
+export const postProjectTask = ({ projectSn }) =>
+  api.post(`/v1/projects/${projectSn}/tasks`);

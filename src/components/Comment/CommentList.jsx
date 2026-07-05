@@ -29,7 +29,6 @@ function CommentList({ data, onDelete }) {
       console.log(error);
     }
   };
-  console.log(userInfo.userSn);
   return (
     <S.Comment $size="big">
       {/* <S.Profile>

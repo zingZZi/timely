@@ -5,26 +5,33 @@ import {
   Calendar,
   Clock3,
   CircleCheck,
+  CirclePlay,
 } from "lucide-react";
 import * as S from "./TaskListTab.style";
-import FormField from "../../../../../components/form/FormField/FormField";
-import Input from "../../../../../components/form/Input/Input";
-import NativeSelect from "../../../../../components/form/Select/NativeSelect";
-import {
-  BasicBtn,
-  BasicCancleBtn,
-} from "../../../../../components/Button/Button";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import TaskAddForm from "./TaskAddForm";
 
 function TaskListTab() {
   const [formShow, setFormShow] = useState(false);
-  const [changeState, setChangeState] = useState(false);
-  const [addTaskForm, setAddTaskForm] = useState({
-    taskName: "",
-    manager: "",
-    priority: "",
-    deadLine: "",
-  });
+  //const [changeState, setChangeState] = useState(false);
+  const [changeStatePop, setChangePopState] = useState(false);
+  const popRef = useRef(null); // 팝업 + 버튼을 감싸는 ref
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (popRef.current && !popRef.current.contains(e.target)) {
+        setChangePopState(false);
+      }
+    }
+
+    if (changeStatePop) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [changeStatePop]);
   return (
     <S.TaskListTab>
       <S.TabHeader>
@@ -43,48 +50,9 @@ function TaskListTab() {
           작업추가
         </S.AddTaskBtn>
       </S.TabHeader>
-      {formShow ? (
-        <S.AddTaskForm action="">
-          <fieldset>
-            <legend className="text-ir">작업추가하기</legend>
-            <S.ColFormWrap>
-              <FormField must="must" label="작업명 " id="TaskName">
-                <Input placeholder="작업명 " size="small" />
-              </FormField>
 
-              <FormField label="담당자" id="manager">
-                <NativeSelect
-                  placeholder="우선순위를 선택해주세요"
-                  datalists={["김민수", "김실명"]}
-                  value={addTaskForm.manager}
-                  dataValue="manager"
-                  dataText="manager"
-                  size="small"
-                />
-              </FormField>
-            </S.ColFormWrap>
-            <S.ColFormWrap>
-              <FormField label="우선순위" id="priority">
-                <NativeSelect
-                  placeholder="우선순위를 선택해주세요"
-                  datalists={["보통", "긴급"]}
-                  value={addTaskForm.priority}
-                  dataValue="positionCd"
-                  dataText="positionNm"
-                  size="small"
-                />
-              </FormField>
-              <FormField must="must" label="마감일 " id="deadline">
-                <Input type="date" size="small" />
-              </FormField>
-            </S.ColFormWrap>
-          </fieldset>
-          <S.FromBtnsWrap>
-            <BasicCancleBtn>취소</BasicCancleBtn>
-            <BasicBtn>추가</BasicBtn>
-          </S.FromBtnsWrap>
-        </S.AddTaskForm>
-      ) : null}
+      {/* 작업추가 내용입력폼 */}
+      {formShow ? <TaskAddForm /> : null}
 
       <S.TaskSummary>
         <p>총 6개 작업</p>
@@ -113,25 +81,41 @@ function TaskListTab() {
               </S.TaskMetaItem>
             </S.TaskMeta>
           </div>
-          <S.StateCahngeBtn type="button" aria-label="작업 메뉴">
-            <Ellipsis aria-label="작업 메뉴 열기" />
-          </S.StateCahngeBtn>
 
-          <S.ChangeStateWrap>
-            <S.ChangeStateHeader>상태변경</S.ChangeStateHeader>
-            <S.ChageStateBtn>
-              <S.IconWrap>
-                <Clock3 />
-              </S.IconWrap>
-              대기(으)로 변경
-            </S.ChageStateBtn>
-            <S.ChageStateBtn>
-              <S.IconWrap>
-                <CircleCheck />
-              </S.IconWrap>
-              완료(으)로 변경
-            </S.ChageStateBtn>
-          </S.ChangeStateWrap>
+          <div ref={popRef}>
+            <S.StateCahngeBtn
+              type="button"
+              aria-label="작업 메뉴"
+              onClick={() => {
+                setChangePopState(!changeStatePop);
+              }}
+            >
+              <Ellipsis aria-label="작업 메뉴 열기" />
+            </S.StateCahngeBtn>
+            {changeStatePop ? (
+              <S.ChangeStateWrap>
+                <S.ChangeStateHeader>상태변경</S.ChangeStateHeader>
+                <S.ChageStateBtn>
+                  <S.IconWrap $color="main">
+                    <Clock3 />
+                  </S.IconWrap>
+                  대기(으)로 변경
+                </S.ChageStateBtn>
+                <S.ChageStateBtn>
+                  <S.IconWrap $color="primary">
+                    <CirclePlay />
+                  </S.IconWrap>
+                  진행중(으)로 변경
+                </S.ChageStateBtn>
+                <S.ChageStateBtn>
+                  <S.IconWrap $color="secondary">
+                    <CircleCheck />
+                  </S.IconWrap>
+                  완료(으)로 변경
+                </S.ChageStateBtn>
+              </S.ChangeStateWrap>
+            ) : null}
+          </div>
         </S.TaskList>
       </S.TaskLists>
     </S.TaskListTab>

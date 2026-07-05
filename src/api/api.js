@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = 'https://timely-apis.duckdns.org';
+const BASE_URL = "https://timely-apis.duckdns.org";
 
 const api = axios.create({
   baseURL: BASE_URL,
