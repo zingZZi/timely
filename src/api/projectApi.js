@@ -46,9 +46,26 @@ export const postProject = ({
 //프로젝트 상세 api들
 
 //작업목록 생성 api
-export const postProjectTask = ({ projectSn }) =>
-  api.post(`/v1/projects/${projectSn}/tasks`);
+export const postProjectTask = ({
+  projectSn,
+  taskNm,
+  priority,
+  assigneeUserSn,
+  dueDt,
+}) =>
+  api.post(`/v1/projects/${projectSn}/tasks`, {
+    taskNm,
+    description: "",
+    status: "PENDING",
+    priority,
+    assigneeUserSn,
+    dueDt,
+  });
 
 //작업목록 조회 api
 export const fetchProjectTasks = ({ projectSn }) =>
   api.get(`/v1/projects/${projectSn}/tasks`);
+
+//프로젝트 작업 상태변경
+export const editTaskState = ({ projectSn, projectTaskSn }) =>
+  api.patch(`/v1/projects/${projectSn}/tasks/${projectTaskSn}/status`);

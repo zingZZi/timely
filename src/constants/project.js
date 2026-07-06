@@ -3,6 +3,7 @@ export const VISIBILITY_LABEL = {
   PRIVATE: "비공개",
 };
 
+//프로젝트 중요도
 export const PRIORITY_LABEL = {
   HIGH: {
     label: "높음",
@@ -18,6 +19,7 @@ export const PRIORITY_LABEL = {
   },
 };
 
+//프로젝트 상태
 export const STATUS_LABEL = {
   IN_PROGRESS: {
     label: "진행중",
@@ -33,37 +35,41 @@ export const STATUS_LABEL = {
   },
 };
 
+//작업상태
 export const TASK_STATE = {
-  HIGH: {
-    label: "완료",
-    color: "main",
-  },
-  MEDIUM: {
-    label: "진행중",
-    color: "success",
-  },
-  LOW: {
+  PENDING: {
     label: "대기",
     color: "secondary",
   },
+  IN_PROGRESS: {
+    label: "진행중",
+    color: "primary",
+  },
+  REVIEW: {
+    label: "검토중",
+    color: "chartDelay",
+  },
+  DONE: {
+    label: "완료",
+    color: "main",
+  },
 };
 
+//작업중요도
 export const TASK_PRIORITY = {
   HIGH: {
     label: "높음",
-    color: "main",
+    color: "danger",
   },
   MEDIUM: {
     label: "보통",
-    color: "chartDelay",
+    color: "chartReviw",
   },
   LOW: {
     label: "낮음",
     color: "mainDark",
   },
 };
-
-
 
 //array형식 만들기
 export const PROJECT_STATUS_OPTIONS = Object.entries(STATUS_LABEL).map(

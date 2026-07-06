@@ -67,7 +67,11 @@ function OverviewTab({ data }) {
           <S.InfoLabel>접근 권한</S.InfoLabel>
           <S.InfoValue>
             <S.Visibility>
-              {VISIBILITY_LABEL[data.visibility] ? <Eye /> : <EyeOff />}
+              {VISIBILITY_LABEL[data.visibility] === "PRIVATE" ? (
+                <Eye />
+              ) : (
+                <EyeOff />
+              )}
               {VISIBILITY_LABEL[data.visibility]}
             </S.Visibility>
             {VISIBILITY_LABEL[data.visibility] ? null : (

@@ -67,12 +67,14 @@ export const TaskSummaryList = styled.li`
   gap: 0.4rem;
   color: ${({ theme, state }) => {
     switch (state) {
-      case "finish":
+      case "DONE":
         return theme.colors.main;
-      case "ing":
+      case "IN_PROGRESS":
         return theme.colors.primary;
-      case "wait":
+      case "PENDING":
         return theme.colors.gray[600];
+      case "REVIEW":
+        return theme.colors.chartDelay;
     }
   }};
   &::before {
@@ -83,12 +85,14 @@ export const TaskSummaryList = styled.li`
     border-radius: 50%;
     background-color: ${({ theme, state }) => {
       switch (state) {
-        case "finish":
+        case "DONE":
           return theme.colors.main;
-        case "ing":
+        case "IN_PROGRESS":
           return theme.colors.primary;
-        case "wait":
+        case "PENDING":
           return theme.colors.gray[600];
+        case "REVIEW":
+          return theme.colors.chartDelay;
       }
     }};
   }
@@ -139,7 +143,9 @@ export const Tasklabel = styled.span`
   padding: 0.4rem 0.8rem;
   font-size: ${({ theme }) => theme.fontSizes.xs};
   border-radius: 0.4rem;
-  background-color: pink;
+  background-color: ${({ theme, $color }) =>
+    hexToRgba(theme.colors[$color], 0.1)};
+  color: ${({ theme, $color }) => theme.colors[$color]};
 `;
 
 export const TaskMeta = styled.ul`
@@ -174,6 +180,7 @@ export const StateCahngeBtn = styled.button`
 
 export const ChangeStateWrap = styled.div`
   position: absolute;
+  z-index: 9;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.gray[200]};
   border-radius: 0.8rem;

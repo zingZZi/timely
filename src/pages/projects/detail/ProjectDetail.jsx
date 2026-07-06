@@ -11,7 +11,7 @@ import {
   EyeOff,
 } from "lucide-react";
 import * as S from "./ProjectDetail.style";
-import { useEffect, useState,} from "react";
+import { useEffect, useState } from "react";
 import { BackPageLink } from "../../../components/Button/Button";
 import OverviewTab from "./tabs/OverviewTab";
 import TaskListTab from "./tabs/TaskList/TaskListTab";
@@ -54,10 +54,10 @@ function ProjectDetail() {
     }
   };
 
-
   useEffect(() => {
     projectDetailData();
   }, []);
+
   return (
     <>
       <BackPageLink to="/projects">프로젝트페이지로 돌아가기</BackPageLink>
@@ -66,7 +66,11 @@ function ProjectDetail() {
           <S.ProjectTitle>{projectDatas.projectNm}</S.ProjectTitle>
           <S.TagWrap>
             <S.Visibility>
-              {VISIBILITY_LABEL[projectDatas.visibility] ? <Eye /> : <EyeOff />}
+              {VISIBILITY_LABEL[projectDatas.visibility] === "PRIVATE" ? (
+                <Eye />
+              ) : (
+                <EyeOff />
+              )}
               {VISIBILITY_LABEL[projectDatas.visibility]}
             </S.Visibility>
             <S.Exception>
@@ -86,7 +90,9 @@ function ProjectDetail() {
                 진행률 <strong>{projectDatas.progressRate}%</strong>
               </S.GraphText>
               <S.Graph>
-                <S.GraphPerCent></S.GraphPerCent>
+                <S.GraphPerCent
+                  style={{ width: `${projectDatas.progressRate}%` }}
+                ></S.GraphPerCent>
               </S.Graph>
             </S.GraphContent>
           </S.SummaryList>
