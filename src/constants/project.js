@@ -62,3 +62,20 @@ export const TASK_PRIORITY = {
     color: "mainDark",
   },
 };
+
+
+
+//array형식 만들기
+export const PROJECT_STATUS_OPTIONS = Object.entries(STATUS_LABEL).map(
+  ([code, data]) => ({
+    stateCd: code,
+    stateNm: data.label,
+  }),
+);
+
+export const PROJECT_PRIORITY_OPTIONS = Object.entries(PRIORITY_LABEL).map(
+  ([code, data]) => ({
+    priorityCd: code,
+    priorityNm: data.label,
+  }),
+);

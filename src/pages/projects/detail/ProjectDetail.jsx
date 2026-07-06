@@ -11,7 +11,7 @@ import {
   EyeOff,
 } from "lucide-react";
 import * as S from "./ProjectDetail.style";
-import { useEffect, useState } from "react";
+import { useEffect, useState,} from "react";
 import { BackPageLink } from "../../../components/Button/Button";
 import OverviewTab from "./tabs/OverviewTab";
 import TaskListTab from "./tabs/TaskList/TaskListTab";
@@ -23,8 +23,9 @@ import { STATUS_LABEL, VISIBILITY_LABEL } from "../../../constants/project";
 
 function ProjectDetail() {
   const pageId = useParams().id;
-  const [activeBtn, setActiveBtn] = useState(0);
+  const [activeBtn, setActiveBtn] = useState(1);
   const [projectDatas, setProjectDatas] = useState({});
+
   const tabs = [
     {
       icon: <LayoutDashboard />,
@@ -34,7 +35,7 @@ function ProjectDetail() {
     {
       icon: <ListTodo />,
       menu: "작업목록",
-      component: <TaskListTab />,
+      component: <TaskListTab assignableUsers={projectDatas.members} />,
     },
     {
       icon: <Activity />,
@@ -52,6 +53,8 @@ function ProjectDetail() {
       console.log(error);
     }
   };
+
+
   useEffect(() => {
     projectDetailData();
   }, []);

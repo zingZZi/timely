@@ -10,11 +10,14 @@ import {
 import * as S from "./TaskListTab.style";
 import { useState, useRef, useEffect } from "react";
 import TaskAddForm from "./TaskAddForm";
+import { useParams } from "react-router-dom";
+import { fetchProjectTasks } from "../../../../../api/projectApi";
 
-function TaskListTab() {
+function TaskListTab({assignableUsers}) {
+  const pageId = useParams().id;
   const [formShow, setFormShow] = useState(false);
-  //const [changeState, setChangeState] = useState(false);
   const [changeStatePop, setChangePopState] = useState(false);
+  const [taskDatas, setTaskDatas] = useState({});
   const popRef = useRef(null); // 팝업 + 버튼을 감싸는 ref
 
   useEffect(() => {
@@ -23,15 +26,29 @@ function TaskListTab() {
         setChangePopState(false);
       }
     }
-
     if (changeStatePop) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [changeStatePop]);
+
+  const fetchTaskDatas = async () => {
+    try{
+      const res = await fetchProjectTasks({ projectSn: pageId });
+      setTaskDatas(res.data);
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchTaskDatas();
+  }, []);
+
+
+
   return (
     <S.TaskListTab>
       <S.TabHeader>
@@ -52,71 +69,79 @@ function TaskListTab() {
       </S.TabHeader>
 
       {/* 작업추가 내용입력폼 */}
-      {formShow ? <TaskAddForm /> : null}
+      {formShow ? <TaskAddForm assignableUsers={assignableUsers} /> : null}
 
       <S.TaskSummary>
-        <p>총 6개 작업</p>
+        <p>총 {taskDatas.totalCount}개 작업</p>
         <S.TaskSummaryLists>
-          <S.TaskSummaryList state="finish">2 완료</S.TaskSummaryList>
-          <S.TaskSummaryList state="ing">2 진행중</S.TaskSummaryList>
-          <S.TaskSummaryList state="wait">2 대기</S.TaskSummaryList>
+          <S.TaskSummaryList state="finish">{taskDatas.completedCount} 완료</S.TaskSummaryList>
+          <S.TaskSummaryList state="ing">{taskDatas.inProgressCount} 진행중</S.TaskSummaryList>
+          <S.TaskSummaryList state="wait">{taskDatas.pendingCount} 대기</S.TaskSummaryList>
         </S.TaskSummaryLists>
       </S.TaskSummary>
       <S.TaskLists>
-        <S.TaskList>
-          <div>
-            <S.TaskHeader>
-              <S.TaskTitle>요구사항 분석 및 기획구사항</S.TaskTitle>
-              <S.Tasklabel>완료</S.Tasklabel>
-              <S.Tasklabel>높음</S.Tasklabel>
-            </S.TaskHeader>
-            <S.TaskMeta>
-              <S.TaskMetaItem>
-                <Calendar />
-                2024-01-20
-              </S.TaskMetaItem>
-              <S.TaskMetaItem>
-                <User />
-                담당자 김민수
-              </S.TaskMetaItem>
-            </S.TaskMeta>
-          </div>
+        {
+          taskDatas?.tasks?.map((data)=>{
+            console.log(data)
+            return(
+              <S.TaskList key={data.projectTaskSn}>
+                <div>
+                  <S.TaskHeader>
+                    <S.TaskTitle>{data.taskNm}</S.TaskTitle>
+                    <S.Tasklabel>{data.status}</S.Tasklabel>
+                    <S.Tasklabel>{data.priority}</S.Tasklabel>
+                  </S.TaskHeader>
+                  <S.TaskMeta>
+                    <S.TaskMetaItem>
+                      <Calendar />
+                      {data.dueDt}
+                    </S.TaskMetaItem>
+                    <S.TaskMetaItem>
+                      <User />
+                      {data.assigneeUserNm}
+                    </S.TaskMetaItem>
+                  </S.TaskMeta>
+                </div>
 
-          <div ref={popRef}>
-            <S.StateCahngeBtn
-              type="button"
-              aria-label="작업 메뉴"
-              onClick={() => {
-                setChangePopState(!changeStatePop);
-              }}
-            >
-              <Ellipsis aria-label="작업 메뉴 열기" />
-            </S.StateCahngeBtn>
-            {changeStatePop ? (
-              <S.ChangeStateWrap>
-                <S.ChangeStateHeader>상태변경</S.ChangeStateHeader>
-                <S.ChageStateBtn>
-                  <S.IconWrap $color="main">
-                    <Clock3 />
-                  </S.IconWrap>
-                  대기(으)로 변경
-                </S.ChageStateBtn>
-                <S.ChageStateBtn>
-                  <S.IconWrap $color="primary">
-                    <CirclePlay />
-                  </S.IconWrap>
-                  진행중(으)로 변경
-                </S.ChageStateBtn>
-                <S.ChageStateBtn>
-                  <S.IconWrap $color="secondary">
-                    <CircleCheck />
-                  </S.IconWrap>
-                  완료(으)로 변경
-                </S.ChageStateBtn>
-              </S.ChangeStateWrap>
-            ) : null}
-          </div>
-        </S.TaskList>
+                <div ref={popRef}>
+                  <S.StateCahngeBtn
+                    type="button"
+                    aria-label="작업 메뉴"
+                    onClick={() => {
+                      setChangePopState(!changeStatePop);
+                    }}
+                  >
+                    <Ellipsis aria-label="작업 메뉴 열기" />
+                  </S.StateCahngeBtn>
+                  {changeStatePop ? (
+                    <S.ChangeStateWrap>
+                      <S.ChangeStateHeader>상태변경</S.ChangeStateHeader>
+                      <S.ChageStateBtn>
+                        <S.IconWrap $color="main">
+                          <Clock3 />
+                        </S.IconWrap>
+                        대기(으)로 변경
+                      </S.ChageStateBtn>
+                      <S.ChageStateBtn>
+                        <S.IconWrap $color="primary">
+                          <CirclePlay />
+                        </S.IconWrap>
+                        진행중(으)로 변경
+                      </S.ChageStateBtn>
+                      <S.ChageStateBtn>
+                        <S.IconWrap $color="secondary">
+                          <CircleCheck />
+                        </S.IconWrap>
+                        완료(으)로 변경
+                      </S.ChageStateBtn>
+                    </S.ChangeStateWrap>
+                  ) : null}
+                </div>
+              </S.TaskList>
+            )
+          })
+        }
+        
       </S.TaskLists>
     </S.TaskListTab>
   );

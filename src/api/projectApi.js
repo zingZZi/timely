@@ -48,3 +48,7 @@ export const postProject = ({
 //작업목록 생성 api
 export const postProjectTask = ({ projectSn }) =>
   api.post(`/v1/projects/${projectSn}/tasks`);
+
+//작업목록 조회 api
+export const fetchProjectTasks = ({ projectSn }) =>
+  api.get(`/v1/projects/${projectSn}/tasks`);
