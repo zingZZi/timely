@@ -70,3 +70,7 @@ export const editeStatus = (pageId, projectTaskSn, status) =>
   api.patch(`/v1/projects/${pageId}/tasks/${projectTaskSn}/status`, {
     status,
   });
+
+//프로젝트 업데이트 목록 조회 api
+export const fetchProjectUpdateList = ({ projectSn }) =>
+  api.get(`/v1/projects/${projectSn}/updates`);

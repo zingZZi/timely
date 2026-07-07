@@ -13,9 +13,9 @@ import ProgressUpdateForm from "./ProgressUpdateForm";
 import * as S from "./ProgressUpdateTab.style";
 import { useState } from "react";
 
-function ProgressUpdateTab() {
+function ProgressUpdateTab({ projectData }) {
   const [formShow, setFormShow] = useState(false);
-
+  console.log(projectData);
   return (
     <>
       <h3 className="text-ir">진행 상황 및 업데이트</h3>
@@ -41,8 +41,8 @@ function ProgressUpdateTab() {
               전체 진행률
             </S.CardTitle>
             <S.CardValue>
-              <strong>30%</strong>
-              <ProgressGraph percent={30} />
+              <strong>{projectData.progressRate}%</strong>
+              <ProgressGraph percent={projectData.progressRate} />
             </S.CardValue>
           </dl>
         </S.SummaryCard>

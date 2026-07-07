@@ -40,7 +40,7 @@ function ProjectDetail() {
     {
       icon: <Activity />,
       menu: "진행 상황 및 업데이트",
-      component: <ProgressUpdateTab />,
+      component: <ProgressUpdateTab projectData={projectDatas} />,
     },
     { icon: <GitBranch />, menu: "타임라인", component: <TimelineTab /> },
   ];
