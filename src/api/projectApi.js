@@ -55,9 +55,8 @@ export const postProjectTask = ({
 }) =>
   api.post(`/v1/projects/${projectSn}/tasks`, {
     taskNm,
-    description: "",
     status: "PENDING",
-    priority,
+    priority: priority || "MEDIUM",
     assigneeUserSn,
     dueDt,
   });
@@ -67,5 +66,7 @@ export const fetchProjectTasks = ({ projectSn }) =>
   api.get(`/v1/projects/${projectSn}/tasks`);
 
 //프로젝트 작업 상태변경
-export const editTaskState = ({ projectSn, projectTaskSn }) =>
-  api.patch(`/v1/projects/${projectSn}/tasks/${projectTaskSn}/status`);
+export const editeStatus = (pageId, projectTaskSn, status) =>
+  api.patch(`/v1/projects/${pageId}/tasks/${projectTaskSn}/status`, {
+    status,
+  });

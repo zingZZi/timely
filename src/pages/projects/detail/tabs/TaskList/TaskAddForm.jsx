@@ -10,7 +10,8 @@ import NativeSelect from "../../../../../components/form/Select/NativeSelect";
 import { PROJECT_PRIORITY_OPTIONS } from "../../../../../constants/project";
 import * as S from "./TaskListTab.style";
 import { postProjectTask } from "../../../../../api/projectApi";
-function TaskAddForm({ assignableUsers }) {
+import { isEmptyValue } from "../../../../../common/valuCheck";
+function TaskAddForm({ assignableUsers, setFormShow, upDataForm }) {
   const projectSn = useParams().id;
   const [addTaskForm, setAddTaskForm] = useState({
     taskNm: "",
@@ -19,22 +20,38 @@ function TaskAddForm({ assignableUsers }) {
     dueDt: "",
   });
 
+  const REQUIRED_FIELDS = {
+    taskNm: { label: "작업명", required: () => true },
+    priority: { label: "우선순위", required: () => false },
+    assigneeUserSn: { label: "담당자", required: () => true },
+    dueDt: { label: "마감일 ", required: () => true },
+  };
+
+  const validation = (formData) => {
+    const newErrors = {};
+    Object.entries(REQUIRED_FIELDS).forEach(([key, { label, required }]) => {
+      const value = formData[key];
+      const isRequired = required(formData);
+      if (!isRequired) return;
+      if (isEmptyValue(value)) {
+        newErrors[key] = `${label}은 필수값입니다`;
+        return;
+      }
+    });
+    return newErrors;
+  };
+  const [errors, setErrors] = useState({});
   const submitAddTaskForm = async (e) => {
     e.preventDefault();
+    const check = validation(addTaskForm);
+    setErrors(check);
+    if (Object.keys(check).length > 0) return;
     try {
       await postProjectTask({ projectSn, ...addTaskForm });
+      setFormShow(false);
+      upDataForm();
     } catch (error) {
-      if (error.response) {
-        // 서버가 응답은 했지만 에러 상태코드를 반환한 경우
-        console.log("status:", error.response.status);
-        console.log("data:", error.response.data);
-      } else if (error.request) {
-        // 요청은 보냈지만 응답을 못 받은 경우 (네트워크 끊김, CORS 등)
-        console.log("no response:", error.request);
-      } else {
-        // 요청 설정 자체에서 에러가 난 경우
-        console.log("error message:", error.message);
-      }
+      console.log(error);
     }
   };
 
@@ -43,22 +60,30 @@ function TaskAddForm({ assignableUsers }) {
       ...prev,
       [key]: value,
     }));
+    setErrors((prev) => {
+      if (!prev[key]) return prev;
+      if (isEmptyValue(value)) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
   }
   return (
     <S.AddTaskForm>
       <fieldset>
         <legend className="text-ir">작업추가하기</legend>
         <S.ColFormWrap>
-          <FormField must="must" label="작업명 " id="TaskName">
+          <FormField must label="작업명" id="TaskName">
             <Input
-              placeholder="작업명 "
+              placeholder="작업명"
               size="small"
               value={addTaskForm.taskNm}
               onChange={(value) => updateField("taskNm", value)}
+              isEmptyValue={!!errors.taskNm}
             />
           </FormField>
 
-          <FormField label="담당자" id="assigneeUser">
+          <FormField must label="담당자" id="assigneeUser">
             <NativeSelect
               placeholder="담당자를 선택해주세요"
               datalists={assignableUsers}
@@ -66,6 +91,7 @@ function TaskAddForm({ assignableUsers }) {
               dataValue="userSn"
               dataText="userNm"
               size="small"
+              isEmptyValue={!!errors.assigneeUserSn}
               onChange={(value) => {
                 updateField("assigneeUserSn", Number(value));
               }}
@@ -91,6 +117,7 @@ function TaskAddForm({ assignableUsers }) {
               type="date"
               size="small"
               value={addTaskForm.dueDt}
+              isEmptyValue={!!errors.dueDt}
               onChange={(value) => updateField("dueDt", value)}
             />
           </FormField>
@@ -98,7 +125,9 @@ function TaskAddForm({ assignableUsers }) {
       </fieldset>
       <S.FromBtnsWrap>
         <BasicCancleBtn>취소</BasicCancleBtn>
-        <BasicBtn onClick={submitAddTaskForm}>추가</BasicBtn>
+        <BasicBtn type="button" onClick={submitAddTaskForm}>
+          추가
+        </BasicBtn>
       </S.FromBtnsWrap>
     </S.AddTaskForm>
   );

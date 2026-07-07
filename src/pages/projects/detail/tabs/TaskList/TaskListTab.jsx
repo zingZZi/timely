@@ -11,11 +11,11 @@ import * as S from "./TaskListTab.style";
 import { useState, useRef, useEffect } from "react";
 import TaskAddForm from "./TaskAddForm";
 import { useParams } from "react-router-dom";
-import { fetchProjectTasks } from "../../../../../api/projectApi";
+import { editeStatus, fetchProjectTasks } from "../../../../../api/projectApi";
 import { TASK_PRIORITY, TASK_STATE } from "../../../../../constants/project";
 
 function TaskListTab({ assignableUsers }) {
-  const pageId = useParams().id;
+  const pageId = Number(useParams().id);
   const [formShow, setFormShow] = useState(false);
   const [selectState, setSelectState] = useState(0);
   const [changeStatePop, setChangePopState] = useState(false);
@@ -39,6 +39,15 @@ function TaskListTab({ assignableUsers }) {
     try {
       const res = await fetchProjectTasks({ projectSn: pageId });
       setTaskDatas(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const upDateStatus = async (projectTaskSn, status) => {
+    try {
+      await editeStatus(pageId, projectTaskSn, status);
+      setChangePopState(false);
+      await fetchTaskDatas();
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +76,13 @@ function TaskListTab({ assignableUsers }) {
       </S.TabHeader>
 
       {/* 작업추가 내용입력폼 */}
-      {formShow ? <TaskAddForm assignableUsers={assignableUsers} /> : null}
+      {formShow ? (
+        <TaskAddForm
+          assignableUsers={assignableUsers}
+          setFormShow={setFormShow}
+          upDataForm={fetchTaskDatas}
+        />
+      ) : null}
 
       <S.TaskSummary>
         <p>총 {taskDatas.totalCount}개 작업</p>
@@ -125,7 +140,11 @@ function TaskListTab({ assignableUsers }) {
                   <S.ChangeStateWrap>
                     <S.ChangeStateHeader>상태변경</S.ChangeStateHeader>
                     {data.status === "PENDING" ? null : (
-                      <S.ChageStateBtn>
+                      <S.ChageStateBtn
+                        onClick={() => {
+                          upDateStatus(data.projectTaskSn, "PENDING");
+                        }}
+                      >
                         <S.IconWrap $color="main">
                           <Clock3 />
                         </S.IconWrap>
@@ -134,7 +153,11 @@ function TaskListTab({ assignableUsers }) {
                     )}
 
                     {data.status === "IN_PROGRESS" ? null : (
-                      <S.ChageStateBtn>
+                      <S.ChageStateBtn
+                        onClick={() => {
+                          upDateStatus(data.projectTaskSn, "IN_PROGRESS");
+                        }}
+                      >
                         <S.IconWrap $color="primary">
                           <CirclePlay />
                         </S.IconWrap>
@@ -150,7 +173,11 @@ function TaskListTab({ assignableUsers }) {
                       </S.ChageStateBtn>
                     )}
                     {data.status === "DONE" ? null : (
-                      <S.ChageStateBtn>
+                      <S.ChageStateBtn
+                        onClick={() => {
+                          upDateStatus(data.projectTaskSn, "DONE");
+                        }}
+                      >
                         <S.IconWrap $color="secondary">
                           <CircleCheck />
                         </S.IconWrap>
