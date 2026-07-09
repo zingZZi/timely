@@ -72,5 +72,25 @@ export const editeStatus = (pageId, projectTaskSn, status) =>
   });
 
 //프로젝트 업데이트 목록 조회 api
-export const fetchProjectUpdateList = ({ projectSn }) =>
+export const fetchProjectUpdateList = (projectSn) =>
   api.get(`/v1/projects/${projectSn}/updates`);
+
+export const postProjectUpdateList = ({
+  projectSn,
+  projectTaskSn,
+  updateType,
+  title,
+  content,
+  files,
+}) =>
+  api.post(`/v1/projects/${projectSn}/updates`, {
+    projectTaskSn,
+    updateType,
+    title,
+    content,
+    files: [],
+  });
+
+//각 피드 데이터 목록 조회
+export const fetchFeedCommentList = (projectSn, projectUpdateSn) =>
+  api.get(`/v1/projects/${projectSn}/updates/${projectUpdateSn}/comments`);

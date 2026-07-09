@@ -71,6 +71,18 @@ export const TASK_PRIORITY = {
   },
 };
 
+//업데이트 피드 유형
+export const UPDATE_TYPE = {
+  PROGRESS: {
+    label: "진행중",
+    color: "primary",
+  },
+  RISK: {
+    label: "리스크",
+    color: "chartDelay",
+  },
+};
+
 //array형식 만들기
 export const PROJECT_STATUS_OPTIONS = Object.entries(STATUS_LABEL).map(
   ([code, data]) => ({
@@ -83,5 +95,12 @@ export const PROJECT_PRIORITY_OPTIONS = Object.entries(PRIORITY_LABEL).map(
   ([code, data]) => ({
     priorityCd: code,
     priorityNm: data.label,
+  }),
+);
+
+export const UPDATE_TYPE_OPTIONS = Object.entries(UPDATE_TYPE).map(
+  ([code, data]) => ({
+    typeCd: code,
+    typeNm: data.label,
   }),
 );

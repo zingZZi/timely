@@ -23,7 +23,7 @@ import { STATUS_LABEL, VISIBILITY_LABEL } from "../../../constants/project";
 
 function ProjectDetail() {
   const pageId = useParams().id;
-  const [activeBtn, setActiveBtn] = useState(1);
+  const [activeBtn, setActiveBtn] = useState(2);
   const [projectDatas, setProjectDatas] = useState({});
 
   const tabs = [

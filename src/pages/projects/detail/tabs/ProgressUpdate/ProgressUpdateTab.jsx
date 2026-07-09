@@ -11,11 +11,29 @@ import ProgressGraph from "../../../../../components/progressGraph/ProgressGraph
 import UpdateFeedCard from "./UpdateFeedCard";
 import ProgressUpdateForm from "./ProgressUpdateForm";
 import * as S from "./ProgressUpdateTab.style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchProjectUpdateList } from "../../../../../api/projectApi";
+import { useParams } from "react-router-dom";
 
 function ProgressUpdateTab({ projectData }) {
+  const projectSn = useParams().id;
   const [formShow, setFormShow] = useState(false);
-  console.log(projectData);
+  const [feedDatas, setfeedDatas] = useState();
+
+  const fetchData = async () => {
+    try {
+      const res = await fetchProjectUpdateList(projectSn);
+      setfeedDatas(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       <h3 className="text-ir">진행 상황 및 업데이트</h3>
@@ -109,13 +127,17 @@ function ProgressUpdateTab({ projectData }) {
           </S.Filters>
 
           {/* 입력폼 */}
-          {formShow ? <ProgressUpdateForm /> : null}
+          {formShow ? <ProgressUpdateForm setFormShow={setFormShow} /> : null}
 
           {/* 리스트 */}
           <ul>
-            <li>
-              <UpdateFeedCard />
-            </li>
+            {feedDatas?.map((data) => {
+              return (
+                <li key={data.projectUpdateSn}>
+                  <UpdateFeedCard data={data} />
+                </li>
+              );
+            })}
           </ul>
         </S.UpdateFeed>
 
