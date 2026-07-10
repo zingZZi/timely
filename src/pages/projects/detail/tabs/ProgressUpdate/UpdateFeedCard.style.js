@@ -38,6 +38,8 @@ export const CardType = styled.div`
   gap: 0.8rem;
   margin: 0.4rem 0 0.8rem;
   font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme, $color }) => theme.colors[$color]};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
 `;
 
 export const CardTypeSvgWrap = styled.span`
@@ -46,7 +48,9 @@ export const CardTypeSvgWrap = styled.span`
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  background-color: pink;
+  color: ${({ theme, $color }) => theme.colors[$color]};
+  background-color: ${({ theme, $color }) =>
+    hexToRgba(theme.colors[$color], 0.1)};
   border-radius: 0.4rem;
   svg {
     width: 1.4rem;

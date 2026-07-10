@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Send } from "lucide-react";
+import {
+  Send,
+  RefreshCw,
+  SquareArrowOutUpRight,
+  FileText,
+  MessageSquare,
+  ChevronDown,
+} from "lucide-react";
 import { Textarea } from "../../../../../components/form/textarea/Textarea.style";
 import {
   BasicBtn,
@@ -12,11 +19,16 @@ import * as S from "./ProgressUpdateForm.style";
 import { UPDATE_TYPE_OPTIONS } from "../../../../../constants/project";
 import { postProjectUpdateList } from "../../../../../api/projectApi";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 function ProgressUpdateForm({ setFormShow }) {
+  let userInfo = useSelector((state) => {
+    return state.userInfo;
+  });
   const projectSn = useParams().id;
   const [formValue, setFormValue] = useState({
     updateType: "",
-    authorUserNm: "",
+    authorUserNm: userInfo.userNm,
     title: "",
     content: "",
     files: "",
@@ -30,12 +42,15 @@ function ProgressUpdateForm({ setFormShow }) {
   }
 
   const submitForm = async () => {
+    const submitData = {
+      ...formValue,
+      authorUserSn: userInfo.userSn,
+    };
     try {
-      await postProjectUpdateList(projectSn, formValue);
+      await postProjectUpdateList(projectSn, submitData);
     } catch (error) {
       console.log(error);
     }
-    console.log(formValue);
   };
   //   useEffect(() => {
   //     console.log(formValue.content);
@@ -59,29 +74,21 @@ function ProgressUpdateForm({ setFormShow }) {
             />
           </FormField>
           <FormField label="작성자">
-            <Input
-              size="small"
-              value={formValue.authorUserNm}
-              onChange={(e) => {
-                updateForm("authorUserNm", e);
-              }}
-            />
+            <Input size="small" value={formValue.authorUserNm} />
           </FormField>
         </S.FlexBox>
         <FormField label="제목" must>
           <Input
             size="small"
-            must
             value={formValue.title}
             onChange={(e) => {
               updateForm("title", e);
             }}
           />
         </FormField>
-        <FormField label="내용" id="content">
+        <FormField label="내용" id="content" must>
           <Textarea
             name="content"
-            must
             placeholder="업데이트 내용을 입력하세요"
             value={formValue.content}
             onChange={(e) => {

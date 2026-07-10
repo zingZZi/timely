@@ -24,7 +24,6 @@ function ProgressUpdateTab({ projectData }) {
     try {
       const res = await fetchProjectUpdateList(projectSn);
       setfeedDatas(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }

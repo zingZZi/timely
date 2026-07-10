@@ -75,22 +75,42 @@ export const editeStatus = (pageId, projectTaskSn, status) =>
 export const fetchProjectUpdateList = (projectSn) =>
   api.get(`/v1/projects/${projectSn}/updates`);
 
-export const postProjectUpdateList = ({
+//프로젝트 업데이트 목록 생성
+export const postProjectUpdateList = (
   projectSn,
-  projectTaskSn,
-  updateType,
-  title,
-  content,
-  files,
-}) =>
+  { projectTaskSn, updateType, title, content },
+) =>
   api.post(`/v1/projects/${projectSn}/updates`, {
     projectTaskSn,
     updateType,
     title,
     content,
-    files: [],
+    //files: [],
   });
 
-//각 피드 데이터 목록 조회
+//프로젝트 업데이트 댓글 조회
 export const fetchFeedCommentList = (projectSn, projectUpdateSn) =>
   api.get(`/v1/projects/${projectSn}/updates/${projectUpdateSn}/comments`);
+
+//프로젝트 업데이트 댓글 작성
+export const postFeedCommentList = (
+  projectSn,
+  projectUpdateSn,
+  { authorUserSn, content, createDt },
+) => {
+  api.post(`/v1/projects/${projectSn}/updates/${projectUpdateSn}/comments`, {
+    authorUserSn,
+    content,
+    createDt,
+  });
+};
+
+//프로젝트 업데이트 댓글 삭제
+export const deleteFeedCommentList = (
+  projectSn,
+  projectUpdateSn,
+  projectUpdateCommentSn,
+) =>
+  api.delete(
+    `/v1/projects/${projectSn}/updates/${projectUpdateSn}/comments/${projectUpdateCommentSn}`,
+  );

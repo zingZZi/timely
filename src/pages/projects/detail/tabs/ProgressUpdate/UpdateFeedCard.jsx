@@ -5,29 +5,36 @@ import {
   MessageSquare,
   ChevronDown,
 } from "lucide-react";
+import React from "react";
 import * as S from "./UpdateFeedCard.style";
 import ProfileImg from "../../../../../components/profileImg/ProfileImg";
 import CommentLists from "./CommentLists";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchFeedCommentList } from "../../../../../api/projectApi";
+import { UPDATE_TYPE } from "../../../../../constants/project";
 function UpdateFeedCard({ data }) {
   let [commentLitsShow, setCommentLitsShow] = useState(false);
-  let [commentLits, setCommentLits] = useState(false);
+  let [commentLits, setCommentLits] = useState();
 
   const fetchCommentList = async () => {
-    if (!commentLitsShow) return;
-
     try {
-      const res = fetchFeedCommentList(data.projectSn, data.projectUpdateSn);
-      console.log(res.data);
+      const res = await fetchFeedCommentList(
+        data.projectSn,
+        data.projectUpdateSn,
+      );
+      setCommentLits(res.data);
     } catch (error) {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    if (commentLitsShow) {
+      fetchCommentList();
+    }
+  }, [commentLitsShow, commentLits]);
   return (
     <S.UpdateFeedCard>
-      <ProfileImg size={3.2} img="/img/sample.png" alt="홍길동 프로필 이미지" />
+      <ProfileImg size={3.2} alt={`${data.authorUserNm}프로필 이미지`} />
 
       <S.CardContent>
         <S.CardMeta>
@@ -35,9 +42,12 @@ function UpdateFeedCard({ data }) {
           <S.DateTime dateTime={data.updateDt}>{data.updateDt}</S.DateTime>
         </S.CardMeta>
 
-        <S.CardType>
-          <S.CardTypeSvgWrap aria-hidden="true" $type={data.updateType}>
-            <RefreshCw />
+        <S.CardType $color={UPDATE_TYPE[data.updateType].color}>
+          <S.CardTypeSvgWrap
+            aria-hidden="true"
+            $color={UPDATE_TYPE[data.updateType].color}
+          >
+            {React.createElement(UPDATE_TYPE[data.updateType].icon)}
           </S.CardTypeSvgWrap>
           <span>{data.updateTypeNm}</span>
           {data.updateType === "TASK_CHANGE" ? <span>자동</span> : null}
@@ -47,10 +57,10 @@ function UpdateFeedCard({ data }) {
 
         <S.CardSummary>{data.content}</S.CardSummary>
 
-        <S.TaskListBtn aria-label="해당업데이트 작업내역">
+        {/* <S.TaskListBtn aria-label="해당업데이트 작업내역">
           <SquareArrowOutUpRight />
           UI/UX 디자인 설계 보기
-        </S.TaskListBtn>
+        </S.TaskListBtn> */}
 
         {/* <S.FileLists>
           <S.FileList>
@@ -66,7 +76,6 @@ function UpdateFeedCard({ data }) {
         <S.CommentBtn
           onClick={() => {
             setCommentLitsShow(!commentLitsShow);
-            fetchCommentList();
           }}
         >
           <MessageSquare />
@@ -75,7 +84,14 @@ function UpdateFeedCard({ data }) {
             <ChevronDown />
           </S.CommentArrowWrap>
         </S.CommentBtn>
-        {commentLitsShow ? <CommentLists /> : null}
+        {commentLitsShow ? (
+          <CommentLists
+            projectSn={data.projectSn}
+            projectUpdateSn={data.projectUpdateSn}
+            data={commentLits}
+            updateLists={fetchCommentList}
+          />
+        ) : null}
       </S.CardContent>
     </S.UpdateFeedCard>
   );

@@ -72,14 +72,32 @@ export const TASK_PRIORITY = {
 };
 
 //업데이트 피드 유형
+import { TrendingUp, Flag, Info, FileText, RefreshCw } from "lucide-react";
 export const UPDATE_TYPE = {
   PROGRESS: {
-    label: "진행중",
+    label: "진행사항",
     color: "primary",
+    icon: TrendingUp,
+  },
+  MILESTONE: {
+    label: "마일스톤",
+    color: "success",
+    icon: Flag,
   },
   RISK: {
     label: "리스크",
     color: "chartDelay",
+    icon: Info,
+  },
+  NOTE: {
+    label: "노트",
+    color: "secondary",
+    icon: FileText,
+  },
+  TASK_CHANGE: {
+    label: "작업 변경",
+    color: "chartReviw",
+    icon: RefreshCw,
   },
 };
 
