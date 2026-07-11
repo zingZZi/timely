@@ -14,11 +14,14 @@ import * as S from "./ProgressUpdateTab.style";
 import { useEffect, useState } from "react";
 import { fetchProjectUpdateList } from "../../../../../api/projectApi";
 import { useParams } from "react-router-dom";
+import { UPDATE_TYPE_OPTIONS } from "../../../../../constants/project";
 
 function ProgressUpdateTab({ projectData }) {
   const projectSn = useParams().id;
   const [formShow, setFormShow] = useState(false);
-  const [feedDatas, setfeedDatas] = useState();
+  const [feedDatas, setfeedDatas] = useState([]);
+
+  const [selectedFeedType, setSelectedFeedType] = useState("ALL");
 
   const fetchData = async () => {
     try {
@@ -28,10 +31,16 @@ function ProgressUpdateTab({ projectData }) {
       console.log(error);
     }
   };
+  const filteredData = feedDatas.filter((data) =>
+    selectedFeedType === "ALL" ? true : data.updateType === selectedFeedType,
+  );
 
+  function feedtypeBtn(type) {
+    setSelectedFeedType(type);
+  }
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [projectSn]);
 
   return (
     <>
@@ -102,35 +111,34 @@ function ProgressUpdateTab({ projectData }) {
             </S.AddUpdateButton>
           </S.UpdateFeedHeader>
           <S.Filters>
-            <button>전체</button>
-            <button>
-              <TrendingUp />
-              진행사항
-            </button>
-            <button>
-              <Flag />
-              마일스톤
-            </button>
-            <button>
-              <Info />
-              리스크
-            </button>
-            <button>
-              <FileText />
-              노트
-            </button>
-            <button>
-              <RefreshCw />
-              작업변경 <span>자동</span>
-            </button>
+            {UPDATE_TYPE_OPTIONS.map((type, i) => {
+              return (
+                <S.FilterBtn
+                  key={i}
+                  onClick={() => {
+                    feedtypeBtn(type.typeCd);
+                  }}
+                  className={selectedFeedType === type.typeCd ? "on" : null}
+                >
+                  {type.icon}
+                  {type.typeNm}
+                  {type.typeCd === "TASK_CHANGE" ? <span>자동</span> : null}
+                </S.FilterBtn>
+              );
+            })}
           </S.Filters>
 
           {/* 입력폼 */}
-          {formShow ? <ProgressUpdateForm setFormShow={setFormShow} /> : null}
+          {formShow ? (
+            <ProgressUpdateForm
+              setFormShow={setFormShow}
+              cardData={fetchData}
+            />
+          ) : null}
 
           {/* 리스트 */}
           <ul>
-            {feedDatas?.map((data) => {
+            {filteredData?.map((data) => {
               return (
                 <li key={data.projectUpdateSn}>
                   <UpdateFeedCard data={data} />

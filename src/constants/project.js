@@ -74,6 +74,11 @@ export const TASK_PRIORITY = {
 //업데이트 피드 유형
 import { TrendingUp, Flag, Info, FileText, RefreshCw } from "lucide-react";
 export const UPDATE_TYPE = {
+  ALL: {
+    label: "전체",
+    color: "",
+    icon: "",
+  },
   PROGRESS: {
     label: "진행사항",
     color: "primary",
@@ -120,5 +125,6 @@ export const UPDATE_TYPE_OPTIONS = Object.entries(UPDATE_TYPE).map(
   ([code, data]) => ({
     typeCd: code,
     typeNm: data.label,
+    typeIcon: data.icon,
   }),
 );

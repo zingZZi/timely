@@ -21,7 +21,7 @@ import { postProjectUpdateList } from "../../../../../api/projectApi";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function ProgressUpdateForm({ setFormShow }) {
+function ProgressUpdateForm({ setFormShow, cardData }) {
   let userInfo = useSelector((state) => {
     return state.userInfo;
   });
@@ -48,6 +48,8 @@ function ProgressUpdateForm({ setFormShow }) {
     };
     try {
       await postProjectUpdateList(projectSn, submitData);
+      setFormShow(false);
+      cardData();
     } catch (error) {
       console.log(error);
     }

@@ -95,19 +95,26 @@ export const Filters = styled.nav`
   gap: 0.6rem;
   margin: 1.6rem 0;
   button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    font-size: ${({ theme }) => theme.fontSizes.xs};
-    line-height: 1.6rem;
-    background-color: ${({ theme }) => theme.colors.gray[200]};
-    padding: 0.4rem 1rem;
-    border-radius: 99px;
-    svg {
-      width: 1.2rem;
-      height: 1.2rem;
-    }
+  }
+`;
+
+export const FilterBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  line-height: 1.6rem;
+  background-color: ${({ theme }) => theme.colors.gray[200]};
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  &.on {
+    background-color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.white};
   }
 `;
 
