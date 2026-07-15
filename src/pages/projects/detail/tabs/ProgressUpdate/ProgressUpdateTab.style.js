@@ -145,6 +145,21 @@ export const MilestoneList = styled.li`
   }
 `;
 
+export const MilestoneNoList = styled.li`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 20rem;
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+`;
+
 export const MileStoneSvgWrap = styled.span`
   display: flex;
   align-items: center;

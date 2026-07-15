@@ -106,6 +106,21 @@ export const UPDATE_TYPE = {
   },
 };
 
+export const TIMELINE_STATUS = {
+  IN_PROGRESS: {
+    label: "진행중",
+    color: "main",
+  },
+  COMPLETED: {
+    label: "완료",
+    color: "primary",
+  },
+  ON_HOLD: {
+    label: "예정",
+    color: "secondary",
+  },
+};
+
 //array형식 만들기
 export const PROJECT_STATUS_OPTIONS = Object.entries(STATUS_LABEL).map(
   ([code, data]) => ({
@@ -126,5 +141,12 @@ export const UPDATE_TYPE_OPTIONS = Object.entries(UPDATE_TYPE).map(
     typeCd: code,
     typeNm: data.label,
     typeIcon: data.icon,
+  }),
+);
+
+export const TIMELINE_STATUS_OPTIONS = Object.entries(TIMELINE_STATUS).map(
+  ([code, data]) => ({
+    statusCd: code,
+    statusNm: data.label,
   }),
 );

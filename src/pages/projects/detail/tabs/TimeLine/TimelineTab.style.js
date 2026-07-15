@@ -87,9 +87,9 @@ export const StateLabel = styled.span`
   border-radius: 0.5rem;
   background-color: ${({ theme, state }) => {
     switch (state) {
-      case "완료":
+      case "COMPLETED":
         return hexToRgba(theme.colors.main, 0.1);
-      case "진행중":
+      case "IN_PROGRESS":
         return hexToRgba(theme.colors.primary, 0.1);
       default:
         return hexToRgba(theme.colors.gray[400], 0.3);
@@ -97,9 +97,9 @@ export const StateLabel = styled.span`
   }};
   color: ${({ theme, state }) => {
     switch (state) {
-      case "완료":
+      case "COMPLETED":
         return theme.colors.main;
-      case "진행중":
+      case "IN_PROGRESS":
         return theme.colors.primary;
       default:
         return theme.colors.gray[700];
@@ -125,15 +125,14 @@ export const StateSticker = styled.i`
   height: 1.4rem;
   border-radius: 60%;
   left: 0;
-
   background-color: ${({ theme, state }) => {
     switch (state) {
-      case "완료":
+      case "COMPLETED":
         return theme.colors.main;
-      case "진행중":
+      case "IN_PROGRESS":
         return theme.colors.primary;
       default:
-        return theme.colors.gray[400];
+        return theme.colors.gray[700];
     }
   }};
 `;

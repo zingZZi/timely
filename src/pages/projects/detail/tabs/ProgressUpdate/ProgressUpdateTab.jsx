@@ -6,13 +6,17 @@ import {
   FileText,
   Flag,
   RefreshCw,
+  FlagOff,
 } from "lucide-react";
 import ProgressGraph from "../../../../../components/progressGraph/ProgressGraph";
 import UpdateFeedCard from "./UpdateFeedCard";
 import ProgressUpdateForm from "./ProgressUpdateForm";
 import * as S from "./ProgressUpdateTab.style";
 import { useEffect, useState } from "react";
-import { fetchProjectUpdateList } from "../../../../../api/projectApi";
+import {
+  fetchMileStone,
+  fetchProjectUpdateList,
+} from "../../../../../api/projectApi";
 import { useParams } from "react-router-dom";
 import { UPDATE_TYPE_OPTIONS } from "../../../../../constants/project";
 
@@ -20,6 +24,7 @@ function ProgressUpdateTab({ projectData }) {
   const projectSn = useParams().id;
   const [formShow, setFormShow] = useState(false);
   const [feedDatas, setfeedDatas] = useState([]);
+  const [mileStoneDatas, setMileStoneDatas] = useState([]);
 
   const [selectedFeedType, setSelectedFeedType] = useState("ALL");
 
@@ -27,6 +32,8 @@ function ProgressUpdateTab({ projectData }) {
     try {
       const res = await fetchProjectUpdateList(projectSn);
       setfeedDatas(res.data);
+      const mileRes = await fetchMileStone(projectSn);
+      setMileStoneDatas(mileRes.data);
     } catch (error) {
       console.log(error);
     }
@@ -40,6 +47,7 @@ function ProgressUpdateTab({ projectData }) {
   }
   useEffect(() => {
     fetchData();
+    console.log(mileStoneDatas);
   }, [projectSn]);
 
   return (
@@ -152,39 +160,48 @@ function ProgressUpdateTab({ projectData }) {
         <S.Milestone>
           <S.FeedTitle>마일스톤</S.FeedTitle>
           <S.MilestoneLists>
-            <S.MilestoneList>
-              <S.MileStoneSvgWrap>
-                <CircleCheck />
-              </S.MileStoneSvgWrap>
-              <div>
-                <S.MileStoneHeader>
-                  <S.MileStoneTitle>디자인 완료 </S.MileStoneTitle>
-                  <S.MileStoneLabel>완료</S.MileStoneLabel>
-                </S.MileStoneHeader>
-                <S.MileStoneDate>2024-01-20</S.MileStoneDate>
-                <S.MileStoneDescription>
-                  디자인 작업이 완료되었습니다. 모든 화면의 UI가 완성되어
-                  개발팀에 전달되었습니다.
-                </S.MileStoneDescription>
-              </div>
-            </S.MilestoneList>
+            {mileStoneDatas.totalCount > 0 ? (
+              <>
+                <S.MilestoneList>
+                  <S.MileStoneSvgWrap>
+                    <CircleCheck />
+                  </S.MileStoneSvgWrap>
+                  <div>
+                    <S.MileStoneHeader>
+                      <S.MileStoneTitle>디자인 완료 </S.MileStoneTitle>
+                      <S.MileStoneLabel>완료</S.MileStoneLabel>
+                    </S.MileStoneHeader>
+                    <S.MileStoneDate>2024-01-20</S.MileStoneDate>
+                    <S.MileStoneDescription>
+                      디자인 작업이 완료되었습니다. 모든 화면의 UI가 완성되어
+                      개발팀에 전달되었습니다.
+                    </S.MileStoneDescription>
+                  </div>
+                </S.MilestoneList>
 
-            <S.MilestoneList className="active">
-              <S.MileStoneSvgWrap>
-                <CircleCheck />
-              </S.MileStoneSvgWrap>
-              <div>
-                <S.MileStoneHeader>
-                  <S.MileStoneTitle>프론트엔드 개발 완료</S.MileStoneTitle>
-                  <S.MileStoneLabel>진행중</S.MileStoneLabel>
-                </S.MileStoneHeader>
-                <S.MileStoneDate>2024-01-20</S.MileStoneDate>
-                <S.MileStoneDescription>
-                  디자인 작업이 완료되었습니다. 모든 화면의 UI가 완성되어
-                  개발팀에 전달되었습니다.
-                </S.MileStoneDescription>
-              </div>
-            </S.MilestoneList>
+                <S.MilestoneList className="active">
+                  <S.MileStoneSvgWrap>
+                    <CircleCheck />
+                  </S.MileStoneSvgWrap>
+                  <div>
+                    <S.MileStoneHeader>
+                      <S.MileStoneTitle>프론트엔드 개발 완료</S.MileStoneTitle>
+                      <S.MileStoneLabel>진행중</S.MileStoneLabel>
+                    </S.MileStoneHeader>
+                    <S.MileStoneDate>2024-01-20</S.MileStoneDate>
+                    <S.MileStoneDescription>
+                      디자인 작업이 완료되었습니다. 모든 화면의 UI가 완성되어
+                      개발팀에 전달되었습니다.
+                    </S.MileStoneDescription>
+                  </div>
+                </S.MilestoneList>
+              </>
+            ) : (
+              <S.MilestoneNoList>
+                <FlagOff />
+                현재 마일스톤이 없습니다.
+              </S.MilestoneNoList>
+            )}
           </S.MilestoneLists>
         </S.Milestone>
       </S.UpdateFeedWrap>

@@ -114,3 +114,25 @@ export const deleteFeedCommentList = (
   api.delete(
     `/v1/projects/${projectSn}/updates/${projectUpdateSn}/comments/${projectUpdateCommentSn}`,
   );
+
+//프로젝트 마일스톤 리스트
+
+export const fetchMileStone = (projectSn) =>
+  api.get(`/v1/projects/${projectSn}/milestones`);
+
+//프로젝트 타임라인 조회
+export const fetchTimeline = (projectSn) =>
+  api.get(`/v1/projects/${projectSn}/timelines`);
+
+//프로젝트 타임라인 생성
+export const postTimeline = (
+  projectSn,
+  { phaseNm, description, status, startDt, endDt },
+) =>
+  api.post(`/v1/projects/${projectSn}/timelines`, {
+    phaseNm,
+    description,
+    status,
+    startDt,
+    endDt,
+  });

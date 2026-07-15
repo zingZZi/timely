@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import * as S from "./TimelineTab.style";
 import AddTimeLine from "./AddTimeLine";
 import { BasicBtn } from "../../../../../components/Button/Button";
+import { useParams } from "react-router-dom";
+import { fetchTimeline } from "../../../../../api/projectApi";
 
 function TimelineTab() {
+  const projectSn = useParams().id;
+  const [editingId, setEditingId] = useState(null);
+  const [timeLineForm, setTimeLineForm] = useState(false);
+  const [timeLineDatas, setTimeLineDatas] = useState([]);
   let testData = [
     {
       id: "1",
@@ -28,9 +34,19 @@ function TimelineTab() {
       state: "예정",
     },
   ];
+  const fetchDatas = async () => {
+    try {
+      const res = await fetchTimeline(projectSn);
+      setTimeLineDatas(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const [editingId, setEditingId] = useState(null);
-  const [timeLineForm, setTimeLineForm] = useState(false);
+  useEffect(() => {
+    fetchDatas();
+  }, []);
   return (
     <S.TimeLineWrap>
       <S.ProjectTimeLine>
@@ -45,17 +61,19 @@ function TimelineTab() {
             단계 추가
           </BasicBtn>
         </S.Header>
-        {timeLineForm ? <AddTimeLine /> : null}
+        {timeLineForm ? <AddTimeLine fetchDatas={fetchDatas} /> : null}
         <ol>
-          {testData.map((e, i) => {
+          {timeLineDatas.map((e, i) => {
             return (
-              <S.TimeLineList key={e.id}>
-                <S.StateSticker state={e.state}></S.StateSticker>
+              <S.TimeLineList key={e.projectTimelineSn} state={e.status}>
+                <S.StateSticker state={e.status}></S.StateSticker>
                 <article>
                   <S.TimeLineHeader>
-                    <S.TimeTitle>{e.title}</S.TimeTitle>
+                    <S.TimeTitle>{e.phaseNm}</S.TimeTitle>
                     <S.TimeLineControls>
-                      <S.StateLabel state={e.state}>{e.state}</S.StateLabel>
+                      <S.StateLabel state={e.status} state={e.status}>
+                        {e.statusNm}
+                      </S.StateLabel>
                       <button
                         onClick={() => {
                           setEditingId(i);
@@ -68,8 +86,10 @@ function TimelineTab() {
                       </button>
                     </S.TimeLineControls>
                   </S.TimeLineHeader>
-                  <S.Statedate>{e.date}</S.Statedate>
-                  <S.StateSummary>{e.summary}</S.StateSummary>
+                  <S.Statedate>
+                    {e.startDt}~{e.endDt}
+                  </S.Statedate>
+                  <S.StateSummary>{e.description}</S.StateSummary>
                 </article>
                 {editingId === i ? <section>수정내용 컨텐츠</section> : null}
               </S.TimeLineList>
