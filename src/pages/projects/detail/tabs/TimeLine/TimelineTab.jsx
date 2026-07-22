@@ -71,9 +71,7 @@ function TimelineTab() {
                   <S.TimeLineHeader>
                     <S.TimeTitle>{e.phaseNm}</S.TimeTitle>
                     <S.TimeLineControls>
-                      <S.StateLabel state={e.status} state={e.status}>
-                        {e.statusNm}
-                      </S.StateLabel>
+                      <S.StateLabel state={e.status}>{e.statusNm}</S.StateLabel>
                       <button
                         onClick={() => {
                           setEditingId(i);
