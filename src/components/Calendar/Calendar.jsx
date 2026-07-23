@@ -23,19 +23,19 @@ function Calendar() {
       <S.TypeBtns>
         {showTypes.map((e, i) => {
           return (
-            <button
+            <S.Btns
               key={i}
               onClick={() => {
                 showType(e.state);
               }}
             >
               {e.label}
-            </button>
+            </S.Btns>
           );
         })}
       </S.TypeBtns>
 
-      <div>
+      <S.CalendarLayout>
         <CalendarHeader
           currentDate={currentDate}
           setCurrentDate={setCurrentDate}
@@ -45,7 +45,7 @@ function Calendar() {
         {viewMode === "month" && <MonthView />}
         {viewMode === "week" && <WeekView />}
         {viewMode === "day" && <DayView />}
-      </div>
+      </S.CalendarLayout>
     </>
   );
 }
