@@ -42,7 +42,7 @@ function Calendar() {
         />
 
         {/* 버튼타입에따른 뷰포인트 처리 */}
-        {viewMode === "month" && <MonthView />}
+        {viewMode === "month" && <MonthView currentDate={currentDate} />}
         {viewMode === "week" && <WeekView />}
         {viewMode === "day" && <DayView />}
       </S.CalendarLayout>
